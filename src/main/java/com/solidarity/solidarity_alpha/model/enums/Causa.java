@@ -21,14 +21,14 @@ public enum Causa {
     REGUGIADOS(16),
     LGBTQ(17),
     SUSTENTABILIDADE(18),
-    OUTROS(19);
+    COMBATE_AS_DROGAS(19),
+    OUTROS(20);
 
     private int code;
 
     private Causa (int code){
         this.code = code;
     }
-
     public int getCode(){
         return code;
     }

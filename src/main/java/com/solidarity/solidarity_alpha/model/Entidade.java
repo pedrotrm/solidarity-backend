@@ -1,5 +1,7 @@
 package com.solidarity.solidarity_alpha.model;
 
+import com.solidarity.solidarity_alpha.model.enums.Causa;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -21,13 +23,16 @@ public class Entidade implements Serializable {
     private String descricao;
     private String senha;
 
+    private Integer causa1;
+    private Integer causa2;
+
     @OneToOne
     private Endereco endereco;
 
     public Entidade() {
     }
 
-    public Entidade(Long id, String email, String nome, String cnpj, String descricao, String senha, Endereco endereco) {
+    public Entidade(Long id, String email, String nome, String cnpj, String descricao, String senha, Endereco endereco,Causa  causa1, Causa causa2) {
         this.id = id;
         this.email = email;
         this.nome = nome;
@@ -35,7 +40,10 @@ public class Entidade implements Serializable {
         this.descricao = descricao;
         this.senha = senha;
         this.endereco = endereco;
+        setCausa1(causa1);
+        setCausa2(causa2);
     }
+
 
     public Long getId() {
         return id;
@@ -91,6 +99,24 @@ public class Entidade implements Serializable {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public Causa getCausa1() {
+        return Causa.valorDe(causa1);
+    }
+
+    public void setCausa1 (Causa causa1) {
+        if(causa1 != null)
+            this.causa1 = causa1.getCode();
+    }
+
+    public Causa getCausa2() {
+        return Causa.valorDe(causa2);
+    }
+
+    public void setCausa2 (Causa causa2) {
+        if(causa2 != null)
+            this.causa2 = causa2.getCode();
     }
 
     @Override

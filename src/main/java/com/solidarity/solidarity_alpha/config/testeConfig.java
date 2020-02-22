@@ -4,6 +4,7 @@ import com.solidarity.solidarity_alpha.model.Cidade;
 import com.solidarity.solidarity_alpha.model.Endereco;
 import com.solidarity.solidarity_alpha.model.Entidade;
 import com.solidarity.solidarity_alpha.model.Estado;
+import com.solidarity.solidarity_alpha.model.enums.Causa;
 import com.solidarity.solidarity_alpha.repositories.CidadeRepository;
 import com.solidarity.solidarity_alpha.repositories.EnderecoRepository;
 import com.solidarity.solidarity_alpha.repositories.EntidadeRepository;
@@ -45,7 +46,7 @@ public class testeConfig implements CommandLineRunner {
 
         enderecoRepository.save(end1);
 
-        Entidade ent1 = new Entidade(null, "manases@outlook.com.br", "Manases","30033079000118", "ONG de combate as drogas", "12345", end1);
+        Entidade ent1 = new Entidade(null, "manases@outlook.com.br", "Manases","30033079000118", "ONG de combate as drogas", "12345", end1, Causa.COMBATE_AS_DROGAS,Causa.CULTURA_E_ARTE);
 
         entidadeRepository.save(ent1);
 
