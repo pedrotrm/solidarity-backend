@@ -1,4 +1,4 @@
-package com.solidarity.solidarity_alpha.entidades.enums;
+package com.solidarity.solidarity_alpha.model.enums;
 
 public enum Causa {
 
@@ -38,7 +38,7 @@ public enum Causa {
             if (valor.getCode() == code)
                 return valor;
         }
-        throw new IllegalArgumentException("Codigo de Status do Pedido Invalido");
+        throw new IllegalArgumentException("Causa Invalida !");
 
     }
 }
