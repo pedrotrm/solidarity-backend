@@ -1,4 +1,4 @@
-package com.solidarity.solidarity_alpha;
+package com.solidarity.solidarity_backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

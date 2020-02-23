@@ -1,4 +1,4 @@
-package com.solidarity.solidarity_alpha.model.enums;
+package com.solidarity.solidarity_backend.model.enums;
 
 public enum Causa {
 

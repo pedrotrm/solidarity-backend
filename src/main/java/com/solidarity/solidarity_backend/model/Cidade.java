@@ -1,4 +1,4 @@
-package com.solidarity.solidarity_alpha.model;
+package com.solidarity.solidarity_backend.model;
 
 import javax.persistence.*;
 import java.io.Serializable;

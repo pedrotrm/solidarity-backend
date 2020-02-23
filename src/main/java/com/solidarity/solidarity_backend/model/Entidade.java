@@ -1,10 +1,10 @@
-package com.solidarity.solidarity_alpha.model;
+package com.solidarity.solidarity_backend.model;
 
-import com.solidarity.solidarity_alpha.model.enums.Causa;
+import com.solidarity.solidarity_backend.model.enums.Causa;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Entidade implements Serializable {
@@ -22,17 +22,24 @@ public class Entidade implements Serializable {
     private String cnpj;
     private String descricao;
     private String senha;
-
     private Integer causa1;
     private Integer causa2;
 
     @OneToOne
     private Endereco endereco;
 
+    @ElementCollection
+    @CollectionTable(name="telefone")
+    private Set<String> telefones = new HashSet<>();
+
+    @OneToMany
+    private List<Endereco> enderecos = new ArrayList<>();
+
+
     public Entidade() {
     }
 
-    public Entidade(Long id, String email, String nome, String cnpj, String descricao, String senha, Endereco endereco,Causa  causa1, Causa causa2) {
+    public Entidade(Long id, String email, String nome, String cnpj, String descricao, String senha, Endereco endereco, Causa  causa1, Causa causa2) {
         this.id = id;
         this.email = email;
         this.nome = nome;
@@ -93,11 +100,11 @@ public class Entidade implements Serializable {
         this.senha = senha;
     }
 
-    public Endereco getEndereco() {
+    public com.solidarity.solidarity_backend.model.Endereco getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(Endereco endereco) {
+    public void setEndereco(com.solidarity.solidarity_backend.model.Endereco endereco) {
         this.endereco = endereco;
     }
 
@@ -118,6 +125,23 @@ public class Entidade implements Serializable {
         if(causa2 != null)
             this.causa2 = causa2.getCode();
     }
+
+    public Set<String> getTelefones() {
+        return telefones;
+    }
+
+    public void setTelefones(Set<String> telefones) {
+        this.telefones = telefones;
+    }
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
+    }
+
 
     @Override
     public boolean equals(Object o) {

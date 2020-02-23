@@ -1,4 +1,6 @@
-package com.solidarity.solidarity_alpha.model;
+package com.solidarity.solidarity_backend.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,6 +20,7 @@ public class Endereco implements Serializable {
     private String bairro;
     private String cep;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cidade")
     private Cidade cidade;
@@ -83,11 +86,11 @@ public class Endereco implements Serializable {
         this.cep = cep;
     }
 
-    public Cidade getCidade() {
+    public com.solidarity.solidarity_backend.model.Cidade getCidade() {
         return cidade;
     }
 
-    public void setCidade(Cidade cidade) {
+    public void setCidade(com.solidarity.solidarity_backend.model.Cidade cidade) {
         this.cidade = cidade;
     }
 

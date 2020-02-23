@@ -1,6 +1,6 @@
-package com.solidarity.solidarity_alpha.repositories;
+package com.solidarity.solidarity_backend.repositories;
 
-import com.solidarity.solidarity_alpha.model.Endereco;
+import com.solidarity.solidarity_backend.model.Endereco;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
