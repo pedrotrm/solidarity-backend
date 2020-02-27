@@ -25,6 +25,7 @@ public class Endereco implements Serializable {
     @JoinColumn(name = "cidade")
     private Cidade cidade;
 
+
     public Endereco() {
     }
 

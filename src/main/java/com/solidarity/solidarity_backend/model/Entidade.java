@@ -32,9 +32,6 @@ public class Entidade implements Serializable {
     @CollectionTable(name="telefone")
     private Set<String> telefones = new HashSet<>();
 
-    @OneToMany
-    private List<Endereco> enderecos = new ArrayList<>();
-
 
     public Entidade() {
     }
@@ -100,11 +97,11 @@ public class Entidade implements Serializable {
         this.senha = senha;
     }
 
-    public com.solidarity.solidarity_backend.model.Endereco getEndereco() {
+    public Endereco getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(com.solidarity.solidarity_backend.model.Endereco endereco) {
+    public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
 
@@ -134,13 +131,8 @@ public class Entidade implements Serializable {
         this.telefones = telefones;
     }
 
-    public List<Endereco> getEnderecos() {
-        return enderecos;
-    }
 
-    public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
-    }
+
 
 
     @Override
