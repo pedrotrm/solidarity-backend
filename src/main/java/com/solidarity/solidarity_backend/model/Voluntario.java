@@ -4,24 +4,21 @@ import com.solidarity.solidarity_backend.model.enums.Causa;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
-public class Entidade implements Serializable {
+public class Voluntario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique=true)
-    private String email;
-
     private String nome;
-    private String cnpj;
-    private String descricao;
     private String senha;
+    private String email;
     private Integer causa1;
     private Integer causa2;
 
@@ -32,21 +29,18 @@ public class Entidade implements Serializable {
     private Set<String> telefones = new HashSet<>();
 
 
-    public Entidade() {
+    public Voluntario() {
     }
 
-    public Entidade(Long id, String email, String nome, String cnpj, String descricao, String senha, Endereco endereco, Causa  causa1, Causa causa2) {
+    public Voluntario(Long id, String nome, String senha, String email, Causa causa1, Causa causa2, Endereco endereco) {
         this.id = id;
-        this.email = email;
         this.nome = nome;
-        this.cnpj = cnpj;
-        this.descricao = descricao;
         this.senha = senha;
-        this.endereco = endereco;
+        this.email = email;
         setCausa1(causa1);
         setCausa2(causa2);
+        this.endereco = endereco;
     }
-
 
     public Long getId() {
         return id;
@@ -54,14 +48,6 @@ public class Entidade implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getNome() {
@@ -72,22 +58,6 @@ public class Entidade implements Serializable {
         this.nome = nome;
     }
 
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
     public String getSenha() {
         return senha;
     }
@@ -96,12 +66,12 @@ public class Entidade implements Serializable {
         this.senha = senha;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Causa getCausa1() {
@@ -122,6 +92,14 @@ public class Entidade implements Serializable {
             this.causa2 = causa2.getCode();
     }
 
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
     public Set<String> getTelefones() {
         return telefones;
     }
@@ -130,22 +108,16 @@ public class Entidade implements Serializable {
         this.telefones = telefones;
     }
 
-
-
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Entidade)) return false;
-        Entidade entidade = (Entidade) o;
-        return Objects.equals(getId(), entidade.getId());
+        if (!(o instanceof Voluntario)) return false;
+        Voluntario that = (Voluntario) o;
+        return Objects.equals(getId(), that.getId());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(getId());
     }
-
-
 }
