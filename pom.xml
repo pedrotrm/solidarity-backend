@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.solidarity</groupId>
-	<artifactId>solidarity_alpha</artifactId>
+	<artifactId>solidarity_backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>solidarity_alpha</name>
+	<name>solidarity_backend</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

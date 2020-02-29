@@ -32,9 +32,11 @@ public class Entidade implements Serializable {
     @OneToOne
     private Endereco endereco;
 
+    @OneToMany(mappedBy = "entidade", targetEntity = Vaga.class, cascade = CascadeType.ALL)
+    private List<Vaga> vagas = new ArrayList<>();
+
     @ElementCollection
     private Set<String> telefones = new HashSet<>();
-
 
     public Entidade() {
     }
@@ -134,7 +136,14 @@ public class Entidade implements Serializable {
         this.telefones = telefones;
     }
 
-    
+    public List<Vaga> getVagas() {
+        return vagas;
+    }
+
+    public void setVagas(List<Vaga> vagas) {
+        this.vagas = vagas;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

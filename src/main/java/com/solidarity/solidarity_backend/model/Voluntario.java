@@ -6,9 +6,7 @@ import com.solidarity.solidarity_backend.model.enums.Causa;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Voluntario implements Serializable {
@@ -40,6 +38,9 @@ public class Voluntario implements Serializable {
     @ElementCollection
     private Set<String> telefones = new HashSet<>();
 
+    @OneToMany(mappedBy = "id.voluntario")
+    private Set<VagaVoluntario> vagas = new HashSet<>();
+
 
     public Voluntario() {
     }
@@ -52,6 +53,14 @@ public class Voluntario implements Serializable {
         setCausa1(causa1);
         setCausa2(causa2);
         this.endereco = endereco;
+    }
+
+    public List<Vaga> getVagasInscritas(){
+        List<Vaga> lista = new ArrayList<>();
+        for(VagaVoluntario x : vagas){
+            lista.add(x.getVaga());
+        }
+        return lista;
     }
 
     public Long getId() {
@@ -126,6 +135,14 @@ public class Voluntario implements Serializable {
 
     public void setTelefones(Set<String> telefones) {
         this.telefones = telefones;
+    }
+
+    public Set<VagaVoluntario> getVagas() {
+        return vagas;
+    }
+
+    public void setVagas(Set<VagaVoluntario> vagas) {
+        this.vagas = vagas;
     }
 
     @Override

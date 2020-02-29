@@ -83,7 +83,6 @@ public class testeConfig implements CommandLineRunner {
 
         miniCurriculoRepository.save(m1);
 
-
         m1.getExperiencias().add(ep1);
         m1.getFormacoes().add(f1);
         m1.getProjetos().add(p1);
