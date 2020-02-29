@@ -1,5 +1,6 @@
 package com.solidarity.solidarity_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.solidarity.solidarity_backend.model.enums.Causa;
 
 import javax.persistence.*;
@@ -21,7 +22,10 @@ public class Entidade implements Serializable {
     private String nome;
     private String cnpj;
     private String descricao;
+
+    @JsonIgnore
     private String senha;
+
     private Integer causa1;
     private Integer causa2;
 

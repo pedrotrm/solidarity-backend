@@ -1,5 +1,6 @@
 package com.solidarity.solidarity_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.solidarity.solidarity_backend.model.enums.Causa;
 
 import javax.persistence.*;
@@ -17,13 +18,19 @@ public class Voluntario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+
+    @JsonIgnore
     private String senha;
+
     private String email;
     private Integer causa1;
     private Integer causa2;
 
     @OneToOne
     private Endereco endereco;
+
+    @OneToOne
+    private MiniCurriculo miniCurriculo;
 
     @ElementCollection
     private Set<String> telefones = new HashSet<>();
@@ -32,7 +39,7 @@ public class Voluntario implements Serializable {
     public Voluntario() {
     }
 
-    public Voluntario(Long id, String nome, String senha, String email, Causa causa1, Causa causa2, Endereco endereco) {
+    public Voluntario(Long id, String nome, String senha, String email, Causa causa1, Causa causa2, Endereco endereco, MiniCurriculo miniCurriculo) {
         this.id = id;
         this.nome = nome;
         this.senha = senha;
@@ -40,6 +47,7 @@ public class Voluntario implements Serializable {
         setCausa1(causa1);
         setCausa2(causa2);
         this.endereco = endereco;
+        this.miniCurriculo = miniCurriculo;
     }
 
     public Long getId() {
@@ -98,6 +106,14 @@ public class Voluntario implements Serializable {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public MiniCurriculo getMiniCurriculo() {
+        return miniCurriculo;
+    }
+
+    public void setMiniCurriculo(MiniCurriculo miniCurriculo) {
+        this.miniCurriculo = miniCurriculo;
     }
 
     public Set<String> getTelefones() {

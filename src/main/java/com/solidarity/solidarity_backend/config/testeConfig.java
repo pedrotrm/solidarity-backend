@@ -8,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,11 +30,26 @@ public class testeConfig implements CommandLineRunner {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
-    @Autowired VoluntarioRepository voluntarioRepository;
+    @Autowired
+    private VoluntarioRepository voluntarioRepository;
+
+    @Autowired
+    private MiniCurriculoRepository miniCurriculoRepository;
+
+    @Autowired
+    private ExperienciaRepository experienciaRepository;
+
+    @Autowired
+    private  FormacaoRepository formacaoRepository;
+
+    @Autowired
+    private ProjetoRepository projetoRepository;
 
     
     @Override
     public void run(String... args) throws Exception {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         Estado est1 = new Estado(null, "MA");
 
@@ -68,7 +85,7 @@ public class testeConfig implements CommandLineRunner {
 
         entidadeRepository.saveAll(Arrays.asList(ent1,ent2));
 
-        Voluntario v1 = new Voluntario(null, "Pedro", "12345", "pedrotrm@outlook.com.br", Causa.EDUCACAO, Causa.TERINAMENTO_PROFISSIONAL,end3);
+        Voluntario v1 = new Voluntario(null, "Pedro", "12345", "pedrotrm@outlook.com.br", Causa.EDUCACAO, Causa.TERINAMENTO_PROFISSIONAL,end3,null);
 
         Set<String> tel3 = new HashSet<>();
         tel3.add("98988003545");
@@ -76,6 +93,31 @@ public class testeConfig implements CommandLineRunner {
         v1.setTelefones(tel3);
 
         voluntarioRepository.save(v1);
+
+
+        MiniCurriculo m1 = new MiniCurriculo(null, "Progamador Java", v1);
+
+        miniCurriculoRepository.save(m1);
+
+        Experiencia ep1 = new Experiencia(null,"Sintech Solucoes", sdf.parse("03/02/2017"), sdf.parse("14/08/2018"), "Estagiario", m1);
+
+        Formacao f1 = new Formacao(null, "Ceuma", "Engenharia da Computação", sdf.parse("10/03/2016"), sdf.parse("30/11/2020"), m1);
+
+        Projeto p1 = new Projeto(null, "Solidarity", "Plataforma para voluntariados", m1);
+
+        experienciaRepository.save(ep1);
+        formacaoRepository.save(f1);
+        projetoRepository.save(p1);
+
+        m1.setExperiencias(Arrays.asList(ep1));
+        m1.setFormacoes(Arrays.asList(f1));
+        m1.setProjetos(Arrays.asList(p1));
+        v1.setMiniCurriculo(m1);
+
+        miniCurriculoRepository.save(m1);
+        voluntarioRepository.save(v1);
+
+
 
 
 
