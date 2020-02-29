@@ -33,14 +33,6 @@ public class testeConfig implements CommandLineRunner {
     @Autowired
     private MiniCurriculoRepository miniCurriculoRepository;
 
-    @Autowired
-    private ExperienciaRepository experienciaRepository;
-
-    @Autowired
-    private  FormacaoRepository formacaoRepository;
-
-    @Autowired
-    private ProjetoRepository projetoRepository;
 
     
     @Override
@@ -77,15 +69,11 @@ public class testeConfig implements CommandLineRunner {
 
         entidadeRepository.saveAll(Arrays.asList(ent1,ent2));
 
-        Voluntario v1 = new Voluntario(null, "Pedro", "12345", "pedrotrm@outlook.com.br", Causa.EDUCACAO, Causa.TERINAMENTO_PROFISSIONAL,end3,null);
+        Voluntario v1 = new Voluntario(null, "Pedro", "12345", "pedrotrm@outlook.com.br", Causa.EDUCACAO, Causa.TERINAMENTO_PROFISSIONAL,end3);
 
         v1.getTelefones().addAll(Arrays.asList("98988003545", "36542169"));
 
-        voluntarioRepository.save(v1);
-
         MiniCurriculo m1 = new MiniCurriculo(null, "Progamador Java", v1);
-
-        miniCurriculoRepository.save(m1);
 
         Experiencia ep1 = new Experiencia(null,"Sintech Solucoes", sdf.parse("03/02/2017"), sdf.parse("14/08/2018"), "Estagiario", m1);
 
@@ -93,16 +81,12 @@ public class testeConfig implements CommandLineRunner {
 
         Projeto p1 = new Projeto(null, "Solidarity", "Plataforma para voluntariados", m1);
 
-        experienciaRepository.save(ep1);
-        formacaoRepository.save(f1);
-        projetoRepository.save(p1);
+        miniCurriculoRepository.save(m1);
+
 
         m1.getExperiencias().add(ep1);
         m1.getFormacoes().add(f1);
         m1.getProjetos().add(p1);
-
-        miniCurriculoRepository.save(m1);
-
         v1.setMiniCurriculo(m1);
 
         voluntarioRepository.save(v1);

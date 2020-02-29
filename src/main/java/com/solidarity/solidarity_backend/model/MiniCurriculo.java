@@ -2,7 +2,6 @@ package com.solidarity.solidarity_backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,13 +16,15 @@ public class MiniCurriculo implements Serializable {
 
     @JsonIgnore
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
     private Long id;
 
     private String descricao;
 
     @JsonBackReference
+    @MapsId
     @OneToOne
+    @JoinColumn(name = "voluntario_id")
     private Voluntario voluntario;
 
 

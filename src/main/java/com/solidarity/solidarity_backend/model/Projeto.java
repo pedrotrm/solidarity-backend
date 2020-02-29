@@ -33,6 +33,7 @@ public class Projeto implements Serializable {
         this.nomeProjeto = nomeProjeto;
         this.descricao = descricao;
         this.curriculo = curriculo;
+
     }
 
     public Long getId() {

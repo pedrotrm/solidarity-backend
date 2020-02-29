@@ -1,6 +1,5 @@
 package com.solidarity.solidarity_backend.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.solidarity.solidarity_backend.model.enums.Causa;
@@ -18,13 +17,16 @@ public class Voluntario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
     private Long id;
     private String nome;
 
     @JsonIgnore
     private String senha;
 
+    @Column(unique=true)
     private String email;
+
     private Integer causa1;
     private Integer causa2;
 
@@ -32,7 +34,7 @@ public class Voluntario implements Serializable {
     private Endereco endereco;
 
     @JsonManagedReference
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "voluntario")
     private MiniCurriculo miniCurriculo;
 
     @ElementCollection
@@ -42,7 +44,7 @@ public class Voluntario implements Serializable {
     public Voluntario() {
     }
 
-    public Voluntario(Long id, String nome, String senha, String email, Causa causa1, Causa causa2, Endereco endereco, MiniCurriculo miniCurriculo) {
+    public Voluntario(Long id, String nome, String senha, String email, Causa causa1, Causa causa2, Endereco endereco) {
         this.id = id;
         this.nome = nome;
         this.senha = senha;
@@ -50,7 +52,6 @@ public class Voluntario implements Serializable {
         setCausa1(causa1);
         setCausa2(causa2);
         this.endereco = endereco;
-        this.miniCurriculo = miniCurriculo;
     }
 
     public Long getId() {
