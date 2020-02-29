@@ -1,6 +1,8 @@
 package com.solidarity.solidarity_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.solidarity.solidarity_backend.model.enums.Causa;
 
 import javax.persistence.*;
@@ -29,6 +31,7 @@ public class Voluntario implements Serializable {
     @OneToOne
     private Endereco endereco;
 
+    @JsonManagedReference
     @OneToOne
     private MiniCurriculo miniCurriculo;
 

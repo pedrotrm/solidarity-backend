@@ -3,111 +3,109 @@
   <ID>JAVA</ID>
   <OriginalElement>com.solidarity.solidarity_backend.model</OriginalElement>
   <nodes>
-    <node x="380.0666666666667" y="427.0">com.solidarity.solidarity_backend.model.enums</node>
-    <node x="0.0" y="649.0">com.solidarity.solidarity_backend.model.Formacao</node>
-    <node x="602.0" y="605.0">com.solidarity.solidarity_backend.model.Entidade</node>
-    <node x="192.00000000000006" y="649.0">com.solidarity.solidarity_backend.model.Experiencia</node>
-    <node x="384.00000000000006" y="616.0">com.solidarity.solidarity_backend.model.Voluntario</node>
-    <node x="553.9125" y="338.0">com.solidarity.solidarity_backend.model.Endereco</node>
-    <node x="181.65208333333334" y="968.0">com.solidarity.solidarity_backend.model.MiniCurriculo</node>
-    <node x="552.6625" y="0.0">com.solidarity.solidarity_backend.model.Estado</node>
-    <node x="201.15208333333334" y="1203.0">com.solidarity.solidarity_backend.model.Projeto</node>
-    <node x="563.7862727910239" y="185.45628798503975">com.solidarity.solidarity_backend.model.Cidade</node>
+    <node x="233.28333333333336" y="158.0">com.solidarity.solidarity_backend.model.enums</node>
+    <node x="0.0" y="247.0">com.solidarity.solidarity_backend.model.Formacao</node>
+    <node x="410.45833333333337" y="247.0">com.solidarity.solidarity_backend.model.Entidade</node>
+    <node x="124.00000000000003" y="247.0">com.solidarity.solidarity_backend.model.Experiencia</node>
+    <node x="269.0" y="247.0">com.solidarity.solidarity_backend.model.Voluntario</node>
+    <node x="376.28333333333336" y="158.0">com.solidarity.solidarity_backend.model.Endereco</node>
+    <node x="125.97500000000008" y="366.0">com.solidarity.solidarity_backend.model.MiniCurriculo</node>
+    <node x="386.78333333333336" y="0.0">com.solidarity.solidarity_backend.model.Estado</node>
+    <node x="146.97500000000008" y="445.0">com.solidarity.solidarity_backend.model.Projeto</node>
+    <node x="386.78333333333336" y="79.0">com.solidarity.solidarity_backend.model.Cidade</node>
   </nodes>
   <notes />
   <edges>
     <edge source="com.solidarity.solidarity_backend.model.MiniCurriculo" target="com.solidarity.solidarity_backend.model.Voluntario">
-      <point x="43.95833333333337" y="-92.5" />
-      <point x="331.1104166666667" y="918.0" />
-      <point x="408.75000000000006" y="918.0" />
-      <point x="-74.25" y="125.5" />
+      <point x="28.958333333333314" y="-14.5" />
+      <point x="224.4333333333334" y="316.0" />
+      <point x="283.75" y="316.0" />
+      <point x="-44.25" y="14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.Formacao" target="com.solidarity.solidarity_backend.model.MiniCurriculo">
-      <point x="21.5" y="92.5" />
-      <point x="107.5" y="928.0" />
-      <point x="225.6104166666667" y="928.0" />
-      <point x="-61.54166666666663" y="-92.5" />
+      <point x="13.0" y="14.5" />
+      <point x="65.0" y="326.0" />
+      <point x="154.93333333333334" y="326.0" />
+      <point x="-40.54166666666674" y="-14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.Voluntario" target="com.solidarity.solidarity_backend.model.enums">
-      <point x="-66.0" y="-125.5" />
-      <point x="417.00000000000006" y="585.0" />
-      <point x="410.8166666666667" y="585.0" />
+      <point x="-39.33333333333334" y="-14.5" />
+      <point x="288.6666666666667" y="227.0" />
+      <point x="264.03333333333336" y="227.0" />
       <point x="-30.75" y="14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.MiniCurriculo" target="com.solidarity.solidarity_backend.model.Formacao">
-      <point x="-79.12499999999994" y="-92.5" />
-      <point x="208.0270833333334" y="938.0" />
-      <point x="64.5" y="938.0" />
-      <point x="-21.5" y="92.5" />
+      <point x="-52.12500000000006" y="-14.5" />
+      <point x="143.35000000000002" y="336.0" />
+      <point x="39.0" y="336.0" />
+      <point x="-13.0" y="14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.Voluntario" target="com.solidarity.solidarity_backend.model.Endereco">
-      <point x="0.0" y="-125.5" />
-      <point x="483.00000000000006" y="575.0" />
-      <point x="574.0375" y="575.0" />
-      <point x="-60.375" y="103.5" />
+      <point x="-7.105427357601002E-15" y="-14.5" />
+      <point x="328.0" y="217.0" />
+      <point x="389.28333333333336" y="217.0" />
+      <point x="-39.0" y="14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.Cidade" target="com.solidarity.solidarity_backend.model.Estado">
-      <point x="-20.125" y="-59.5" />
-      <point x="-20.375" y="59.5" />
+      <point x="-11.25" y="-14.5" />
+      <point x="-11.25" y="14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.MiniCurriculo" target="com.solidarity.solidarity_backend.model.Experiencia">
-      <point x="-8.791666666666629" y="-92.5" />
-      <point x="278.3604166666667" y="898.0" />
-      <point x="256.50000000000006" y="898.0" />
-      <point x="-21.5" y="92.5" />
+      <point x="-5.791666666666686" y="-14.5" />
+      <point x="189.6833333333334" y="296.0" />
+      <point x="170.87500000000003" y="296.0" />
+      <point x="-15.625" y="14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.Entidade" target="com.solidarity.solidarity_backend.model.enums">
-      <point x="-54.33333333333334" y="-136.5" />
-      <point x="629.1666666666666" y="565.0" />
-      <point x="472.3166666666667" y="565.0" />
-      <point x="30.75" y="14.5" />
+      <point x="-34.66666666666666" y="-14.5" />
+      <point x="427.79166666666674" y="207.0" />
+      <point x="325.5333333333334" y="207.0" />
+      <point x="30.75000000000003" y="14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.Endereco" target="com.solidarity.solidarity_backend.model.Cidade">
-      <point x="-40.25" y="-103.5" />
-      <point x="-40.25" y="59.5" />
+      <point x="-26.0" y="-14.5" />
+      <point x="402.28333333333336" y="133.0" />
+      <point x="409.28333333333336" y="133.0" />
+      <point x="-22.5" y="14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.Estado" target="com.solidarity.solidarity_backend.model.Cidade">
-      <point x="61.125" y="59.5" />
-      <point x="60.375" y="-59.5" />
+      <point x="33.75" y="14.5" />
+      <point x="33.75" y="-14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.Entidade" target="com.solidarity.solidarity_backend.model.Endereco">
-      <point x="54.333333333333314" y="-136.5" />
-      <point x="737.8333333333333" y="585.0" />
-      <point x="694.7875" y="585.0" />
-      <point x="60.375" y="103.5" />
+      <point x="34.66666666666666" y="-14.5" />
+      <point x="497.125" y="217.0" />
+      <point x="467.28333333333336" y="217.0" />
+      <point x="39.0" y="14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.Voluntario" target="com.solidarity.solidarity_backend.model.MiniCurriculo">
-      <point x="74.25" y="125.5" />
-      <point x="557.25" y="948.0" />
-      <point x="383.8604166666667" y="948.0" />
-      <point x="96.70833333333337" y="-92.5" />
+      <point x="44.25" y="14.5" />
+      <point x="372.25" y="346.0" />
+      <point x="259.1833333333334" y="346.0" />
+      <point x="63.708333333333314" y="-14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.MiniCurriculo" target="com.solidarity.solidarity_backend.model.Projeto">
-      <point x="26.375" y="92.5" />
-      <point x="313.52708333333334" y="1178.0" />
-      <point x="308.65208333333334" y="1178.0" />
-      <point x="21.5" y="-70.5" />
+      <point x="17.375" y="14.5" />
+      <point x="212.85000000000008" y="420.0" />
+      <point x="207.60000000000008" y="420.0" />
+      <point x="12.125" y="-14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.Experiencia" target="com.solidarity.solidarity_backend.model.MiniCurriculo">
-      <point x="64.5" y="92.5" />
-      <point x="342.50000000000006" y="908.0" />
-      <point x="313.52708333333334" y="908.0" />
-      <point x="26.375" y="-92.5" />
+      <point x="46.875" y="14.5" />
+      <point x="233.37500000000003" y="306.0" />
+      <point x="212.85000000000008" y="306.0" />
+      <point x="17.375" y="-14.5" />
     </edge>
     <edge source="com.solidarity.solidarity_backend.model.Projeto" target="com.solidarity.solidarity_backend.model.MiniCurriculo">
-      <point x="-64.5" y="-70.5" />
-      <point x="222.65208333333334" y="1178.0" />
-      <point x="208.02708333333334" y="1178.0" />
-      <point x="-79.125" y="92.5" />
+      <point x="-36.375" y="-14.5" />
+      <point x="159.10000000000008" y="420.0" />
+      <point x="143.35000000000008" y="420.0" />
+      <point x="-52.125" y="14.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.6076704545454545" x="911.9284683122569" y="599.2954651706405" />
-  <SelectedNodes>
-    <node>com.solidarity.solidarity_backend.model.Cidade</node>
-  </SelectedNodes>
-  <Categories>
-    <Category>Fields</Category>
-  </Categories>
+  <settings layout="Hierarchic Group" zoom="1.1095909732016929" x="385.7347002429969" y="287.9529539549827" />
+  <SelectedNodes />
+  <Categories />
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>
 </Diagram>

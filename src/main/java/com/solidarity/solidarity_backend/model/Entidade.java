@@ -134,10 +134,7 @@ public class Entidade implements Serializable {
         this.telefones = telefones;
     }
 
-
-
-
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -9,10 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 @Configuration
 @Profile("test")
@@ -75,25 +72,16 @@ public class testeConfig implements CommandLineRunner {
 
         Entidade ent2 = new Entidade(null, "planmundial@outlook.com", "Plan", "30033079000122", "Ong para auxilio crianças carentes", "12345", end2, Causa.CRIANCAS, Causa.EDUCACAO);
 
-        Set<String> tel1 = new HashSet <>();
-        tel1.add("32274722");
-        ent1.setTelefones(tel1);
-
-        Set<String> tel2 = new HashSet <>();
-        tel2.add("36542060");
-        ent2.setTelefones(tel2);
+       ent1.getTelefones().add("32275654");
+       ent2.getTelefones().addAll(Arrays.asList("32456565", "9899714515"));
 
         entidadeRepository.saveAll(Arrays.asList(ent1,ent2));
 
         Voluntario v1 = new Voluntario(null, "Pedro", "12345", "pedrotrm@outlook.com.br", Causa.EDUCACAO, Causa.TERINAMENTO_PROFISSIONAL,end3,null);
 
-        Set<String> tel3 = new HashSet<>();
-        tel3.add("98988003545");
-        tel3.add("36542169");
-        v1.setTelefones(tel3);
+        v1.getTelefones().addAll(Arrays.asList("98988003545", "36542169"));
 
         voluntarioRepository.save(v1);
-
 
         MiniCurriculo m1 = new MiniCurriculo(null, "Progamador Java", v1);
 
@@ -109,16 +97,15 @@ public class testeConfig implements CommandLineRunner {
         formacaoRepository.save(f1);
         projetoRepository.save(p1);
 
-        m1.setExperiencias(Arrays.asList(ep1));
-        m1.setFormacoes(Arrays.asList(f1));
-        m1.setProjetos(Arrays.asList(p1));
-        v1.setMiniCurriculo(m1);
+        m1.getExperiencias().add(ep1);
+        m1.getFormacoes().add(f1);
+        m1.getProjetos().add(p1);
 
         miniCurriculoRepository.save(m1);
+
+        v1.setMiniCurriculo(m1);
+
         voluntarioRepository.save(v1);
-
-
-
 
 
 

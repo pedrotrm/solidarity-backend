@@ -1,5 +1,6 @@
 package com.solidarity.solidarity_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -11,12 +12,13 @@ import java.util.Objects;
 public class Estado implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "estado")
     private List<Cidade> cidades = new ArrayList<>();
 

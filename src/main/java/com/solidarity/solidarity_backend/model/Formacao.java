@@ -1,5 +1,6 @@
 package com.solidarity.solidarity_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ public class Formacao implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,6 +27,7 @@ public class Formacao implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataFim;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "curriculo_id")
     private MiniCurriculo curriculo;
@@ -36,6 +39,7 @@ public class Formacao implements Serializable {
 
         this.id = id;
         this.nomeInstituicao = nomeInstituicao;
+        this.nomeCurso = nomeCurso;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.curriculo = curriculo;
