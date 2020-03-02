@@ -38,6 +38,7 @@ public class Voluntario implements Serializable {
     @ElementCollection
     private Set<String> telefones = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id.voluntario")
     private Set<VagaVoluntario> vagas = new HashSet<>();
 
@@ -55,6 +56,7 @@ public class Voluntario implements Serializable {
         this.endereco = endereco;
     }
 
+    @JsonIgnore
     public List<Vaga> getVagasInscritas(){
         List<Vaga> lista = new ArrayList<>();
         for(VagaVoluntario x : vagas){

@@ -1,5 +1,7 @@
 package com.solidarity.solidarity_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.solidarity.solidarity_backend.model.enums.Causa;
 import com.solidarity.solidarity_backend.model.enums.Habilidade;
 
 import javax.persistence.*;
@@ -22,6 +24,7 @@ public class Vaga implements Serializable {
     private Integer causa2;
     private Integer habilidade;
 
+    @JsonManagedReference
     @OneToOne
     @JoinColumn(name="endereco_da_vaga_id")
     private Endereco enderecoVaga;
@@ -36,12 +39,12 @@ public class Vaga implements Serializable {
     public Vaga() {
     }
 
-    public Vaga(Long id, String nome, String descricao, Integer causa1, Integer causa2, Habilidade habilidade, Endereco enderecoVaga, Entidade entidade) {
+    public Vaga(Long id, String nome, String descricao, Causa causa1, Causa causa2, Habilidade habilidade, Endereco enderecoVaga, Entidade entidade) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
-        this.causa1 = causa1;
-        this.causa2 = causa2;
+        setCausa1(causa1);
+        setCausa2(causa2);
         setHabilidade(habilidade);
         this.enderecoVaga = enderecoVaga;
         this.entidade = entidade;
@@ -71,21 +74,24 @@ public class Vaga implements Serializable {
         this.descricao = descricao;
     }
 
-    public Integer getCausa1() {
-        return causa1;
+    public Causa getCausa1() {
+        return Causa.valorDe(causa1);
     }
 
-    public void setCausa1(Integer causa1) {
-        this.causa1 = causa1;
+    public void setCausa1 (Causa causa1) {
+        if(causa1 != null)
+            this.causa1 = causa1.getCode();
     }
 
-    public Integer getCausa2() {
-        return causa2;
+    public Causa getCausa2() {
+        return Causa.valorDe(causa2);
     }
 
-    public void setCausa2(Integer causa2) {
-        this.causa2 = causa2;
+    public void setCausa2 (Causa causa2) {
+        if(causa2 != null)
+            this.causa2 = causa2.getCode();
     }
+
 
     public Habilidade getHabilidade() {
         return Habilidade.valorDe(habilidade);

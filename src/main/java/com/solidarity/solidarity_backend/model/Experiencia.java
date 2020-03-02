@@ -1,6 +1,7 @@
 package com.solidarity.solidarity_backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -21,9 +22,11 @@ public class Experiencia implements Serializable {
 
     private String nomeEmpresa;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEntrada;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataSaida;
 

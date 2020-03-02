@@ -1,5 +1,6 @@
 package com.solidarity.solidarity_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.solidarity.solidarity_backend.model.enums.Causa;
 
@@ -28,10 +29,12 @@ public class Entidade implements Serializable {
 
     private Integer causa1;
     private Integer causa2;
+    private Integer numeroBeneficiarios;
 
     @OneToOne
     private Endereco endereco;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "entidade", targetEntity = Vaga.class, cascade = CascadeType.ALL)
     private List<Vaga> vagas = new ArrayList<>();
 
@@ -41,7 +44,7 @@ public class Entidade implements Serializable {
     public Entidade() {
     }
 
-    public Entidade(Long id, String email, String nome, String cnpj, String descricao, String senha, Endereco endereco, Causa  causa1, Causa causa2) {
+    public Entidade(Long id, String email, String nome, String cnpj, String descricao, String senha, Endereco endereco, Causa  causa1, Causa causa2, Integer numeroBeneficiarios) {
         this.id = id;
         this.email = email;
         this.nome = nome;
@@ -51,6 +54,7 @@ public class Entidade implements Serializable {
         this.endereco = endereco;
         setCausa1(causa1);
         setCausa2(causa2);
+        this.numeroBeneficiarios = numeroBeneficiarios;
     }
 
 
@@ -126,6 +130,14 @@ public class Entidade implements Serializable {
     public void setCausa2 (Causa causa2) {
         if(causa2 != null)
             this.causa2 = causa2.getCode();
+    }
+
+    public Integer getNumeroBeneficiarios() {
+        return numeroBeneficiarios;
+    }
+
+    public void setNumeroBeneficiarios(Integer numeroBeneficiarios) {
+        this.numeroBeneficiarios = numeroBeneficiarios;
     }
 
     public Set<String> getTelefones() {

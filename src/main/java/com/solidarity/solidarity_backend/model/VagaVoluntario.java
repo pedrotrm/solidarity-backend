@@ -1,5 +1,6 @@
 package com.solidarity.solidarity_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.solidarity.solidarity_backend.model.enums.TipoVaga;
 
 import javax.persistence.EmbeddedId;
@@ -13,6 +14,7 @@ public class VagaVoluntario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @EmbeddedId
     private VagaVoluntarioPK id = new VagaVoluntarioPK();
 
@@ -34,6 +36,7 @@ public class VagaVoluntario implements Serializable {
     }
 
 
+    @JsonIgnore
     public Vaga getVaga(){
         return id.getVaga();
     }
@@ -42,6 +45,7 @@ public class VagaVoluntario implements Serializable {
         return id.getVoluntario();
     }
 
+    @JsonIgnore
     public VagaVoluntarioPK getId() {
         return id;
     }
