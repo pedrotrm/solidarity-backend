@@ -1,9 +1,16 @@
 package com.solidarity.solidarity_backend.services;
 
+import com.solidarity.solidarity_backend.DTO.VoluntarioDTO;
+import com.solidarity.solidarity_backend.model.Entidade;
 import com.solidarity.solidarity_backend.model.Voluntario;
 import com.solidarity.solidarity_backend.repositories.VoluntarioRepository;
-import com.solidarity.solidarity_backend.services.exception.ResourceNotFoundException;
+import com.solidarity.solidarity_backend.services.exception.DataIntegrityException;
+import com.solidarity.solidarity_backend.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,9 +26,43 @@ public class VoluntarioService {
         return repository.findAll();
     }
 
+
     public Voluntario findById(Long id) {
         Optional<Voluntario> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+        return obj.orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Id: " + id + ", Tipo: " + Entidade.class.getName()));
+    }
+
+    public Voluntario update(Voluntario obj) {
+        Voluntario newObj = findById(obj.getId());
+        updateData(newObj, obj);
+        return repository.save(newObj);
+    }
+
+    public void delete(Long id) {
+        findById(id);
+        try {
+            repository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Não é possível excluir um cliente com vagas associoadas");
+        }
+    }
+
+    public Page<Voluntario> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        return repository.findAll(pageRequest);
+    }
+
+    public Voluntario fromDTO(VoluntarioDTO objDto) {
+        return new Voluntario(objDto.getId(), objDto.getNome(), objDto.getEmail(), objDto.getCausa1(), objDto.getCausa2());
+    }
+
+    private  void updateData(Voluntario newObj, Voluntario obj){
+        newObj.setNome(obj.getNome());
+        newObj.setEmail(obj.getEmail());
+        newObj.setCausa1(obj.getCausa1());
+        newObj.setCausa2(obj.getCausa2());
     }
 
 }

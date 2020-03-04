@@ -24,9 +24,6 @@ public class Entidade implements Serializable {
     private String cnpj;
     private String descricao;
 
-    @JsonIgnore
-    private String senha;
-
     private Integer causa1;
     private Integer causa2;
     private Integer numeroBeneficiarios;
@@ -44,13 +41,12 @@ public class Entidade implements Serializable {
     public Entidade() {
     }
 
-    public Entidade(Long id, String email, String nome, String cnpj, String descricao, String senha, Endereco endereco, Causa  causa1, Causa causa2, Integer numeroBeneficiarios) {
+    public Entidade(Long id, String email, String nome, String cnpj, String descricao, Endereco endereco, Causa  causa1, Causa causa2, Integer numeroBeneficiarios) {
         this.id = id;
         this.email = email;
         this.nome = nome;
         this.cnpj = cnpj;
         this.descricao = descricao;
-        this.senha = senha;
         this.endereco = endereco;
         setCausa1(causa1);
         setCausa2(causa2);
@@ -96,14 +92,6 @@ public class Entidade implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public Endereco getEndereco() {

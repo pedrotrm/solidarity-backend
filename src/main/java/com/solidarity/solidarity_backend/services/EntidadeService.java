@@ -2,7 +2,7 @@ package com.solidarity.solidarity_backend.services;
 
 import com.solidarity.solidarity_backend.model.Entidade;
 import com.solidarity.solidarity_backend.repositories.EntidadeRepository;
-import com.solidarity.solidarity_backend.services.exception.ResourceNotFoundException;
+import com.solidarity.solidarity_backend.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,8 @@ public class EntidadeService {
 
     public Entidade findById(Long id) {
         Optional<Entidade> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+        return obj.orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Id: " + id + ", Tipo: " + Entidade.class.getName()));
     }
 
 }

@@ -70,16 +70,16 @@ public class testeConfig implements CommandLineRunner {
 
         enderecoRepository.saveAll(Arrays.asList(end1, end2, end3, end4));
 
-        Entidade ent1 = new Entidade(null, "manases@outlook.com.br", "Manases","30033079000118", "ONG de combate as drogas", "12345", end1, Causa.COMBATE_AS_DROGAS,Causa.CIDADANIA, 249);
+        Entidade ent1 = new Entidade(null, "manases@outlook.com.br", "Manases","30033079000118", "ONG de combate as drogas",  end1, Causa.COMBATE_AS_DROGAS,Causa.CIDADANIA, 249);
 
-        Entidade ent2 = new Entidade(null, "planmundial@outlook.com", "Plan", "30033079000122", "Ong para auxilio crianças carentes", "12345", end2, Causa.CRIANCAS, Causa.EDUCACAO, 140);
+        Entidade ent2 = new Entidade(null, "planmundial@outlook.com", "Plan", "30033079000122", "Ong para auxilio crianças carentes", end2, Causa.CRIANCAS, Causa.EDUCACAO, 140);
 
        ent1.getTelefones().add("32275654");
        ent2.getTelefones().addAll(Arrays.asList("32456565", "9899714515"));
 
         entidadeRepository.saveAll(Arrays.asList(ent1,ent2));
 
-        Voluntario v1 = new Voluntario(null, "Pedro", "12345", "pedrotrm@outlook.com.br", Causa.EDUCACAO, Causa.TERINAMENTO_PROFISSIONAL,end3);
+        Voluntario v1 = new Voluntario(null, "Pedro", "pedrotrm@outlook.com.br", Causa.EDUCACAO, Causa.TERINAMENTO_PROFISSIONAL,end3);
 
         v1.getTelefones().addAll(Arrays.asList("98988003545", "36542169"));
 
@@ -91,7 +91,7 @@ public class testeConfig implements CommandLineRunner {
 
         Projeto p1 = new Projeto(null, "Solidarity", "Plataforma para voluntariados", m1);
 
-        Voluntario v2 = new Voluntario(null, "Maria Eduarda", "67890", "mariaeduarda@gmail.com", Causa.COMBATE_POBREZA, Causa.MULHERES, end4);
+        Voluntario v2 = new Voluntario(null, "Maria Eduarda",  "mariaeduarda@gmail.com", Causa.COMBATE_POBREZA, Causa.MULHERES, end4);
 
         v2.getTelefones().addAll(Arrays.asList("98984715817", "36542250"));
 

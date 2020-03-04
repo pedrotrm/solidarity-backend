@@ -19,9 +19,6 @@ public class Voluntario implements Serializable {
     private Long id;
     private String nome;
 
-    @JsonIgnore
-    private String senha;
-
     @Column(unique=true)
     private String email;
 
@@ -46,15 +43,23 @@ public class Voluntario implements Serializable {
     public Voluntario() {
     }
 
-    public Voluntario(Long id, String nome, String senha, String email, Causa causa1, Causa causa2, Endereco endereco) {
+    public Voluntario(Long id, String nome,String email, Causa causa1, Causa causa2, Endereco endereco) {
         this.id = id;
         this.nome = nome;
-        this.senha = senha;
         this.email = email;
-        setCausa1(causa1);
-        setCausa2(causa2);
+        this.causa1 = causa1.getCode();
+        this.causa2 = causa2.getCode();
         this.endereco = endereco;
     }
+
+    public Voluntario(Long id, String nome,String email, Causa causa1, Causa causa2) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.causa1 = causa1.getCode();
+        this.causa2 = causa2.getCode();
+    }
+
 
     @JsonIgnore
     public List<Vaga> getVagasInscritas(){
@@ -79,14 +84,6 @@ public class Voluntario implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public String getEmail() {
