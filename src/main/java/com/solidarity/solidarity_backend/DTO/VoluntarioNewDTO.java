@@ -1,27 +1,45 @@
 package com.solidarity.solidarity_backend.DTO;
 
 import com.solidarity.solidarity_backend.model.enums.Causa;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 public class VoluntarioNewDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    @NotEmpty(message = "Preenchimento obrigatório")
+    @Length(min=5, max= 200, message = "O tamanho deve ser entre 5 e 200 caracteres")
     private String nome;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
+    @Email(message = "Email invalido")
     private String email;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
     private Causa causa1;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
     private Causa causa2;
 
+    @NotEmpty(message = "Preenchimento obrigatório")
     private String logadouro;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
     private String numero;
+
     private String complemento;
     private String bairro;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
     private String cep;
 
-
+    @NotEmpty(message = "Preenchimento obrigatório")
     private String telefone1;
+
     private String telefone2;
     private String telefone3;
 
@@ -29,20 +47,7 @@ public class VoluntarioNewDTO implements Serializable {
 
     private Long cidadeId;
 
-
-
-
-
-
     public VoluntarioNewDTO() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNome() {
