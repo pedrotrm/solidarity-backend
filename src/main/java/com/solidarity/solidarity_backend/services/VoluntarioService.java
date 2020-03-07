@@ -1,8 +1,10 @@
 package com.solidarity.solidarity_backend.services;
 
 import com.solidarity.solidarity_backend.DTO.VoluntarioDTO;
-import com.solidarity.solidarity_backend.model.Entidade;
-import com.solidarity.solidarity_backend.model.Voluntario;
+import com.solidarity.solidarity_backend.DTO.VoluntarioNewDTO;
+import com.solidarity.solidarity_backend.model.*;
+import com.solidarity.solidarity_backend.repositories.EnderecoRepository;
+import com.solidarity.solidarity_backend.repositories.MiniCurriculoRepository;
 import com.solidarity.solidarity_backend.repositories.VoluntarioRepository;
 import com.solidarity.solidarity_backend.services.exception.DataIntegrityException;
 import com.solidarity.solidarity_backend.services.exception.ObjectNotFoundException;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,10 +25,21 @@ public class VoluntarioService {
     @Autowired
     private VoluntarioRepository repository;
 
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+
+
     public List<Voluntario> findAll() {
         return repository.findAll();
     }
 
+    @Transactional
+    public Voluntario insert(Voluntario obj) {
+        obj.setId(null);
+        obj = repository.save(obj);
+        enderecoRepository.save(obj.getEndereco());
+        return obj;
+    }
 
     public Voluntario findById(Long id) {
         Optional<Voluntario> obj = repository.findById(id);
@@ -54,8 +68,25 @@ public class VoluntarioService {
         return repository.findAll(pageRequest);
     }
 
-    public Voluntario fromDTO(VoluntarioDTO objDto) {
+
+   public Voluntario fromDTO(VoluntarioDTO objDto) {
         return new Voluntario(objDto.getId(), objDto.getNome(), objDto.getEmail(), objDto.getCausa1(), objDto.getCausa2());
+    }
+
+    public Voluntario fromDTO(VoluntarioNewDTO objDto){
+        Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
+        Endereco end = new Endereco(null, objDto.getLogadouro(),objDto.getNumero(),objDto.getComplemento(),objDto.getBairro(),objDto.getCep(),cid);
+        Voluntario v = new Voluntario(null, objDto.getNome(), objDto.getEmail(),objDto.getCausa1(), objDto.getCausa2(),end);
+        MiniCurriculo m = new MiniCurriculo(null, objDto.getDescricao(),v);
+        v.setMiniCurriculo(m);
+        v.getTelefones().add(objDto.getTelefone1());
+        if (objDto.getTelefone2()!=null) {
+            v.getTelefones().add(objDto.getTelefone2());
+        }
+        if (objDto.getTelefone3()!=null) {
+            v.getTelefones().add(objDto.getTelefone3());
+        }
+        return v;
     }
 
     private  void updateData(Voluntario newObj, Voluntario obj){

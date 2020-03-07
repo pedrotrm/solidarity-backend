@@ -25,7 +25,6 @@ public class VoluntarioDTO implements Serializable {
     private Causa causa1;
     private Causa causa2;
 
-
     public VoluntarioDTO() {
     }
 

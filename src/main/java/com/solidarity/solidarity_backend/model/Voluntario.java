@@ -29,7 +29,7 @@ public class Voluntario implements Serializable {
     private Endereco endereco;
 
     @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL,mappedBy = "voluntario")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "voluntario")
     private MiniCurriculo miniCurriculo;
 
     @ElementCollection

@@ -29,7 +29,7 @@ public class MiniCurriculo implements Serializable {
 
 
     @OneToMany(mappedBy = "curriculo" , targetEntity = Experiencia.class, cascade = CascadeType.ALL)
-    private List <Experiencia> experiencias = new ArrayList<>();
+    private List <Experiencia> experiencias = new ArrayList<>() ;
 
     @OneToMany(mappedBy = "curriculo", targetEntity = Formacao.class, cascade = CascadeType.ALL)
     private List <Formacao> formacoes = new ArrayList<>();

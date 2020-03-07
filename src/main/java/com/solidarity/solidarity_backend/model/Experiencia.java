@@ -37,7 +37,6 @@ public class Experiencia implements Serializable {
     @JoinColumn(name = "curriculo_id")
     private MiniCurriculo curriculo;
 
-
     public Experiencia() {
     }
 
@@ -48,7 +47,6 @@ public class Experiencia implements Serializable {
         this.dataSaida = dataSaida;
         this.atribuicoes = atribuicoes;
         this.curriculo = curriculo;
-
     }
 
     public Long getId() {
