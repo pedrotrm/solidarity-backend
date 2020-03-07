@@ -2,6 +2,7 @@ package com.solidarity.solidarity_backend.DTO;
 
 import com.solidarity.solidarity_backend.model.Voluntario;
 import com.solidarity.solidarity_backend.model.enums.Causa;
+import com.solidarity.solidarity_backend.services.validation.VoluntarioUpdate;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+@VoluntarioUpdate
 public class VoluntarioDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
