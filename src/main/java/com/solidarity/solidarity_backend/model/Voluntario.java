@@ -19,7 +19,7 @@ public class Voluntario implements Serializable {
     private Long id;
     private String nome;
 
-    @Column(unique=true)
+    @Column(unique = true)
     private String email;
 
     private Integer causa1;

@@ -1,12 +1,14 @@
 package com.solidarity.solidarity_backend.DTO;
 
-import com.solidarity.solidarity_backend.model.enums.Causa;
+import com.solidarity.solidarity_backend.services.validation.VoluntarioInsert;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+@VoluntarioInsert
 public class VoluntarioNewDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -19,11 +21,11 @@ public class VoluntarioNewDTO implements Serializable {
     @Email(message = "Email invalido")
     private String email;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
-    private Causa causa1;
+    @NotNull(message = "Preenchimento obrigatório")
+    private Integer causa1;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
-    private Causa causa2;
+    @NotNull(message = "Preenchimento obrigatório")
+    private Integer causa2;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     private String logadouro;
@@ -66,19 +68,19 @@ public class VoluntarioNewDTO implements Serializable {
         this.email = email;
     }
 
-    public Causa getCausa1() {
+    public Integer getCausa1() {
         return causa1;
     }
 
-    public void setCausa1(Causa causa1) {
+    public void setCausa1(Integer causa1) {
         this.causa1 = causa1;
     }
 
-    public Causa getCausa2() {
+    public Integer getCausa2() {
         return causa2;
     }
 
-    public void setCausa2(Causa causa2) {
+    public void setCausa2(Integer causa2) {
         this.causa2 = causa2;
     }
 

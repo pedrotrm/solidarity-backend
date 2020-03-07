@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class VoluntarioDTO implements Serializable {
@@ -22,7 +23,10 @@ public class VoluntarioDTO implements Serializable {
     @Email(message = "Email invalido")
     private String email;
 
+    @NotNull(message = "Preenchimento obrigatório")
     private Causa causa1;
+
+    @NotNull(message = "Preenchimento obrigatório")
     private Causa causa2;
 
     public VoluntarioDTO() {
