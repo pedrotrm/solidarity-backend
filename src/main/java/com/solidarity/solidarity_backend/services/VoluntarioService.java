@@ -46,11 +46,13 @@ public class VoluntarioService {
         return obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Entidade.class.getName()));
     }
-
+    @Transactional
     public Voluntario update(Voluntario obj) {
         Voluntario newObj = findById(obj.getId());
         updateData(newObj, obj);
-        return repository.save(newObj);
+        repository.save(newObj);
+        enderecoRepository.save(newObj.getEndereco());
+        return newObj;
     }
 
     public void delete(Long id) {
@@ -70,7 +72,10 @@ public class VoluntarioService {
 
 
    public Voluntario fromDTO(VoluntarioDTO objDto) {
-        return new Voluntario(objDto.getId(), objDto.getNome(), objDto.getEmail(), objDto.getCausa1(), objDto.getCausa2());
+       Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
+       Endereco end = new Endereco(null, objDto.getLogadouro(),objDto.getNumero(),objDto.getComplemento(),objDto.getBairro(),objDto.getCep(),cid);
+        Voluntario v = new Voluntario(objDto.getId(), objDto.getNome(), objDto.getEmail(), objDto.getCausa1(), objDto.getCausa2(),end);
+         return v;
     }
 
     public Voluntario fromDTO(VoluntarioNewDTO objDto){
@@ -94,6 +99,7 @@ public class VoluntarioService {
         newObj.setEmail(obj.getEmail());
         newObj.setCausa1(obj.getCausa1());
         newObj.setCausa2(obj.getCausa2());
+        newObj.setEndereco(obj.getEndereco());
     }
 
 }

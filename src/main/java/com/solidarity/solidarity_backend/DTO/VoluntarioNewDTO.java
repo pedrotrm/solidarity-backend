@@ -47,12 +47,12 @@ public class VoluntarioNewDTO implements Serializable {
 
     private String descricao;
 
-
-
     private Long cidadeId;
 
     public VoluntarioNewDTO() {
     }
+
+
 
     public String getNome() {
         return nome;

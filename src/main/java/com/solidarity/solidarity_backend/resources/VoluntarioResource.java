@@ -42,7 +42,7 @@ public class VoluntarioResource {
     public ResponseEntity<Void> update(@Valid @RequestBody VoluntarioDTO objDto, @PathVariable Long id) {
         Voluntario obj = service.fromDTO(objDto);
         obj.setId(id);
-        obj = service.update(obj);
+        service.update(obj);
         return ResponseEntity.noContent().build();
     }
 

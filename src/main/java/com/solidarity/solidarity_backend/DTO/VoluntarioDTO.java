@@ -7,7 +7,6 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @VoluntarioUpdate
@@ -25,21 +24,40 @@ public class VoluntarioDTO implements Serializable {
     @Email(message = "Email invalido")
     private String email;
 
-    @NotNull(message = "Preenchimento obrigatório")
     private Causa causa1;
-
-    @NotNull(message = "Preenchimento obrigatório")
     private Causa causa2;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
+    private String logadouro;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
+    private String numero;
+
+    private String complemento;
+    private String bairro;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
+    private String cep;
+
+    private Long cidadeId;
 
     public VoluntarioDTO() {
     }
 
     public VoluntarioDTO(Voluntario obj){
+
         id = obj.getId();
         nome = obj.getNome();
         email = obj.getEmail();
         causa1 = obj.getCausa1();
         causa2 = obj.getCausa2();
+        logadouro = obj.getEndereco().getLogadouro();
+        numero = obj.getEndereco().getNumero();
+        complemento = obj.getEndereco().getComplemento();
+        bairro = obj.getEndereco().getBairro();
+        cep = obj.getEndereco().getCep();
+        cidadeId = obj.getEndereco().getCidade().getId();
+
     }
 
     public Long getId() {
@@ -80,5 +98,53 @@ public class VoluntarioDTO implements Serializable {
 
     public void setCausa2(Causa causa2) {
         this.causa2 = causa2;
+    }
+
+    public String getLogadouro() {
+        return logadouro;
+    }
+
+    public void setLogadouro(String logadouro) {
+        this.logadouro = logadouro;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public Long getCidadeId() {
+        return cidadeId;
+    }
+
+    public void setCidadeId(Long cidadeId) {
+        this.cidadeId = cidadeId;
     }
 }
