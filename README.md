@@ -36,7 +36,7 @@ Ainda não foi feito o deploy da aplicação porém prentendemos colocar em uma 
 ## Autores
 
 * **Pedro Thiago Maciel** - *Implementação*
-* **Yonara Costa Magalhães** - *Idealizadora, Analise e Design*
+* **Yonara Costa Magalhães e Pedro Thiago Maciel** - *Idealizador, Analise e Design*
     
 ## Licença
 
