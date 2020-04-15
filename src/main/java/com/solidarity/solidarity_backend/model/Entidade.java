@@ -28,7 +28,7 @@ public class Entidade implements Serializable {
     private Integer causa2;
     private Integer numeroBeneficiarios;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     private Endereco endereco;
 
     @JsonBackReference
