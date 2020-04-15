@@ -25,7 +25,7 @@ public class Voluntario implements Serializable {
     private Integer causa1;
     private Integer causa2;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Endereco endereco;
 
     @JsonManagedReference
