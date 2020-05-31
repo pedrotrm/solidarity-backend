@@ -1,45 +1,37 @@
 package com.solidarity.solidaritybackend.services.validation;
 
-import com.solidarity.solidaritybackend.dto.VoluntarioDTO;
+import com.solidarity.solidaritybackend.dto.EntidadeNewDTO;
+import com.solidarity.solidaritybackend.dto.VoluntarioNewDTO;
+import com.solidarity.solidaritybackend.model.Entidade;
 import com.solidarity.solidaritybackend.model.Voluntario;
+import com.solidarity.solidaritybackend.repositories.EntidadeRepository;
 import com.solidarity.solidaritybackend.repositories.VoluntarioRepository;
 import com.solidarity.solidaritybackend.resources.exception.FieldMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.HandlerMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-
-public class VoluntarioUpdateValidator implements ConstraintValidator<VoluntarioUpdate, VoluntarioDTO> {
+public class EntidadeInsertValidator implements ConstraintValidator<EntidadeInsert, EntidadeNewDTO> {
 
     @Autowired
-    private HttpServletRequest request;
+    private EntidadeRepository entidadeRepository;
 
-    @Autowired
-    private VoluntarioRepository voluntarioRepository;
-
-
-
-    public void initialize(VoluntarioUpdate constraintAnnotation) {
+    @Override
+    public void initialize(EntidadeInsert constraintAnnotation) {
 
     }
 
     @Override
-    public boolean isValid(VoluntarioDTO voluntarioDTO, ConstraintValidatorContext context) {
-
-        @SuppressWarnings("unchecked")
-        Map<String, String> map = (Map<String, String>)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-        Long uriId = Long.parseLong(map.get("id"));
+    public boolean isValid(EntidadeNewDTO entidadeNewDTO, ConstraintValidatorContext context) {
 
         List<FieldMessage> list = new ArrayList<>();
 
-        Voluntario aux = voluntarioRepository.findByEmail(voluntarioDTO.getEmail());
-        if (aux != null && !aux.getId().equals(uriId)){
+
+        Entidade aux = entidadeRepository.findByEmail(entidadeNewDTO.getEmail());
+        if (aux != null) {
             list.add(new FieldMessage("email", "Email já existente"));
         }
 

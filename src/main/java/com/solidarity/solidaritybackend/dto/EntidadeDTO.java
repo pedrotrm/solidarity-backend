@@ -1,60 +1,69 @@
 package com.solidarity.solidaritybackend.dto;
 
-import com.solidarity.solidaritybackend.services.validation.VoluntarioInsert;
+import com.solidarity.solidaritybackend.model.Entidade;
+import com.solidarity.solidaritybackend.model.enums.Causa;
+import com.solidarity.solidaritybackend.services.validation.EntidadeUpdate;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-@VoluntarioInsert
-public class VoluntarioNewDTO implements Serializable {
+
+@EntidadeUpdate
+public class EntidadeDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
-    @Length(min=5, max= 200, message = "O tamanho deve ser entre 5 e 200 caracteres")
+    private Long id;
+
+
+    @Length(min = 5 ,max = 120, message = "O tamanho deve ser entre 5 e 200 caracteres")
     private String nome;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @Email(message = "Email invalido")
     private String email;
 
-    @NotNull(message = "Preenchimento obrigatório")
+    @CNPJ(message = "CNPJ invalido")
+    private String cnpj;
+
     private Integer causa1;
-
-    @NotNull(message = "Preenchimento obrigatório")
     private Integer causa2;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
-    private String logadouro;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
-    private String numero;
-
-
-    private String complemento;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
-    private String bairro;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
-    private String cep;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
-    private String telefone1;
-
-    private String telefone2;
-    private String telefone3;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
     private String descricao;
-
-    @NotNull(message = "Preenchimento obrigatório")
+    private String logadouro;
+    private String numero;
+    private String complemento;
+    private String bairro;
+    private String cep;
     private Long cidadeId;
 
-    public VoluntarioNewDTO() {
+    public EntidadeDTO() {
+    }
+
+    public EntidadeDTO(Entidade obj){
+        id = obj.getId();
+        nome = obj.getNome();
+        email = obj.getEmail();
+        cnpj = obj.getCnpj();
+        causa1 = obj.getCausa1().getCode();
+        causa2 = obj.getCausa2().getCode();
+        descricao = obj.getDescricao();
+        logadouro = obj.getEndereco().getLogadouro();
+        numero = obj.getEndereco().getNumero();
+        complemento = obj.getEndereco().getComplemento();
+        bairro = obj.getEndereco().getBairro();
+        cep = obj.getEndereco().getCep();
+        cidadeId = obj.getEndereco().getCidade().getId();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -73,6 +82,14 @@ public class VoluntarioNewDTO implements Serializable {
         this.email = email;
     }
 
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
     public Integer getCausa1() {
         return causa1;
     }
@@ -83,6 +100,14 @@ public class VoluntarioNewDTO implements Serializable {
 
     public Integer getCausa2() {
         return causa2;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public void setCausa2(Integer causa2) {
@@ -129,38 +154,6 @@ public class VoluntarioNewDTO implements Serializable {
         this.cep = cep;
     }
 
-    public String getTelefone1() {
-        return telefone1;
-    }
-
-    public void setTelefone1(String telefone1) {
-        this.telefone1 = telefone1;
-    }
-
-    public String getTelefone2() {
-        return telefone2;
-    }
-
-    public void setTelefone2(String telefone2) {
-        this.telefone2 = telefone2;
-    }
-
-    public String getTelefone3() {
-        return telefone3;
-    }
-
-    public void setTelefone3(String telefone3) {
-        this.telefone3 = telefone3;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
     public Long getCidadeId() {
         return cidadeId;
     }
@@ -168,5 +161,4 @@ public class VoluntarioNewDTO implements Serializable {
     public void setCidadeId(Long cidadeId) {
         this.cidadeId = cidadeId;
     }
-
 }

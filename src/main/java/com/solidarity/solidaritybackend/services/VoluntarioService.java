@@ -94,7 +94,7 @@ public class VoluntarioService {
         return v;
     }
 
-    private  void updateData(Voluntario newObj, Voluntario obj){
+    private void updateData(Voluntario newObj, Voluntario obj){
         newObj.setNome(obj.getNome());
         newObj.setEmail(obj.getEmail());
         newObj.setCausa1(obj.getCausa1());

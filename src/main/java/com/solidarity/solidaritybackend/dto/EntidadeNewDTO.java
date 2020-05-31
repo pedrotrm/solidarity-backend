@@ -1,15 +1,18 @@
 package com.solidarity.solidaritybackend.dto;
 
-import com.solidarity.solidaritybackend.services.validation.VoluntarioInsert;
+
+
+import com.solidarity.solidaritybackend.services.validation.EntidadeInsert;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-@VoluntarioInsert
-public class VoluntarioNewDTO implements Serializable {
+@EntidadeInsert
+public class EntidadeNewDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,6 +23,11 @@ public class VoluntarioNewDTO implements Serializable {
     @NotEmpty(message = "Preenchimento obrigatório")
     @Email(message = "Email invalido")
     private String email;
+
+
+    @NotEmpty(message = "Preenchimento obrigatório")
+    @CNPJ(message = "CNPJ invalido")
+    private String cnpj;
 
     @NotNull(message = "Preenchimento obrigatório")
     private Integer causa1;
@@ -32,7 +40,6 @@ public class VoluntarioNewDTO implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     private String numero;
-
 
     private String complemento;
 
@@ -48,13 +55,14 @@ public class VoluntarioNewDTO implements Serializable {
     private String telefone2;
     private String telefone3;
 
+
     @NotEmpty(message = "Preenchimento obrigatório")
     private String descricao;
 
     @NotNull(message = "Preenchimento obrigatório")
     private Long cidadeId;
 
-    public VoluntarioNewDTO() {
+    public EntidadeNewDTO() {
     }
 
     public String getNome() {
@@ -87,6 +95,14 @@ public class VoluntarioNewDTO implements Serializable {
 
     public void setCausa2(Integer causa2) {
         this.causa2 = causa2;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 
     public String getLogadouro() {

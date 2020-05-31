@@ -14,16 +14,16 @@ public class Entidade implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tb02_id")
+    @Column(name = "tb02_id", nullable = false)
     private Long id;
 
-    @Column(name = "tb02_email",unique=true)
+    @Column(name = "tb02_email", unique=true)
     private String email;
 
     @Column(name = "tb02_nome")
     private String nome;
 
-    @Column(name = "tb02_cnpj")
+    @Column(name = "tb02_cnpj", unique = true)
     private String cnpj;
 
     @Column(name = "tb02_descricao")
@@ -53,16 +53,18 @@ public class Entidade implements Serializable {
     public Entidade() {
     }
 
-    public Entidade(Long id, String email, String nome, String cnpj, String descricao, Endereco endereco, Causa  causa1, Causa causa2, Integer numeroBeneficiarios) {
+    public Entidade(Long id, String nome,String email,String cnpj, Causa causa1, Causa causa2,String descricao, Endereco endereco) {
         this.id = id;
-        this.email = email;
         this.nome = nome;
+        this.email = email;
         this.cnpj = cnpj;
+        this.causa1 = causa1.getCode();
+        this.causa2 = causa2.getCode();
         this.descricao = descricao;
         this.endereco = endereco;
-        setCausa1(causa1);
-        setCausa2(causa2);
-        this.numeroBeneficiarios = numeroBeneficiarios;
+    }
+
+    public Entidade(Long id, String nome, String email,String cnpj, Causa causa1, Causa causa2, String logadouro, String numero, String complemento, String bairro, String cep) {
     }
 
 

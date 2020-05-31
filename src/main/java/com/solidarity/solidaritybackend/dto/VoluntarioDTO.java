@@ -16,7 +16,6 @@ public class VoluntarioDTO implements Serializable {
 
     private Long id;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @Length(min = 5 ,max = 120, message = "O tamanho deve ser entre 5 e 200 caracteres")
     private String nome;
 
@@ -26,17 +25,10 @@ public class VoluntarioDTO implements Serializable {
 
     private Causa causa1;
     private Causa causa2;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
     private String logadouro;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
     private String numero;
-
     private String complemento;
     private String bairro;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
     private String cep;
 
     private Long cidadeId;

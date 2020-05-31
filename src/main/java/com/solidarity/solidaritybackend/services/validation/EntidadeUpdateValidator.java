@@ -1,8 +1,8 @@
 package com.solidarity.solidaritybackend.services.validation;
 
-import com.solidarity.solidaritybackend.dto.VoluntarioDTO;
-import com.solidarity.solidaritybackend.model.Voluntario;
-import com.solidarity.solidaritybackend.repositories.VoluntarioRepository;
+import com.solidarity.solidaritybackend.dto.EntidadeDTO;
+import com.solidarity.solidaritybackend.model.Entidade;
+import com.solidarity.solidaritybackend.repositories.EntidadeRepository;
 import com.solidarity.solidaritybackend.resources.exception.FieldMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerMapping;
@@ -15,22 +15,20 @@ import java.util.List;
 import java.util.Map;
 
 
-public class VoluntarioUpdateValidator implements ConstraintValidator<VoluntarioUpdate, VoluntarioDTO> {
+public class EntidadeUpdateValidator implements ConstraintValidator<EntidadeUpdate,  EntidadeDTO> {
 
     @Autowired
     private HttpServletRequest request;
 
     @Autowired
-    private VoluntarioRepository voluntarioRepository;
+    private EntidadeRepository entidadeRepository;
 
 
-
-    public void initialize(VoluntarioUpdate constraintAnnotation) {
-
+    public void initialize(EntidadeUpdateValidator constraintAnnotation) {
     }
 
     @Override
-    public boolean isValid(VoluntarioDTO voluntarioDTO, ConstraintValidatorContext context) {
+    public boolean isValid(EntidadeDTO entidadeDTO, ConstraintValidatorContext context) {
 
         @SuppressWarnings("unchecked")
         Map<String, String> map = (Map<String, String>)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
@@ -38,7 +36,7 @@ public class VoluntarioUpdateValidator implements ConstraintValidator<Voluntario
 
         List<FieldMessage> list = new ArrayList<>();
 
-        Voluntario aux = voluntarioRepository.findByEmail(voluntarioDTO.getEmail());
+        Entidade aux = entidadeRepository.findByEmail(entidadeDTO.getEmail());
         if (aux != null && !aux.getId().equals(uriId)){
             list.add(new FieldMessage("email", "Email já existente"));
         }
