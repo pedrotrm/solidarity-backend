@@ -12,7 +12,7 @@ public class VagaVoluntarioPK implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ManyToOne
-    @JoinColumn(name = "vaga_id")
+    @JoinColumn(name = "fktb04tb03_vaga_id")
     private Vaga vaga;
 
     @ManyToOne

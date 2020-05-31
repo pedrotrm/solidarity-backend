@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "tb11_projeto")
 public class Projeto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -15,14 +15,18 @@ public class Projeto implements Serializable {
     @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tb11_id")
     private Long id;
 
+    @Column(name = "tb11_nome_projeto")
     private String nomeProjeto;
+
+    @Column(name = "tb11_descricao")
     private String descricao;
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "curriculo_id")
+    @JoinColumn(name = "fktb11tb08_curriculo_id")
     private MiniCurriculo curriculo;
 
     public Projeto() {

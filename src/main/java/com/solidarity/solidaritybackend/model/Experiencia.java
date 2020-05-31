@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Objects;
 
 
-@Entity
+@Entity(name = "tb09_experiencia")
 public class Experiencia implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -18,18 +18,22 @@ public class Experiencia implements Serializable {
     @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tb09_id")
     private Long id;
-
+    @Column(name = "tb09_nome_empresa")
     private String nomeEmpresa;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "tb09_data_entrada")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEntrada;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "tb09_data_saida")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataSaida;
 
+    @Column(name = "tb09_atribuicoes")
     private String atribuicoes;
 
     @JsonBackReference

@@ -8,24 +8,30 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
-@Entity
+@Entity(name = "tb01_voluntario")
 public class Voluntario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
+    @Column(name = "tb01_id",unique = true, nullable = false)
     private Long id;
+
+    @Column(name = "tb01_nome")
     private String nome;
 
-    @Column(unique = true)
+    @Column(name = "tb01_email",unique = true)
     private String email;
 
+    @Column(name = "tb01_causa1")
     private Integer causa1;
+
+    @Column(name = "tb01_causa2")
     private Integer causa2;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "fktb01tb07_endereco_id")
     private Endereco endereco;
 
     @JsonManagedReference

@@ -8,15 +8,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-@Entity
+@Entity(name = "tb05_estado")
 public class Estado implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @JsonIgnore
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "tb05_id")
     private Long id;
-    private String name;
+
+    @Column(name = "tb05_nome")
+    private String nome;
 
     @JsonBackReference
     @OneToMany(mappedBy = "estado")
@@ -25,9 +28,9 @@ public class Estado implements Serializable {
     public Estado() {
     }
 
-    public Estado(Long id, String name) {
+    public Estado(Long id, String nome) {
         this.id = id;
-        this.name = name;
+        this.nome = nome;
     }
 
 
@@ -39,12 +42,12 @@ public class Estado implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String name) {
+        this.nome = name;
     }
 
     public List<Cidade> getCidades() {

@@ -45,7 +45,6 @@ public class VoluntarioDTO implements Serializable {
     }
 
     public VoluntarioDTO(Voluntario obj){
-
         id = obj.getId();
         nome = obj.getNome();
         email = obj.getEmail();
@@ -57,7 +56,6 @@ public class VoluntarioDTO implements Serializable {
         bairro = obj.getEndereco().getBairro();
         cep = obj.getEndereco().getCep();
         cidadeId = obj.getEndereco().getCidade().getId();
-
     }
 
     public Long getId() {

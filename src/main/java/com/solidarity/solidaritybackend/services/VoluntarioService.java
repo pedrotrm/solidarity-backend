@@ -74,8 +74,8 @@ public class VoluntarioService {
    public Voluntario fromDTO(VoluntarioDTO objDto) {
        Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
        Endereco end = new Endereco(null, objDto.getLogadouro(),objDto.getNumero(),objDto.getComplemento(),objDto.getBairro(),objDto.getCep(),cid);
-        Voluntario v = new Voluntario(objDto.getId(), objDto.getNome(), objDto.getEmail(), objDto.getCausa1(), objDto.getCausa2(),end);
-         return v;
+       Voluntario v = new Voluntario(objDto.getId(), objDto.getNome(), objDto.getEmail(), objDto.getCausa1(), objDto.getCausa2(),end);
+       return v;
     }
 
     public Voluntario fromDTO(VoluntarioNewDTO objDto){

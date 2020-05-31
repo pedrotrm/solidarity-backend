@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "tb06_cidade")
 public class Cidade implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -15,12 +15,15 @@ public class Cidade implements Serializable {
     @JsonIgnore
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "tb06_id")
     private Long id;
+
+    @Column(name = "tb06_nome")
     private String nome;
 
     @JsonManagedReference
     @ManyToOne
-    @JoinColumn(name = "estado_id")
+    @JoinColumn(name = "fktb06tb05_estado_id")
     private Estado estado;
 
     public Cidade() {

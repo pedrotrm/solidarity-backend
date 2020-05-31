@@ -33,5 +33,5 @@ public class EntidadeResource {
         return ResponseEntity.ok().body(obj);
     }
 
-    
+
 }

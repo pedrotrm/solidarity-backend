@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "tb10_formacao")
 public class Formacao implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -17,22 +17,28 @@ public class Formacao implements Serializable {
     @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tb10_id")
     private Long id;
 
+    @Column(name= "tb10_nome_instituicao")
     private String nomeInstituicao;
+
+    @Column(name = "tb10_nome_curso")
     private String nomeCurso;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "tb10_data_inicio")
     private Date dataInicio;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "tb10_data_fim")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataFim;
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "curriculo_id")
+    @JoinColumn(name = "fktb10tb08_curriculo_id")
     private MiniCurriculo curriculo;
 
     public Formacao() {

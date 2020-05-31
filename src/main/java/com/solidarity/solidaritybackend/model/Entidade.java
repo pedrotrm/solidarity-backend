@@ -7,27 +7,40 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
-@Entity
+@Entity(name = "tb02_entidade")
 public class Entidade implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tb02_id")
     private Long id;
 
-    @Column(unique=true)
+    @Column(name = "tb02_email",unique=true)
     private String email;
 
+    @Column(name = "tb02_nome")
     private String nome;
+
+    @Column(name = "tb02_cnpj")
     private String cnpj;
+
+    @Column(name = "tb02_descricao")
     private String descricao;
 
+    @Column(name = "tb02_causa1")
     private Integer causa1;
+
+    @Column(name = "tb02_causa2")
     private Integer causa2;
+
+
+    @Column(name = "tb02_numero_beneficiarios")
     private Integer numeroBeneficiarios;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "fktb02tb07_endereco_id")
     private Endereco endereco;
 
     @JsonBackReference

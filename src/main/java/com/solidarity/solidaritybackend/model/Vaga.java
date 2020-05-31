@@ -10,27 +10,38 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
+@Entity(name = "tb03_vaga")
 public class Vaga implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tb03_id")
     private Long id;
+
+    @Column(name = "tb03_nome")
     private String nome;
+
+    @Column(name = "tb03_descricao")
     private String descricao;
+
+    @Column(name = "tb03_causa1")
     private Integer causa1;
+
+    @Column(name = "tb03_causa2")
     private Integer causa2;
+
+    @Column(name = "tb03_habilidade")
     private Integer habilidade;
 
     @JsonManagedReference
     @OneToOne
-    @JoinColumn(name="endereco_da_vaga_id")
+    @JoinColumn(name="fktb03tb07_endereco_vaga_id")
     private Endereco enderecoVaga;
 
     @ManyToOne
-    @JoinColumn(name = "entidade_id")
+    @JoinColumn(name = "fktb03tb02_entidade_id")
     private Entidade entidade;
 
     @OneToMany(mappedBy = "id.vaga")

@@ -3,24 +3,33 @@ package com.solidarity.solidaritybackend.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.solidarity.solidaritybackend.model.enums.TipoVaga;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "tb04_vaga_voluntario")
 public class VagaVoluntario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @JsonIgnore
     @EmbeddedId
+    @Column(name = "tb04_id")
     private VagaVoluntarioPK id = new VagaVoluntarioPK();
 
+    @Column(name = "tb04_data_inicio")
     private Date dataInicio;
+
+    @Column(name = "tb04_data_fim")
     private Date dataFim;
+
+    @Column(name = "tb04_tipo_vaga")
     private TipoVaga tipoVaga;
+
+    @Column(name = "tb04_quantidade")
     private Integer quantidade;
 
     public VagaVoluntario() {

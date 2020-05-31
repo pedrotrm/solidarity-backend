@@ -9,22 +9,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "tb08_mini_curriculo")
 public class MiniCurriculo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @JsonIgnore
     @Id
-    @Column(unique = true, nullable = false)
+    @Column(name = "tb08_id",unique = true, nullable = false)
     private Long id;
 
+    @Column(name = "tb08_descricao")
     private String descricao;
 
     @JsonBackReference
     @MapsId
     @OneToOne
-    @JoinColumn(name = "voluntario_id")
+    @JoinColumn(name = "fktb08tb01_voluntario_id")
     private Voluntario voluntario;
 
 

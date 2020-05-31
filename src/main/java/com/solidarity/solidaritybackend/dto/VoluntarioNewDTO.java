@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @VoluntarioInsert
-public class VoluntarioNewDTO implements Serializable {
+public class    VoluntarioNewDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

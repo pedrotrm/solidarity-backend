@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "tb07_endereco")
 public class Endereco implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -14,15 +14,26 @@ public class Endereco implements Serializable {
     @JsonIgnore
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "tb07_id")
     private Long id;
+
+    @Column(name = "tb07_logadouro")
     private String logadouro;
+
+    @Column(name = "tb07_numero")
     private String numero;
+
+    @Column(name = "tb07_complemento")
     private String complemento;
+
+    @Column(name = "tb07_bairro")
     private String bairro;
+
+    @Column(name = "tb07_cep")
     private String cep;
 
     @ManyToOne
-    @JoinColumn(name = "cidade")
+    @JoinColumn(name = "fktb07tb06_cidade_id")
     private Cidade cidade;
 
 
