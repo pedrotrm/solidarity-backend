@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -27,14 +28,12 @@ public class Formacao implements Serializable {
     private String nomeCurso;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "tb10_data_inicio")
-    private Date dataInicio;
+    @Column(name = "tb10_data_inicio", columnDefinition = "DATE")
+    private LocalDate dataInicio;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "tb10_data_fim")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataFim;
+    @Column(name = "tb10_data_fim", columnDefinition = "DATE")
+    private LocalDate dataFim;
 
     @JsonBackReference
     @ManyToOne
@@ -44,7 +43,7 @@ public class Formacao implements Serializable {
     public Formacao() {
     }
 
-    public Formacao(Long id, String nomeInstituicao, String nomeCurso, Date dataInicio, Date dataFim, MiniCurriculo curriculo){
+    public Formacao(Long id, String nomeInstituicao, String nomeCurso, LocalDate dataInicio, LocalDate dataFim, MiniCurriculo curriculo){
 
         this.id = id;
         this.nomeInstituicao = nomeInstituicao;
@@ -79,22 +78,29 @@ public class Formacao implements Serializable {
         this.nomeCurso = nomeCurso;
     }
 
-    public Date getDataInicio() {
+    public LocalDate getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(Date dataInicio) {
+    public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public Date getDataFim() {
+    public LocalDate getDataFim() {
         return dataFim;
     }
 
-    public void setDataFim(Date dataFim) {
+    public void setDataFim(LocalDate dataFim) {
         this.dataFim = dataFim;
     }
 
+    public MiniCurriculo getCurriculo() {
+        return curriculo;
+    }
+
+    public void setCurriculo(MiniCurriculo curriculo) {
+        this.curriculo = curriculo;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 
@@ -24,14 +24,12 @@ public class Experiencia implements Serializable {
     private String nomeEmpresa;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "tb09_data_entrada")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataEntrada;
+    @Column(name = "tb09_data_entrada", columnDefinition = "DATE")
+    private LocalDate dataEntrada;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "tb09_data_saida")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataSaida;
+    @Column(name = "tb09_data_saida", columnDefinition = "DATE")
+    private LocalDate dataSaida;
 
     @Column(name = "tb09_atribuicoes")
     private String atribuicoes;
@@ -44,7 +42,7 @@ public class Experiencia implements Serializable {
     public Experiencia() {
     }
 
-    public Experiencia(Long id, String nomeEmpresa, Date dataEntrada, Date dataSaida, String atribuicoes, MiniCurriculo curriculo) {
+    public Experiencia(Long id, String nomeEmpresa, LocalDate dataEntrada, LocalDate dataSaida, String atribuicoes, MiniCurriculo curriculo) {
         this.id = id;
         this.nomeEmpresa = nomeEmpresa;
         this.dataEntrada = dataEntrada;
@@ -69,19 +67,19 @@ public class Experiencia implements Serializable {
         this.nomeEmpresa = nomeEmpresa;
     }
 
-    public Date getDataEntrada() {
+    public LocalDate getDataEntrada() {
         return dataEntrada;
     }
 
-    public void setDataEntrada(Date dataEntrada) {
+    public void setDataEntrada(LocalDate dataEntrada) {
         this.dataEntrada = dataEntrada;
     }
 
-    public Date getDataSaida() {
+    public LocalDate getDataSaida() {
         return dataSaida;
     }
 
-    public void setDataSaida(Date dataSaida) {
+    public void setDataSaida(LocalDate dataSaida) {
         this.dataSaida = dataSaida;
     }
 

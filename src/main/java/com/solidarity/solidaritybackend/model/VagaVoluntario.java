@@ -2,11 +2,11 @@ package com.solidarity.solidaritybackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.solidarity.solidaritybackend.model.enums.TipoVaga;
+import jdk.jfr.Timespan;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
 
@@ -20,11 +20,11 @@ public class VagaVoluntario implements Serializable {
     @Column(name = "tb04_id")
     private VagaVoluntarioPK id = new VagaVoluntarioPK();
 
-    @Column(name = "tb04_data_inicio")
-    private Date dataInicio;
+    @Column(name = "tb04_data_inicio", columnDefinition = "TIMESTAMP")
+    private Instant dataInicio;
 
-    @Column(name = "tb04_data_fim")
-    private Date dataFim;
+    @Column(name = "tb04_data_fim", columnDefinition = "TIMESTAMP")
+    private Instant dataFim;
 
     @Column(name = "tb04_tipo_vaga")
     private TipoVaga tipoVaga;
@@ -35,7 +35,7 @@ public class VagaVoluntario implements Serializable {
     public VagaVoluntario() {
     }
 
-    public VagaVoluntario(Vaga vaga, Voluntario voluntario,Date dataInicio, Date dataFim, TipoVaga tipoVaga, Integer quantidade) {
+    public VagaVoluntario(Vaga vaga, Voluntario voluntario,Instant dataInicio, Instant dataFim, TipoVaga tipoVaga, Integer quantidade) {
         id.setVaga(vaga);
         id.setVoluntario(voluntario);
         this.dataInicio = dataInicio;
@@ -63,19 +63,19 @@ public class VagaVoluntario implements Serializable {
         this.id = id;
     }
 
-    public Date getDataInicio() {
+    public Instant getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(Date dataInicio) {
+    public void setDataInicio(Instant dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public Date getDataFim() {
+    public Instant getDataFim() {
         return dataFim;
     }
 
-    public void setDataFim(Date dataFim) {
+    public void setDataFim(Instant dataFim) {
         this.dataFim = dataFim;
     }
 
