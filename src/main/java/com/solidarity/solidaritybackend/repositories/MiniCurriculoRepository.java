@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MiniCurriculoRepository extends JpaRepository<MiniCurriculo, Long> {
 
+    
+
 
 }

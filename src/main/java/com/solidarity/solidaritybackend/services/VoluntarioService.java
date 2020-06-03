@@ -44,8 +44,9 @@ public class VoluntarioService {
     public Voluntario findById(Long id) {
         Optional<Voluntario> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado! Id: " + id + ", Tipo: " + Entidade.class.getName()));
+                "Objeto não encontrado! Id: " + id + ", Tipo: " + Voluntario.class.getName()));
     }
+
     @Transactional
     public Voluntario update(Voluntario obj) {
         Voluntario newObj = findById(obj.getId());
