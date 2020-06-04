@@ -38,6 +38,12 @@ public class MiniCurriculoService {
         repository.updateExperiencia(newObj);
     }
 
+    @Transactional
+    public void deleteExperiencia(Long id){
+        Experiencia obj = repository.findByExperienciaId(id);
+        repository.deleteExperiencia(obj);
+    }
+
     public Experiencia fromExperienciaDTO(ExperienciaDTO objDto){
         return new Experiencia(objDto.getId(), objDto.getNomeEmpresa(),objDto.getDataEntrada(),objDto.getDataSaida(),objDto.getAtribuicoes());
     }
