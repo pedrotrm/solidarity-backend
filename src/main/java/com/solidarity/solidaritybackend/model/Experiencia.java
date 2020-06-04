@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -20,6 +21,7 @@ public class Experiencia implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tb09_id")
     private Long id;
+
     @Column(name = "tb09_nome_empresa")
     private String nomeEmpresa;
 
@@ -49,6 +51,14 @@ public class Experiencia implements Serializable {
         this.dataSaida = dataSaida;
         this.atribuicoes = atribuicoes;
         this.curriculo = curriculo;
+    }
+
+    public Experiencia(Long id, String nomeEmpresa, LocalDate dataEntrada, LocalDate dataSaida, String atribuicoes) {
+        this.id = id;
+        this.nomeEmpresa = nomeEmpresa;
+        this.dataEntrada = dataEntrada;
+        this.dataSaida = dataSaida;
+        this.atribuicoes = atribuicoes;
     }
 
     public Long getId() {
