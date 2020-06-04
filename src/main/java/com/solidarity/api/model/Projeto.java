@@ -1,4 +1,4 @@
-package com.solidarity.solidaritybackend.model;
+package com.solidarity.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,7 +12,7 @@ public class Projeto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @JsonIgnore
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tb11_id")

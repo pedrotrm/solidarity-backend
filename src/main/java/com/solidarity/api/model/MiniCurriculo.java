@@ -1,7 +1,8 @@
-package com.solidarity.solidaritybackend.model;
+package com.solidarity.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,7 +15,6 @@ public class MiniCurriculo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @JsonIgnore
     @Id
     @Column(name = "tb08_id",unique = true, nullable = false)
     private Long id;
@@ -22,13 +22,13 @@ public class MiniCurriculo implements Serializable {
     @Column(name = "tb08_descricao")
     private String descricao;
 
-    @JsonBackReference
+    @JsonIgnore
     @MapsId
     @OneToOne
     @JoinColumn(name = "fktb08tb01_voluntario_id")
     private Voluntario voluntario;
 
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "curriculo" , targetEntity = Experiencia.class, cascade = CascadeType.ALL)
     private Set<Experiencia> experiencias = new HashSet<>();
 

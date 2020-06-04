@@ -1,4 +1,4 @@
-package com.solidarity.solidaritybackend.model;
+package com.solidarity.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity(name = "tb10_formacao")
@@ -15,7 +14,7 @@ public class Formacao implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @JsonIgnore
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tb10_id")

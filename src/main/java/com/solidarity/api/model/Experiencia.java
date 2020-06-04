@@ -1,11 +1,11 @@
-package com.solidarity.solidaritybackend.model;
+package com.solidarity.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -16,7 +16,7 @@ public class Experiencia implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @JsonIgnore
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tb09_id")
@@ -35,6 +35,7 @@ public class Experiencia implements Serializable {
 
     @Column(name = "tb09_atribuicoes")
     private String atribuicoes;
+
 
     @JsonBackReference
     @ManyToOne
@@ -60,6 +61,8 @@ public class Experiencia implements Serializable {
         this.dataSaida = dataSaida;
         this.atribuicoes = atribuicoes;
     }
+
+
 
     public Long getId() {
         return id;
