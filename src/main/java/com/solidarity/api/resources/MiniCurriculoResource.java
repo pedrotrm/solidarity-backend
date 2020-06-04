@@ -35,6 +35,7 @@ public class MiniCurriculoResource {
             return ResponseEntity.created(uri).build();
         }
 
+
         @RequestMapping(value = "experiencias/{experienciaId}",method = RequestMethod.PUT)
         public ResponseEntity<Void> updateExperiencia(@PathVariable("experienciaId") Long experienciaId,
                                                       @Valid @RequestBody ExperienciaDTO objDto){
@@ -45,6 +46,11 @@ public class MiniCurriculoResource {
             return ResponseEntity.noContent().build();
         }
 
+        @RequestMapping(value = "experiencias/{experienciaId}", method = RequestMethod.DELETE)
+        public ResponseEntity<Void> deleteExperiencia(@PathVariable("experienciaId") Long experienciaId){
+                miniCurriculoService.deleteExperiencia(experienciaId);
+            return ResponseEntity.noContent().build();
+        }
 
 
 
