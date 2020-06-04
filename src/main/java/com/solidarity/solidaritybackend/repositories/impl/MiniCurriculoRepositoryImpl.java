@@ -24,30 +24,42 @@ public class MiniCurriculoRepositoryImpl implements MiniCurriculoRepository {
     }
 
     @Override
-    public Optional<Experiencia> findByExperienciaIdAndMinicurriculoId(Long experienciaId, Long miniCurriculoId) {
-        return Optional.of(entityManager.createQuery("select exp from tb09_experiencia exp " +
-                "where exp.id = ?1 and exp.curriculo.id = ?2", Experiencia.class)
+    public Experiencia findByExperienciaId(Long experienciaId) {
+        return entityManager.createQuery("select exp from tb09_experiencia exp " +
+                "where exp.id = ?1 ", Experiencia.class)
                 .setParameter(1, experienciaId)
-                .setParameter(2, miniCurriculoId)
-                .getSingleResult());
+                .getSingleResult();
     }
 
     @Override
-    public Optional<Formacao> findByFormacaoIdAndMinicurriculoId(Long formacaoId, Long miniCurriculoId) {
-        return Optional.of(entityManager.createQuery("select formacao from tb10_formacao formacao " +
-                "where formacao.id = ?1 and formacao.curriculo.id = ?2", Formacao.class)
+    public Formacao findByFormacaoId(Long formacaoId) {
+        return entityManager.createQuery("select formacao from tb10_formacao formacao " +
+                "where formacao.id = ?1 ", Formacao.class)
                 .setParameter(1, formacaoId)
-                .setParameter(2, miniCurriculoId)
-                .getSingleResult());
+                .getSingleResult();
     }
 
     @Override
-    public Optional<Projeto> findByProjetoIdAndMinicurriculoId(Long projetoId, Long miniCurriculoId) {
-        return Optional.of(entityManager.createQuery("select proj from tb11_projeto proj " +
-                "where proj.id = ?1 and proj.curriculo.id = ?2", Projeto.class)
+    public Projeto findByProjetoId(Long projetoId) {
+        return entityManager.createQuery("select proj from tb11_projeto proj " +
+                "where proj.id = ?1 ", Projeto.class)
                 .setParameter(1, projetoId)
-                .setParameter(2, miniCurriculoId)
-                .getSingleResult());
+                .getSingleResult();
+    }
+
+    @Override
+    public void saveMiniCurriculo(MiniCurriculo miniCurriculo) {
+        entityManager.persist(miniCurriculo);
+    }
+
+    @Override
+    public void updateMiniCurriculo(MiniCurriculo miniCurriculo) {
+        entityManager.merge(miniCurriculo);
+    }
+
+    @Override
+    public void deleteMiniCurriculo(MiniCurriculo miniCurriculo) {
+        entityManager.remove(miniCurriculo);
     }
 
     @Override
@@ -56,12 +68,12 @@ public class MiniCurriculoRepositoryImpl implements MiniCurriculoRepository {
     }
 
     @Override
-    public void updateExperienciaById(Experiencia experiencia) {
+    public void updateExperiencia(Experiencia experiencia) {
         entityManager.merge(experiencia);
     }
 
     @Override
-    public void deleteExperienciaById(Experiencia experiencia) {
+    public void deleteExperiencia(Experiencia experiencia) {
         entityManager.remove(experiencia);
     }
 
@@ -71,12 +83,12 @@ public class MiniCurriculoRepositoryImpl implements MiniCurriculoRepository {
     }
 
     @Override
-    public void updateProjetoById(Projeto projeto) {
+    public void updateProjeto(Projeto projeto) {
         entityManager.merge(projeto);
     }
 
     @Override
-    public void deleteProjetobyId(Projeto projeto) {
+    public void deleteProjeto(Projeto projeto) {
         entityManager.remove(projeto);
     }
 
@@ -86,12 +98,12 @@ public class MiniCurriculoRepositoryImpl implements MiniCurriculoRepository {
     }
 
     @Override
-    public void updateFormacaoById(Formacao formacao) {
+    public void updateFormacao(Formacao formacao) {
         entityManager.merge(formacao);
     }
 
     @Override
-    public void deleteFormacaoById(Formacao formacao) {
+    public void deleteFormacao(Formacao formacao) {
         entityManager.remove(formacao);
     }
 

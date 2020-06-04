@@ -13,29 +13,35 @@ public interface MiniCurriculoRepository {
 
     Optional <MiniCurriculo> findMinicurriculo(Long id);
 
-    Optional <Experiencia> findByExperienciaIdAndMinicurriculoId(Long experienciaId, Long miniCurriculoId);
+    Experiencia findByExperienciaId(Long experienciaId);
 
-    Optional <Formacao> findByFormacaoIdAndMinicurriculoId(Long formacaoId, Long miniCurriculoId);
+    Formacao findByFormacaoId(Long formacaoId);
 
-    Optional <Projeto> findByProjetoIdAndMinicurriculoId(Long projetoId, Long miniCurriculoId);
+    Projeto findByProjetoId(Long projetoId);
+
+    void saveMiniCurriculo(MiniCurriculo miniCurriculo);
+
+    void updateMiniCurriculo(MiniCurriculo miniCurriculo);
+
+    void deleteMiniCurriculo(MiniCurriculo miniCurriculo);
 
     void saveExperiencia(Experiencia experiencia);
 
-    void updateExperienciaById(Experiencia experiencia);
+    void updateExperiencia(Experiencia experiencia);
 
-    void deleteExperienciaById(Experiencia experiencia);
+    void deleteExperiencia(Experiencia experiencia);
 
     void saveProjeto(Projeto projeto);
 
-    void updateProjetoById(Projeto projeto);
+    void updateProjeto(Projeto projeto);
 
-    void deleteProjetobyId(Projeto projeto);
+    void deleteProjeto(Projeto projeto);
 
     void saveFormacao(Formacao formacao);
 
-    void updateFormacaoById(Formacao formacao);
+    void updateFormacao(Formacao formacao);
 
-    void deleteFormacaoById(Formacao formacao);
+    void deleteFormacao(Formacao formacao);
 
 
 }
