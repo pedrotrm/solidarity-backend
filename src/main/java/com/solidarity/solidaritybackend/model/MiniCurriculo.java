@@ -1,14 +1,13 @@
 package com.solidarity.solidaritybackend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity(name = "tb08_mini_curriculo")
 public class MiniCurriculo implements Serializable {
@@ -31,13 +30,13 @@ public class MiniCurriculo implements Serializable {
 
 
     @OneToMany(mappedBy = "curriculo" , targetEntity = Experiencia.class, cascade = CascadeType.ALL)
-    private List <Experiencia> experiencias = new ArrayList<>() ;
+    private Set<Experiencia> experiencias = new HashSet<>();
 
     @OneToMany(mappedBy = "curriculo", targetEntity = Formacao.class, cascade = CascadeType.ALL)
-    private List <Formacao> formacoes = new ArrayList<>();
+    private Set <Formacao> formacoes = new HashSet<>();
 
     @OneToMany(mappedBy = "curriculo", targetEntity = Projeto.class, cascade = CascadeType.ALL)
-    private List <Projeto> projetos = new ArrayList<>();
+    private Set <Projeto> projetos = new HashSet<>();
 
 
     public MiniCurriculo() {
@@ -75,27 +74,27 @@ public class MiniCurriculo implements Serializable {
         this.voluntario = voluntario;
     }
 
-    public List<Experiencia> getExperiencias() {
+    public Set<Experiencia> getExperiencias() {
         return experiencias;
     }
 
-    public void setExperiencias(List<Experiencia> experiencias) {
+    public void setExperiencias(Set<Experiencia> experiencias) {
         this.experiencias = experiencias;
     }
 
-    public List<Formacao> getFormacoes() {
+    public Set<Formacao> getFormacoes() {
         return formacoes;
     }
 
-    public void setFormacoes(List<Formacao> formacoes) {
+    public void setFormacoes(Set<Formacao> formacoes) {
         this.formacoes = formacoes;
     }
 
-    public List<Projeto> getProjetos() {
+    public Set<Projeto> getProjetos() {
         return projetos;
     }
 
-    public void setProjetos(List<Projeto> projetos) {
+    public void setProjetos(Set<Projeto> projetos) {
         this.projetos = projetos;
     }
 
