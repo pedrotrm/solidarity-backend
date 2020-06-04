@@ -1,12 +1,15 @@
 package com.solidarity.solidaritybackend.resources;
 
 
+import com.solidarity.solidaritybackend.dto.ExperienciaDTO;
 import com.solidarity.solidaritybackend.model.Experiencia;
 import com.solidarity.solidaritybackend.model.MiniCurriculo;
 import com.solidarity.solidaritybackend.services.MiniCurriculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "voluntarios/{id}/minicurriculos")
@@ -21,13 +24,14 @@ public class MiniCurriculoResource {
             return ResponseEntity.ok().body(obj);
         }
 
-        @GetMapping(value = "experiencias/{experienciaId}")
-        public ResponseEntity<Experiencia> updateExperiencia(@PathVariable("id") Long minicurriculoId,
-                                                             @PathVariable("experienciaId") Long experienciaId){
+        @RequestMapping(value = "experiencias/{experienciaId}",method = RequestMethod.PUT)
+        public ResponseEntity<Void> updateExperiencia(@PathVariable("experienciaId") Long experienciaId,
+                                                      @Valid @RequestBody ExperienciaDTO objDto){
 
-                    Experiencia obj = miniCurriculoService.getExperienciaById(experienciaId, minicurriculoId);
-
-            return ResponseEntity.ok().body(obj);
+            Experiencia obj = miniCurriculoService.fromExperienciaDTO(objDto);
+            obj.setId(experienciaId);
+            miniCurriculoService.updateExperiencia(obj);
+            return ResponseEntity.noContent().build();
         }
 
 
