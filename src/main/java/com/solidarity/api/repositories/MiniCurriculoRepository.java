@@ -1,10 +1,9 @@
-package com.solidarity.solidaritybackend.repositories;
+package com.solidarity.api.repositories;
 
-import com.solidarity.solidaritybackend.model.Experiencia;
-import com.solidarity.solidaritybackend.model.Formacao;
-import com.solidarity.solidaritybackend.model.MiniCurriculo;
-import com.solidarity.solidaritybackend.model.Projeto;
-import org.springframework.stereotype.Repository;
+import com.solidarity.api.model.Experiencia;
+import com.solidarity.api.model.Formacao;
+import com.solidarity.api.model.MiniCurriculo;
+import com.solidarity.api.model.Projeto;
 
 import java.util.Optional;
 
