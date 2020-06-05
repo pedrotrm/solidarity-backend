@@ -72,4 +72,10 @@ public class MiniCurriculoResource {
                 return ResponseEntity.noContent().build();
         }
 
+        @RequestMapping(value = "/formacoes/{formacaoId}", method = RequestMethod.DELETE)
+        public ResponseEntity<Void> deleteFormacao(@PathVariable("formacaoId") Long formacaoId){
+            miniCurriculoService.deleteFormacao(formacaoId);
+            return ResponseEntity.noContent().build();
+        }
+
 }
