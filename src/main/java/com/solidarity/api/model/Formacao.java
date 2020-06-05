@@ -43,14 +43,20 @@ public class Formacao implements Serializable {
     }
 
     public Formacao(Long id, String nomeInstituicao, String nomeCurso, LocalDate dataInicio, LocalDate dataFim, MiniCurriculo curriculo){
-
         this.id = id;
         this.nomeInstituicao = nomeInstituicao;
         this.nomeCurso = nomeCurso;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.curriculo = curriculo;
+    }
 
+    public Formacao(Long id, String nomeCurso, String nomeInstituicao, LocalDate dataInicio, LocalDate dataFim) {
+        this.id = id;
+        this.nomeCurso = nomeCurso;
+        this.nomeInstituicao = nomeInstituicao;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
     }
 
     public Long getId() {
