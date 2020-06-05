@@ -30,10 +30,10 @@ public class MiniCurriculoResource {
 
         @RequestMapping(value = "/experiencias", method = RequestMethod.POST)
         public ResponseEntity<Void> insertExperiencia(@PathVariable("id") Long id,
-                                                      @Valid @RequestBody Experiencia experiencia){
-            miniCurriculoService.createExperiencia(experiencia, id);
+                                                      @Valid @RequestBody Experiencia obj){
+            miniCurriculoService.createExperiencia(obj, id);
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                    .path("/{id}").buildAndExpand(experiencia.getId()).toUri();
+                    .path("/{id}").buildAndExpand(obj.getId()).toUri();
                 return ResponseEntity.created(uri).build();
         }
 
@@ -52,6 +52,15 @@ public class MiniCurriculoResource {
         public ResponseEntity<Void> deleteExperiencia(@PathVariable("experienciaId") Long experienciaId){
             miniCurriculoService.deleteExperiencia(experienciaId);
                 return ResponseEntity.noContent().build();
+        }
+
+        @RequestMapping(value = "/formacoes", method = RequestMethod.POST)
+        public ResponseEntity<Void> insertFormacao(@PathVariable("id") Long curriculoId,
+                                                   @Valid @RequestBody Formacao obj ){
+            miniCurriculoService.createFormacao(obj, curriculoId);
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}").buildAndExpand(obj.getId()).toUri();
+            return ResponseEntity.created(uri).build();
         }
 
         @RequestMapping(value = "/formacoes/{formacaoId}", method = RequestMethod.PUT)
