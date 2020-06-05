@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.PastOrPresent;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -20,14 +22,17 @@ public class Formacao implements Serializable {
     @Column(name = "tb10_id")
     private Long id;
 
+    @NotEmpty(message = "Preenchimento obrigatório")
     @Column(name= "tb10_nome_instituicao")
     private String nomeInstituicao;
 
+    @NotEmpty(message = "Preenchimento obrigatório")
     @Column(name = "tb10_nome_curso")
     private String nomeCurso;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Column(name = "tb10_data_inicio", columnDefinition = "DATE")
+    @PastOrPresent
     private LocalDate dataInicio;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
