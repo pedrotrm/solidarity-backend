@@ -53,6 +53,15 @@ public class MiniCurriculoService {
         repository.updateFormacao(newObj);
     }
 
+    @Transactional
+    public void createFormacao(Formacao obj, Long curriculoId){
+        obj.setId(null);
+        obj.setCurriculo(getById(curriculoId));
+        repository.saveFormacao(obj);
+    }
+
+
+
     public Experiencia fromExperienciaDTO(ExperienciaDTO objDto){
         return new Experiencia(objDto.getId(), objDto.getNomeEmpresa(),objDto.getDataEntrada(),objDto.getDataSaida(),objDto.getAtribuicoes());
     }
