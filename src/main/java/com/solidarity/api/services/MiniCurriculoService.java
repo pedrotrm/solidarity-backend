@@ -2,7 +2,9 @@ package com.solidarity.api.services;
 
 
 import com.solidarity.api.dto.ExperienciaDTO;
+import com.solidarity.api.dto.FormacaoDTO;
 import com.solidarity.api.model.Experiencia;
+import com.solidarity.api.model.Formacao;
 import com.solidarity.api.model.MiniCurriculo;
 import com.solidarity.api.repositories.MiniCurriculoRepository;
 import com.solidarity.api.services.exception.ObjectNotFoundException;
@@ -44,8 +46,19 @@ public class MiniCurriculoService {
         repository.deleteExperiencia(obj);
     }
 
+    @Transactional
+    public void updateFormacao(Formacao obj){
+        Formacao newObj = repository.findByFormacaoId(obj.getId());
+        updateDataFormacao(newObj, obj);
+        repository.updateFormacao(newObj);
+    }
+
     public Experiencia fromExperienciaDTO(ExperienciaDTO objDto){
         return new Experiencia(objDto.getId(), objDto.getNomeEmpresa(),objDto.getDataEntrada(),objDto.getDataSaida(),objDto.getAtribuicoes());
+    }
+
+    public Formacao fromFormacaoDTO(FormacaoDTO objDto){
+        return new Formacao(objDto.getId(), objDto.getNomeCurso(), objDto.getNomeInstituicao(), objDto.getDataInicio(), objDto.getDataFim());
     }
 
     private void updateDataExperiencia(Experiencia newObj, Experiencia obj){
@@ -55,4 +68,10 @@ public class MiniCurriculoService {
         newObj.setAtribuicoes(obj.getAtribuicoes());
     }
 
+    private void updateDataFormacao(Formacao newObj, Formacao obj){
+        newObj.setNomeCurso(obj.getNomeCurso());
+        newObj.setNomeInstituicao(obj.getNomeInstituicao());
+        newObj.setDataInicio(obj.getDataInicio());
+        newObj.setDataFim(obj.getDataFim());
+    }
 }
