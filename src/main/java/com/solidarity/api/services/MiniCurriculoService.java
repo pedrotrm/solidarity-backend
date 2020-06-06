@@ -84,6 +84,7 @@ public class MiniCurriculoService {
         repository.updateProjeto(newObj);
     }
 
+    @Transactional
     public void deleteProjeto(Long id){
         Projeto obj = repository.findByProjetoId(id);
         repository.deleteProjeto(obj);
