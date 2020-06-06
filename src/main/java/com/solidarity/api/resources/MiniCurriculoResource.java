@@ -3,9 +3,11 @@ package com.solidarity.api.resources;
 
 import com.solidarity.api.dto.ExperienciaDTO;
 import com.solidarity.api.dto.FormacaoDTO;
+import com.solidarity.api.dto.ProjetoDTO;
 import com.solidarity.api.model.Experiencia;
 import com.solidarity.api.model.Formacao;
 import com.solidarity.api.model.MiniCurriculo;
+import com.solidarity.api.model.Projeto;
 import com.solidarity.api.services.MiniCurriculoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +26,7 @@ public class MiniCurriculoResource {
     this.miniCurriculoService = miniCurriculoService;
      }
 
-@GetMapping
+    @GetMapping
     public ResponseEntity<MiniCurriculo> findById(@PathVariable("id") Long id){
         MiniCurriculo obj = miniCurriculoService.getById(id);
             return ResponseEntity.ok().body(obj);
@@ -77,6 +79,30 @@ public class MiniCurriculoResource {
     @RequestMapping(value = "/formacoes/{formacaoId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteFormacao(@PathVariable("formacaoId") Long formacaoId){
         miniCurriculoService.deleteFormacao(formacaoId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/projetos", method = RequestMethod.POST)
+    public ResponseEntity<Void> insertProjeto(@PathVariable("id") Long curriculoId,
+                                               @Valid @RequestBody Projeto obj ){
+        miniCurriculoService.createProjeto(obj, curriculoId);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
+    @RequestMapping(value = "/projetos/{projetoId}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> updateProjeto(@PathVariable("projetoId") Long projetoId,
+                                               @Valid @RequestBody ProjetoDTO objDto){
+        Projeto obj = miniCurriculoService.fromProjetoDTO(objDto);
+        obj.setId(projetoId);
+        miniCurriculoService.updateProjeto(obj);
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/projetos/{projetoId}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteProjeto(@PathVariable("projetoId") Long formacaoId){
+        miniCurriculoService.deleteProjeto(formacaoId);
         return ResponseEntity.noContent().build();
     }
 

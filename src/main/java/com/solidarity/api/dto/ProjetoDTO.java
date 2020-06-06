@@ -12,6 +12,9 @@ public class ProjetoDTO implements Serializable {
     private String nomeProjeto;
     private String descricao;
 
+    public ProjetoDTO() {
+    }
+
     public ProjetoDTO(Projeto obj) {
         this.nomeProjeto = obj.getNomeProjeto();
         this.descricao = obj.getDescricao();
