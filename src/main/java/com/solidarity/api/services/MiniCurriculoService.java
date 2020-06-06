@@ -17,8 +17,11 @@ import java.util.Optional;
 @Service
 public class MiniCurriculoService {
 
-    @Autowired
     private MiniCurriculoRepository repository;
+
+    public MiniCurriculoService(MiniCurriculoRepository repository) {
+        this.repository = repository;
+    }
 
     public MiniCurriculo getById(Long id){
         Optional<MiniCurriculo> obj = repository.findMinicurriculo(id);
