@@ -32,9 +32,11 @@ public class MiniCurriculo implements Serializable {
     @OneToMany(mappedBy = "curriculo" , targetEntity = Experiencia.class, cascade = CascadeType.ALL)
     private Set<Experiencia> experiencias = new HashSet<>();
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "curriculo", targetEntity = Formacao.class, cascade = CascadeType.ALL)
     private Set <Formacao> formacoes = new HashSet<>();
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "curriculo", targetEntity = Projeto.class, cascade = CascadeType.ALL)
     private Set <Projeto> projetos = new HashSet<>();
 
