@@ -22,11 +22,13 @@ import java.util.Optional;
 @Service
 public class EntidadeService {
 
-    @Autowired
     private EntidadeRepository repository;
-
-    @Autowired
     private EnderecoRepository enderecoRepository;
+
+    public EntidadeService(EntidadeRepository repository, EnderecoRepository enderecoRepository) {
+        this.repository = repository;
+        this.enderecoRepository = enderecoRepository;
+    }
 
     public List<Entidade> findAll() {
         return repository.findAll();
@@ -77,8 +79,8 @@ public class EntidadeService {
     public Entidade fromDTO(EntidadeDTO objDto) {
         Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
         Endereco end = new Endereco(null, objDto.getLogadouro(),objDto.getNumero(),objDto.getComplemento(),objDto.getBairro(),objDto.getCep(),cid);
-        Entidade entidade = new Entidade(objDto.getId(),objDto.getNome(), objDto.getEmail(),objDto.getCnpj(),Causa.valorDe(objDto.getCausa1()),Causa.valorDe(objDto.getCausa2()), objDto.getDescricao(), end);
-        return entidade;
+        return new Entidade(objDto.getId(),objDto.getNome(), objDto.getEmail(),objDto.getCnpj(),Causa.valorDe(objDto.getCausa1()),Causa.valorDe(objDto.getCausa2()), objDto.getDescricao(), end);
+
     }
 
     public Entidade fromDTO(EntidadeNewDTO objDto){
