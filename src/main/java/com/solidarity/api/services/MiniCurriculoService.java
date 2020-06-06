@@ -8,7 +8,6 @@ import com.solidarity.api.model.Formacao;
 import com.solidarity.api.model.MiniCurriculo;
 import com.solidarity.api.repositories.MiniCurriculoRepository;
 import com.solidarity.api.services.exception.ObjectNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

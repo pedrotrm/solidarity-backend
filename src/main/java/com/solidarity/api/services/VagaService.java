@@ -4,7 +4,7 @@ import com.solidarity.api.model.Entidade;
 import com.solidarity.api.model.Vaga;
 import com.solidarity.api.repositories.VagaRepository;
 import com.solidarity.api.services.exception.ObjectNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;

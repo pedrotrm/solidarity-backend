@@ -8,7 +8,6 @@ import com.solidarity.api.repositories.EnderecoRepository;
 import com.solidarity.api.repositories.EntidadeRepository;
 import com.solidarity.api.services.exception.DataIntegrityException;
 import com.solidarity.api.services.exception.ObjectNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

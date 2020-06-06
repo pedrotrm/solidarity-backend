@@ -3,7 +3,6 @@ package com.solidarity.api.resources;
 
 import com.solidarity.api.model.Vaga;
 import com.solidarity.api.services.VagaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +15,11 @@ import java.util.List;
 @RequestMapping(value ="/vagas")
 public class VagaResource {
 
-    @Autowired
     private VagaService service;
+
+    public VagaResource(VagaService service) {
+        this.service = service;
+    }
 
     @RequestMapping
     public ResponseEntity<List<Vaga>> findAll(){

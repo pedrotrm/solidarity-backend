@@ -20,10 +20,11 @@ import java.util.stream.Collectors;
 @RequestMapping(value ="/entidades")
 public class EntidadeResource {
 
-    @Autowired
     private EntidadeService service;
 
-
+    public EntidadeResource(EntidadeService service) {
+        this.service = service;
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Entidade> findById(@PathVariable Long id){

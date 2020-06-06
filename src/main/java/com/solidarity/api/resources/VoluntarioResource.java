@@ -5,7 +5,6 @@ import com.solidarity.api.dto.VoluntarioDTO;
 import com.solidarity.api.dto.VoluntarioNewDTO;
 import com.solidarity.api.model.Voluntario;
 import com.solidarity.api.services.VoluntarioService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +19,11 @@ import java.util.stream.Collectors;
 @RequestMapping(value ="/voluntarios")
 public class VoluntarioResource {
 
-    @Autowired
     private VoluntarioService service;
+
+    public VoluntarioResource(VoluntarioService service) {
+        this.service = service;
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Voluntario> findById(@PathVariable Long id){
