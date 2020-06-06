@@ -37,7 +37,6 @@ public class Projeto implements Serializable {
         this.nomeProjeto = nomeProjeto;
         this.descricao = descricao;
         this.curriculo = curriculo;
-
     }
 
     public Projeto(Long id, String nomeProjeto, String descricao) {
