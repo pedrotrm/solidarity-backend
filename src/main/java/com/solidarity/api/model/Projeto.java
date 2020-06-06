@@ -40,6 +40,12 @@ public class Projeto implements Serializable {
 
     }
 
+    public Projeto(Long id, String nomeProjeto, String descricao) {
+        this.id = id;
+        this.nomeProjeto = nomeProjeto;
+        this.descricao = descricao;
+    }
+
     public Long getId() {
         return id;
     }
