@@ -22,12 +22,14 @@ import java.util.Optional;
 @Service
 public class VoluntarioService {
 
-    @Autowired
-    private VoluntarioRepository repository;
 
-    @Autowired
+    private VoluntarioRepository repository;
     private EnderecoRepository enderecoRepository;
 
+    public VoluntarioService(VoluntarioRepository repository, EnderecoRepository enderecoRepository){
+        this.repository= repository;
+        this.enderecoRepository = enderecoRepository;
+    }
 
     public List<Voluntario> findAll() {
         return repository.findAll();
