@@ -13,8 +13,11 @@ import java.util.Optional;
 @Service
 public class VagaService {
 
-    @Autowired
     private VagaRepository repository;
+
+    public VagaService(VagaRepository repository) {
+        this.repository = repository;
+    }
 
     public List<Vaga> findAll() {
         return repository.findAll();
