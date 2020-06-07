@@ -39,7 +39,7 @@ public class Experiencia implements Serializable {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "curriculo_id")
+    @JoinColumn(name = "fktb09tb08_curriculo_id")
     private MiniCurriculo curriculo;
 
     public Experiencia() {
