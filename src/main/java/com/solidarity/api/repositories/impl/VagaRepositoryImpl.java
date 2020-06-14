@@ -3,13 +3,17 @@ package com.solidarity.api.repositories.impl;
 import com.solidarity.api.model.Vaga;
 import com.solidarity.api.model.VagaVoluntario;
 import com.solidarity.api.model.Voluntario;
+import com.solidarity.api.model.enums.TipoVaga;
 import com.solidarity.api.repositories.VagaRepository;
+import com.solidarity.api.services.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
+
 
 
 @Repository
@@ -19,82 +23,80 @@ public class VagaRepositoryImpl implements VagaRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Vaga> findAll() {
-        return entityManager.createQuery("select v from tb03_vaga v", Vaga.class)
+    public Optional<List<Vaga>> findAll() {
+        List<Vaga> list = entityManager.createQuery("select v.id ,v.nome,v.habilidade,v.causa1, v.causa2, v.habilidade, v.descricao, v.enderecoVaga from tb03_vaga v", Vaga.class)
                 .getResultList();
+        return list.isEmpty() ? Optional.empty() : Optional.of(list);
     }
+
+    // Corrigir o tratamento de exeção
 
     @Override
     public Optional<Vaga> findById(Long id) {
-        return Optional.of(entityManager.createQuery("select v from tb03_vaga v " +
-                "where v.id = ?1", Vaga.class)
-                .getSingleResult());
+            return Optional.of(entityManager.createQuery("select v from tb03_vaga v " +
+                    "where v.id = ?1", Vaga.class)
+                    .setParameter(1, id)
+                    .getSingleResult());
     }
 
     @Override
-    public List<Vaga> findByCausa(Integer causa) {
-        return entityManager.createQuery("select v from tb03_vaga v " +
+    public Optional<List<Vaga>> findByCausa(Integer causa) {
+         List<Vaga> list = entityManager.createQuery("select v from tb03_vaga v " +
                 "where v.causa1 = ?1 or v.causa2 = ?1", Vaga.class)
                 .setParameter(1, causa)
                 .getResultList();
+         return list.isEmpty() ? Optional.empty() :Optional.of(list);
     }
 
     @Override
-    public List<Vaga> findByHabilidade(Integer habilidade) {
-        return entityManager.createQuery("select v from tb03_vaga v " +
+    public Optional<List<Vaga>> findByHabilidade(Integer habilidade) {
+        List<Vaga> list = entityManager.createQuery("select v from tb03_vaga v " +
                 "where v.habilidade = ?1", Vaga.class)
                 .setParameter(1, habilidade)
                 .getResultList();
+        return list.isEmpty() ? Optional.empty() : Optional.of(list);
     }
 
     @Override
-    public List<Vaga> findByTipoVaga(Integer tipo) {
-        return entityManager.createQuery("select v from tb03_vaga v, tb04_vaga_voluntario vv " +
+    public Optional<List<Vaga>> findByTipoVaga(Integer tipo) {
+        List<Vaga> list = entityManager.createQuery("select distinct v from tb03_vaga v, tb04_vaga_voluntario vv " +
                 "where vv.tipoVaga = ?1", Vaga.class)
-                .setParameter(1, tipo)
+                .setParameter(1, TipoVaga.valorDe(tipo))
                 .getResultList();
+        return list.isEmpty() ? Optional.empty() : Optional.of(list);
     }
 
     @Override
-    public List<Vaga> findByNome(String busca) {
-        return entityManager.createQuery("select v from tb03_vaga v " +
+    public Optional<List<Vaga>> findByNome(String busca) {
+        List<Vaga> list =  entityManager.createQuery("select v from tb03_vaga v " +
                 "where v.nome like :nome", Vaga.class)
-                .setParameter("nome", busca)
+                .setParameter("nome","%"+busca+"%")
                 .getResultList();
-    }
-
-    @Override
-    public List<VagaVoluntario> listarVagasDoVoluntarioById(Long voluntarioId) {
-        return null;
-    }
-
-    @Override
-    public List<VagaVoluntario> listarVoluntariosDaVagaById(Long vagaId) {
-        return null;
+        return list.isEmpty() ? Optional.empty() : Optional.of(list);
     }
 
     @Override
     public void createVaga(Vaga vaga) {
-
+        entityManager.persist(vaga);
     }
 
     @Override
     public void updateVaga(Vaga vaga) {
-
+        entityManager.merge(vaga);
     }
 
     @Override
     public void deleteVaga(Vaga vaga) {
-
+        entityManager.remove(vaga);
     }
 
     @Override
-    public void participarVaga(Voluntario voluntario, Vaga vaga) {
-
+    public void participarVaga(VagaVoluntario vagaVoluntario) {
+        entityManager.persist(vagaVoluntario);
     }
 
     @Override
-    public void desistirVaga(Voluntario voluntario, Vaga vaga) {
-
+    public void desistirVaga(VagaVoluntario vagaVoluntario) {
+        entityManager.remove(vagaVoluntario);
     }
 }
