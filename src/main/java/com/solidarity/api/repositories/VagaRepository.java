@@ -6,24 +6,21 @@ import com.solidarity.api.model.Voluntario;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public interface VagaRepository  {
 
-    List<Vaga> findAll();
+    Optional <List<Vaga>> findAll();
 
     Optional<Vaga> findById(Long id);
 
-    List<Vaga> findByCausa(Integer causa);
+    Optional <List<Vaga>> findByCausa(Integer causa);
 
-    List<Vaga> findByHabilidade(Integer habilidade);
+    Optional <List<Vaga>> findByHabilidade(Integer habilidade);
 
-    List<Vaga> findByTipoVaga(Integer tipo);
+    Optional <List<Vaga>> findByTipoVaga(Integer tipo);
 
-    List<Vaga> findByNome(String busca);
-
-    List<VagaVoluntario> listarVagasDoVoluntarioById (Long voluntarioId);
-
-    List<VagaVoluntario> listarVoluntariosDaVagaById (Long vagaId);
+    Optional <List<Vaga>> findByNome(String busca);
 
     void createVaga(Vaga vaga);
 
@@ -31,9 +28,9 @@ public interface VagaRepository  {
 
     void deleteVaga(Vaga vaga);
 
-    void participarVaga(Voluntario voluntario, Vaga vaga);
+    void participarVaga(VagaVoluntario vagaVoluntario);
 
-    void desistirVaga(Voluntario voluntario, Vaga vaga);
+    void desistirVaga(VagaVoluntario vagaVoluntario);
 
 
 
