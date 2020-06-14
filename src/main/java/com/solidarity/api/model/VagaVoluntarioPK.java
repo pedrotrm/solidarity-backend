@@ -1,5 +1,7 @@
 package com.solidarity.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -10,6 +12,7 @@ import java.util.Objects;
 public class VagaVoluntarioPK implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
 
     @ManyToOne
     @JoinColumn(name = "fktb04tb03_vaga_id")
