@@ -1,5 +1,6 @@
 package com.solidarity.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.solidarity.api.model.enums.Causa;
 import com.solidarity.api.model.enums.Habilidade;
@@ -40,10 +41,13 @@ public class Vaga implements Serializable {
     @JoinColumn(name="fktb03tb07_endereco_vaga_id")
     private Endereco enderecoVaga;
 
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "fktb03tb02_entidade_id")
     private Entidade entidade;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id.vaga")
     private Set<VagaVoluntario> vagas = new HashSet<>();
 
