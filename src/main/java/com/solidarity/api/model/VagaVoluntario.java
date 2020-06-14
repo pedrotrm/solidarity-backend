@@ -1,5 +1,6 @@
 package com.solidarity.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.solidarity.api.model.enums.TipoVaga;
 
