@@ -27,7 +27,7 @@ public enum Causa {
     private int code;
     private String descricao;
 
-   private Causa(int code, String descricao) {
+   Causa(int code, String descricao) {
         this.code = code;
         this.descricao = descricao;
     }
