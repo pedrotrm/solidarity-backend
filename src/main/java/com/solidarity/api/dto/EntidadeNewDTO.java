@@ -185,4 +185,6 @@ public class EntidadeNewDTO implements Serializable {
         this.cidadeId = cidadeId;
     }
 
+    
+
 }

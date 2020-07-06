@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.solidarity.api.model.enums.Causa;
 import com.solidarity.api.model.enums.Habilidade;
+import com.solidarity.api.model.enums.TipoVaga;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -33,6 +35,18 @@ public class Vaga implements Serializable {
     @Column(name = "tb03_causa2")
     private Integer causa2;
 
+    @Column(name = "tb03_data_inicio", columnDefinition = "TIMESTAMP")
+    private Instant dataInicio;
+
+    @Column(name = "tb03_data_fim", columnDefinition = "TIMESTAMP")
+    private Instant dataFim;
+
+    @Column(name = "tb03_quantidade")
+    private Integer quantidade;
+
+    @Column(name = "tb03_tipo_vaga")
+    private TipoVaga tipoVaga;
+
     @Column(name = "tb03_habilidade")
     private Integer habilidade;
 
@@ -40,7 +54,6 @@ public class Vaga implements Serializable {
     @OneToOne
     @JoinColumn(name="fktb03tb07_endereco_vaga_id")
     private Endereco enderecoVaga;
-
 
     @JsonIgnore
     @ManyToOne
