@@ -24,19 +24,20 @@ public class VagaRepositoryImpl implements VagaRepository {
 
     @Override
     public Optional<List<Vaga>> findAll() {
-        List<Vaga> list = entityManager.createQuery("select v.id ,v.nome,v.habilidade,v.causa1, v.causa2, v.habilidade, v.descricao, v.enderecoVaga from tb03_vaga v", Vaga.class)
+        List<Vaga> list = entityManager.createQuery("select v from tb03_vaga v", Vaga.class)
                 .getResultList();
         return list.isEmpty() ? Optional.empty() : Optional.of(list);
     }
 
-    // Corrigir o tratamento de exeção
-
     @Override
     public Optional<Vaga> findById(Long id) {
-            return Optional.of(entityManager.createQuery("select v from tb03_vaga v " +
-                    "where v.id = ?1", Vaga.class)
-                    .setParameter(1, id)
-                    .getSingleResult());
+        return (entityManager.createQuery("select v from tb03_vaga v " +
+                "where v.id = ?1", Vaga.class)
+                .setParameter(1, id)
+                .setMaxResults(1)
+                .getResultList()
+                .stream()
+                .findFirst());
     }
 
     @Override
@@ -59,9 +60,9 @@ public class VagaRepositoryImpl implements VagaRepository {
 
     @Override
     public Optional<List<Vaga>> findByTipoVaga(Integer tipo) {
-        List<Vaga> list = entityManager.createQuery("select distinct v from tb03_vaga v, tb04_vaga_voluntario vv " +
-                "where vv.tipoVaga = ?1", Vaga.class)
-                .setParameter(1, TipoVaga.valorDe(tipo))
+        List<Vaga> list = entityManager.createQuery("select v from tb03_vaga v " +
+                "where v.tipoVaga = ?1 ", Vaga.class)
+                .setParameter(1, tipo)
                 .getResultList();
         return list.isEmpty() ? Optional.empty() : Optional.of(list);
     }
