@@ -2,7 +2,7 @@ package com.solidarity.api.model.enums;
 
 public enum Causa {
 
-    TERINAMENTO_PROFISSIONAL(1, "Treinamento Profissional"),
+    TREINAMENTO_PROFISSIONAL(1, "Treinamento Profissional"),
     COMBATE_POBREZA(2, "Combate à Pobreza"),
     CONSUMO_CONSIENTE(3, "Consumo consciente"),
     CULTURA_E_ARTE(4, "Cultura e Arte"),
