@@ -1,9 +1,6 @@
 package com.solidarity.api.repositories.impl;
 
-import com.solidarity.api.model.Experiencia;
-import com.solidarity.api.model.Formacao;
-import com.solidarity.api.model.MiniCurriculo;
-import com.solidarity.api.model.Projeto;
+import com.solidarity.api.model.*;
 import com.solidarity.api.repositories.MiniCurriculoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +17,13 @@ public class MiniCurriculoRepositoryImpl implements MiniCurriculoRepository {
 
     @Override
     public Optional<MiniCurriculo> findMinicurriculo(Long id) {
-        return Optional.of(entityManager.find(MiniCurriculo.class, id));
+        return entityManager.createQuery("select v from tb08_mini_curriculo v " +
+                "where v.id = ?1", MiniCurriculo.class)
+                .setParameter(1, id)
+                .setMaxResults(1)
+                .getResultList()
+                .stream()
+                .findFirst();
     }
 
     @Override
