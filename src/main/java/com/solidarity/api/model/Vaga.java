@@ -35,20 +35,20 @@ public class Vaga implements Serializable {
     @Column(name = "tb03_causa2")
     private Integer causa2;
 
+    @Column(name = "tb03_habilidade")
+    private Integer habilidade;
+
     @Column(name = "tb03_data_inicio", columnDefinition = "TIMESTAMP")
     private Instant dataInicio;
 
     @Column(name = "tb03_data_fim", columnDefinition = "TIMESTAMP")
     private Instant dataFim;
 
+    @Column(name = "tb03_tipo_vaga")
+    private Integer tipoVaga;
+
     @Column(name = "tb03_quantidade")
     private Integer quantidade;
-
-    @Column(name = "tb03_tipo_vaga")
-    private TipoVaga tipoVaga;
-
-    @Column(name = "tb03_habilidade")
-    private Integer habilidade;
 
     @JsonManagedReference
     @OneToOne
@@ -67,13 +67,17 @@ public class Vaga implements Serializable {
     public Vaga() {
     }
 
-    public Vaga(Long id, String nome, String descricao, Causa causa1, Causa causa2, Habilidade habilidade, Endereco enderecoVaga, Entidade entidade) {
+    public Vaga(Long id, String nome, String descricao, Integer causa1, Integer causa2, Integer habilidade, Instant dataInicio, Instant dataFim, Integer tipoVaga, Integer quantidade, Endereco enderecoVaga, Entidade entidade) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
-        setCausa1(causa1);
-        setCausa2(causa2);
-        setHabilidade(habilidade);
+        this.causa1 = causa1;
+        this.causa2 = causa2;
+        this.habilidade = habilidade;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.tipoVaga = tipoVaga;
+        this.quantidade = quantidade;
         this.enderecoVaga = enderecoVaga;
         this.entidade = entidade;
     }
@@ -120,7 +124,6 @@ public class Vaga implements Serializable {
             this.causa2 = causa2.getCode();
     }
 
-
     public Habilidade getHabilidade() {
         return Habilidade.valorDe(habilidade);
     }
@@ -128,6 +131,43 @@ public class Vaga implements Serializable {
     public void setHabilidade(Habilidade habilidade) {
         if (habilidade != null)
         this.habilidade = habilidade.getCode();
+    }
+
+    public void setHabilidade(Integer habilidade) {
+        this.habilidade = habilidade;
+    }
+
+    public Instant getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(Instant dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public Instant getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(Instant dataFim) {
+        this.dataFim = dataFim;
+    }
+
+    public TipoVaga getTipoVaga() {
+        return TipoVaga.valorDe(tipoVaga);
+    }
+
+    public void setTipoVaga(TipoVaga tipoVaga) {
+        if(tipoVaga != null)
+            this.tipoVaga = tipoVaga.getCode();
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
     }
 
     public Endereco getEnderecoVaga() {
