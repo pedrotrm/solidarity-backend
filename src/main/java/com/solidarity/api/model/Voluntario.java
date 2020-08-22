@@ -58,9 +58,6 @@ public class Voluntario implements Serializable {
         this.endereco = endereco;
     }
 
-    public Voluntario(Long id, String nome, String email, Causa causa1, Causa causa2, String logadouro, String numero, String complemento, String bairro, String cep) {
-    }
-
     @JsonIgnore
     public List<Vaga> getVagasInscritas(){
         List<Vaga> lista = new ArrayList<>();
