@@ -64,9 +64,6 @@ public class Entidade implements Serializable {
         this.endereco = endereco;
     }
 
-    public Entidade(Long id, String nome, String email,String cnpj, Causa causa1, Causa causa2, String logadouro, String numero, String complemento, String bairro, String cep) {
-    }
-
 
     public Long getId() {
         return id;
