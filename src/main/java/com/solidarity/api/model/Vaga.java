@@ -1,7 +1,9 @@
 package com.solidarity.api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.solidarity.api.dto.VagaDTO;
 import com.solidarity.api.model.enums.Causa;
 import com.solidarity.api.model.enums.Habilidade;
 import com.solidarity.api.model.enums.TipoVaga;
@@ -42,6 +44,7 @@ public class Vaga implements Serializable {
     private Instant dataInicio;
 
     @Column(name = "tb03_data_fim", columnDefinition = "TIMESTAMP")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant dataFim;
 
     @Column(name = "tb03_tipo_vaga")
@@ -131,10 +134,6 @@ public class Vaga implements Serializable {
     public void setHabilidade(Habilidade habilidade) {
         if (habilidade != null)
         this.habilidade = habilidade.getCode();
-    }
-
-    public void setHabilidade(Integer habilidade) {
-        this.habilidade = habilidade;
     }
 
     public Instant getDataInicio() {
