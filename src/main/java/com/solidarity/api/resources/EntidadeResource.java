@@ -3,9 +3,10 @@ package com.solidarity.api.resources;
 
 import com.solidarity.api.dto.EntidadeDTO;
 import com.solidarity.api.dto.EntidadeNewDTO;
+import com.solidarity.api.dto.VagaDTO;
 import com.solidarity.api.model.Entidade;
+import com.solidarity.api.model.Vaga;
 import com.solidarity.api.services.EntidadeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class EntidadeResource {
     }
 
 
-    @RequestMapping(method= RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<Void> insert(@Valid @RequestBody EntidadeNewDTO objDto) {
         Entidade obj = service.fromDTO(objDto);
         obj = service.insert(obj);
@@ -42,7 +43,7 @@ public class EntidadeResource {
         return ResponseEntity.created(uri).build();
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.PUT)
+    @PutMapping(value="/{id}")
     public ResponseEntity<Void> update(@Valid @RequestBody EntidadeDTO objDto, @PathVariable Long id) {
         Entidade obj = service.fromDTO(objDto);
         obj.setId(id);
@@ -50,28 +51,47 @@ public class EntidadeResource {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    @DeleteMapping(value="/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(method= RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<List<EntidadeDTO>> findAll() {
         List<Entidade> list = service.findAll();
-        List<EntidadeDTO> listDto = list.stream().map(obj -> new EntidadeDTO(obj)).collect(Collectors.toList());
+        List<EntidadeDTO> listDto = list.stream()
+                .map(EntidadeDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
 
+    @PostMapping(value = "/vagas")
+    public ResponseEntity<Void> createVaga( @RequestBody VagaDTO objDto){
+        Vaga vaga = service.fromVagaDTO(objDto);
+        service.createVaga(vaga);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(vaga.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
 
-    @RequestMapping(value="/page", method=RequestMethod.GET)
+
+    @PutMapping(value = "/vagas/{vagaId}")
+    public ResponseEntity<Void> updateVaga(@PathVariable Long vagaId, @RequestBody VagaDTO objDto){
+        Vaga vaga = service.fromVagaDTO(objDto);
+        vaga.setId(vagaId);
+        service.updateVaga(vaga);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping(value="/page")
     public ResponseEntity<Page<EntidadeDTO>> findPage(
             @RequestParam(value="page", defaultValue="0") Integer page,
             @RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
             @RequestParam(value="orderBy", defaultValue="nome") String orderBy,
             @RequestParam(value="direction", defaultValue="ASC") String direction) {
         Page<Entidade> list = service.findPage(page, linesPerPage, orderBy, direction);
-        Page<EntidadeDTO> listDto = list.map(obj -> new EntidadeDTO(obj));
+        Page<EntidadeDTO> listDto = list.map(EntidadeDTO::new);
         return ResponseEntity.ok().body(listDto);
     }
 
