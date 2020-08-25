@@ -2,10 +2,13 @@ package com.solidarity.api.services;
 
 import com.solidarity.api.dto.EntidadeDTO;
 import com.solidarity.api.dto.EntidadeNewDTO;
+import com.solidarity.api.dto.VagaDTO;
 import com.solidarity.api.model.*;
 import com.solidarity.api.model.enums.Causa;
+import com.solidarity.api.repositories.CidadeRepository;
 import com.solidarity.api.repositories.EnderecoRepository;
 import com.solidarity.api.repositories.EntidadeRepository;
+import com.solidarity.api.repositories.VagaRepository;
 import com.solidarity.api.services.exception.DataIntegrityException;
 import com.solidarity.api.services.exception.ObjectNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,12 +24,16 @@ import java.util.Optional;
 @Service
 public class EntidadeService {
 
-    private EntidadeRepository repository;
-    private EnderecoRepository enderecoRepository;
+    private final EntidadeRepository repository;
+    private final EnderecoRepository enderecoRepository;
+    private final VagaRepository vagaRepository;
+    private final CidadeRepository cidadeRepository;
 
-    public EntidadeService(EntidadeRepository repository, EnderecoRepository enderecoRepository) {
+    public EntidadeService(EntidadeRepository repository, EnderecoRepository enderecoRepository, VagaRepository vagaRepository, CidadeRepository cidadeRepository) {
         this.repository = repository;
         this.enderecoRepository = enderecoRepository;
+        this.vagaRepository = vagaRepository;
+        this.cidadeRepository = cidadeRepository;
     }
 
     public List<Entidade> findAll() {
@@ -39,6 +46,12 @@ public class EntidadeService {
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Entidade.class.getName()));
     }
 
+    public Vaga findVagaById(Long id){
+        Optional<Vaga> obj = vagaRepository.findById(id);
+        return obj.orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Id: " + id + ", Tipo: " + Vaga.class.getName()));
+    }
+
     @Transactional
     public Entidade insert(Entidade obj) {
         obj.setId(null);
@@ -46,7 +59,6 @@ public class EntidadeService {
         enderecoRepository.save(obj.getEndereco());
         return obj;
     }
-
 
     @Transactional
     public Entidade update(Entidade obj) {
@@ -57,6 +69,21 @@ public class EntidadeService {
         return newObj;
     }
 
+    @Transactional
+    public void createVaga(Vaga vaga){
+        vaga.setId(null);
+        vagaRepository.createVaga(vaga);
+        enderecoRepository.save(vaga.getEnderecoVaga());
+    }
+
+    @Transactional
+    public void updateVaga(Vaga obj){
+        Vaga newObj = findVagaById(obj.getId());
+        Endereco endereco = enderecoRepository.findById(newObj.getEnderecoVaga().getId()).orElseThrow();
+        updateVaga(newObj, obj, endereco);
+        vagaRepository.updateVaga(newObj);
+        enderecoRepository.save(endereco);
+    }
 
     public void delete(Long id) {
         findById(id);
@@ -68,12 +95,10 @@ public class EntidadeService {
         }
     }
 
-
     public Page<Entidade> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return repository.findAll(pageRequest);
     }
-
 
     public Entidade fromDTO(EntidadeDTO objDto) {
         Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
@@ -96,13 +121,39 @@ public class EntidadeService {
         return entidade;
     }
 
-    private  void updateData(Entidade newObj, Entidade obj){
+    public Vaga fromVagaDTO(VagaDTO objDto){
+        Cidade cidade = cidadeRepository.findById((objDto.getCidadeId())).orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Id: " + objDto.getCidadeId() + ", Tipo: " + Cidade.class.getName()));
+        Endereco endereco = new Endereco(null, objDto.getLogadouro(), objDto.getNumero(), objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cidade);
+        Entidade entidade = findById(objDto.getEntidadeId());
+        return new Vaga(null, objDto.getNome(), objDto.getDescricao(), objDto.getCausa1().getCode(), objDto.getCausa2().getCode(), objDto.getHabilidade().getCode(), objDto.getDataInicio(), objDto.getDataFim(),objDto.getTipoVaga().getCode(), objDto.getQuantidade(), endereco, entidade);
+    }
+
+    private void updateData(Entidade newObj, Entidade obj){
         newObj.setNome(obj.getNome());
         newObj.setEmail(obj.getEmail());
         newObj.setCnpj(obj.getCnpj());
         newObj.setCausa1(obj.getCausa1());
         newObj.setCausa2(obj.getCausa2());
         newObj.setEndereco(obj.getEndereco());
+    }
+
+    private void updateVaga(Vaga newObj, Vaga obj, Endereco objEndereco) {
+        newObj.setNome(obj.getNome());
+        newObj.setDescricao(obj.getDescricao());
+        newObj.setCausa1(obj.getCausa1());
+        newObj.setCausa1(obj.getCausa2());
+        newObj.setHabilidade(obj.getHabilidade());
+        newObj.setDataInicio(obj.getDataInicio());
+        newObj.setDataFim(obj.getDataFim());
+        newObj.setTipoVaga(obj.getTipoVaga());
+        newObj.setQuantidade(obj.getQuantidade());
+        objEndereco.setLogadouro(obj.getEnderecoVaga().getLogadouro());
+        objEndereco.setNumero(obj.getEnderecoVaga().getNumero());
+        objEndereco.setBairro(obj.getEnderecoVaga().getBairro());
+        objEndereco.setCep(obj.getEnderecoVaga().getCep());
+        objEndereco.setComplemento(obj.getEnderecoVaga().getComplemento());
+        objEndereco.setCidade(obj.getEnderecoVaga().getCidade());
     }
 
 }
