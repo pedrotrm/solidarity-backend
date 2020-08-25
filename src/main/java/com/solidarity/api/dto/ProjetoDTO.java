@@ -6,8 +6,6 @@ import java.io.Serializable;
 
 public class ProjetoDTO implements Serializable {
 
-    public static final long serialVersionUID = 1L;
-
     private Long id;
     private String nomeProjeto;
     private String descricao;
