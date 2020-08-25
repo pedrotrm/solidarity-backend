@@ -13,8 +13,6 @@ import java.io.Serializable;
 @EntidadeUpdate
 public class EntidadeDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     private Long id;
 
 
