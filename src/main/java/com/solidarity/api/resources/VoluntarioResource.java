@@ -3,6 +3,7 @@ package com.solidarity.api.resources;
 
 import com.solidarity.api.dto.VoluntarioDTO;
 import com.solidarity.api.dto.VoluntarioNewDTO;
+import com.solidarity.api.model.Vaga;
 import com.solidarity.api.model.Voluntario;
 import com.solidarity.api.services.VoluntarioService;
 import org.springframework.data.domain.Page;
@@ -31,7 +32,7 @@ public class VoluntarioResource {
         return ResponseEntity.ok().body(obj);
     }
 
-    @RequestMapping(method=RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<Void> insert(@Valid @RequestBody VoluntarioNewDTO objDto) {
         Voluntario obj = service.fromDTO(objDto);
         obj = service.insert(obj);
@@ -40,7 +41,7 @@ public class VoluntarioResource {
         return ResponseEntity.created(uri).build();
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.PUT)
+    @PutMapping(value="/{id}")
     public ResponseEntity<Void> update(@Valid @RequestBody VoluntarioDTO objDto, @PathVariable Long id) {
         Voluntario obj = service.fromDTO(objDto);
         obj.setId(id);
@@ -48,25 +49,34 @@ public class VoluntarioResource {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    @DeleteMapping(value="/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping(value = "/vagas/{vagaId}")
-    public ResponseEntity<Void> participarVaga(Long vagaId){
-        return null;
+    @PutMapping(value = "/{voluntarioId}/vagas/{vagaId}")
+    public ResponseEntity<Void> participarVaga(@PathVariable("voluntarioId") Long voluntarioId,@PathVariable("vagaId") Long vagaId){
+        Vaga vaga = service.findVagaById(vagaId);
+        Voluntario voluntario = service.findById(voluntarioId);
+        service.participarVaga(vaga, voluntario);
+        return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(method= RequestMethod.GET)
+    @DeleteMapping(value = "/{voluntarioId}/vagas/{vagaId}")
+    public ResponseEntity<Void> dessistirVaga(@PathVariable("voluntarioId") Long voluntarioId,@PathVariable("vagaId") Long vagaId){
+        service.dessistirVaga(voluntarioId, vagaId);
+        return ResponseEntity.noContent().build();
+    }
+
+   @GetMapping
     public ResponseEntity<List<VoluntarioDTO>> findAll() {
         List<Voluntario> list = service.findAll();
         List<VoluntarioDTO> listDto = list.stream().map(VoluntarioDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
 
-    @RequestMapping(value="/page", method=RequestMethod.GET)
+    @GetMapping(value = "/page")
     public ResponseEntity<Page<VoluntarioDTO>> findPage(
             @RequestParam(value="page", defaultValue="0") Integer page,
             @RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
