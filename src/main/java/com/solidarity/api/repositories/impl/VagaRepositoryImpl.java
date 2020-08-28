@@ -77,6 +77,18 @@ public class VagaRepositoryImpl implements VagaRepository {
     }
 
     @Override
+    public Optional<VagaVoluntario> findVagaVoluntarioByVoluntarioId(Long voluntarioId, Long vagaId){
+        return (entityManager.createQuery("select v from tb04_vaga_voluntario v " +
+                "where v.id.voluntario.id = ?1 and v.id.vaga.id = ?2 ", VagaVoluntario.class)
+                .setParameter(1, voluntarioId)
+                .setParameter(2, vagaId)
+                .setMaxResults(1)
+                .getResultList()
+                .stream()
+                .findFirst());
+    }
+
+    @Override
     public void createVaga(Vaga vaga) {
         entityManager.persist(vaga);
     }
