@@ -1,6 +1,7 @@
 package com.solidarity.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.solidarity.api.model.Vaga;
 import com.solidarity.api.model.enums.Causa;
 import com.solidarity.api.model.enums.Habilidade;
 import com.solidarity.api.model.enums.TipoVaga;
@@ -68,6 +69,24 @@ public class VagaDTO implements Serializable {
     public VagaDTO() {
     }
 
+    public VagaDTO(Vaga vaga) {
+        this.id  = vaga.getId();
+        this.nome = vaga.getNome();
+        this.descricao = vaga.getDescricao();
+        this.causa1 = vaga.getCausa1().getCode();
+        this.causa2 = vaga.getCausa2().getCode();
+        this.habilidade = vaga.getHabilidade().getCode();
+        this.dataInicio = vaga.getDataInicio();
+        this.dataFim = vaga.getDataFim();
+        this.tipoVaga = vaga.getTipoVaga().getCode();
+        this.quantidade = vaga.getQuantidade();
+        this.logadouro = vaga.getEnderecoVaga().getLogadouro();
+        this.numero = vaga.getEnderecoVaga().getNumero();
+        this.complemento = vaga.getEnderecoVaga().getComplemento();
+        this.bairro = vaga.getEnderecoVaga().getBairro();
+        this.cep =vaga.getEnderecoVaga().getCep();
+        this.cidadeId = vaga.getEnderecoVaga().getCidade().getId();
+    }
 
     public Long getId() {
         return id;
