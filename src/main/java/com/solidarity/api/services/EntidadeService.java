@@ -62,6 +62,14 @@ public class EntidadeService {
                 .collect(Collectors.toUnmodifiableSet());
     }
 
+    public Set<VagaDTO> findAllVagas(Long entidadeId){
+        List<Vaga> obj = vagaRepository.findAllVagasByEntidadeId(entidadeId).orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Tipo: " + Vaga.class.getName()));
+        return obj.stream()
+                .map(VagaDTO::new)
+                .collect(Collectors.toSet());
+    }
+
     @Transactional
     public Entidade insert(Entidade obj) {
         obj.setId(null);
