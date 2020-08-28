@@ -54,10 +54,15 @@ public class VoluntarioResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping(value = "/vagas/{vagaId}")
+    public ResponseEntity<Void> participarVaga(Long vagaId){
+        return null;
+    }
+
     @RequestMapping(method= RequestMethod.GET)
     public ResponseEntity<List<VoluntarioDTO>> findAll() {
         List<Voluntario> list = service.findAll();
-        List<VoluntarioDTO> listDto = list.stream().map(obj -> new VoluntarioDTO(obj)).collect(Collectors.toList());
+        List<VoluntarioDTO> listDto = list.stream().map(VoluntarioDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
 
@@ -68,7 +73,7 @@ public class VoluntarioResource {
             @RequestParam(value="orderBy", defaultValue="nome") String orderBy,
             @RequestParam(value="direction", defaultValue="ASC") String direction) {
         Page<Voluntario> list = service.findPage(page, linesPerPage, orderBy, direction);
-        Page<VoluntarioDTO> listDto = list.map(obj -> new VoluntarioDTO(obj));
+        Page<VoluntarioDTO> listDto = list.map(VoluntarioDTO::new);
         return ResponseEntity.ok().body(listDto);
     }
 
