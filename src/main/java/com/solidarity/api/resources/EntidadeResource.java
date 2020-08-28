@@ -4,8 +4,10 @@ package com.solidarity.api.resources;
 import com.solidarity.api.dto.EntidadeDTO;
 import com.solidarity.api.dto.EntidadeNewDTO;
 import com.solidarity.api.dto.VagaDTO;
+import com.solidarity.api.dto.VoluntarioDTO;
 import com.solidarity.api.model.Entidade;
 import com.solidarity.api.model.Vaga;
+import com.solidarity.api.model.VagaVoluntario;
 import com.solidarity.api.services.EntidadeService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -81,6 +84,12 @@ public class EntidadeResource {
         vaga.setId(vagaId);
         service.updateVaga(vaga);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/vagas/{vagaId}")
+    public ResponseEntity<Set<VoluntarioDTO>> listVagaVoluntario(@PathVariable Long vagaId){
+        Set<VoluntarioDTO> voluntarios = service.findVagaVoluntarios(vagaId);
+        return ResponseEntity.ok().body(voluntarios);
     }
 
 
