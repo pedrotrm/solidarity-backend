@@ -22,6 +22,8 @@ public interface VagaRepository  {
 
     Optional <List<Vaga>> findByNome(String busca);
 
+    Optional <VagaVoluntario> findVagaVoluntarioByVoluntarioId(Long voluntarioId, Long vagaId);
+
     void createVaga(Vaga vaga);
 
     void updateVaga(Vaga vaga);
