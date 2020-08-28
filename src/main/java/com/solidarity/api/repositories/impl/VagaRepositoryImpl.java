@@ -77,6 +77,15 @@ public class VagaRepositoryImpl implements VagaRepository {
     }
 
     @Override
+    public Optional<List<Vaga>> findAllVagasByEntidadeId(Long entidadeId) {
+        List<Vaga> list = entityManager.createQuery("select v from tb03_vaga v " +
+                "where v.entidade.id = ?1", Vaga.class)
+                .setParameter(1, entidadeId)
+                .getResultList();
+        return list.isEmpty() ? Optional.empty() :Optional.of(list);
+    }
+
+    @Override
     public Optional<VagaVoluntario> findVagaVoluntarioByVoluntarioId(Long voluntarioId, Long vagaId){
         return (entityManager.createQuery("select v from tb04_vaga_voluntario v " +
                 "where v.id.voluntario.id = ?1 and v.id.vaga.id = ?2 ", VagaVoluntario.class)
