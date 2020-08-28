@@ -3,6 +3,7 @@ package com.solidarity.api.services;
 import com.solidarity.api.dto.EntidadeDTO;
 import com.solidarity.api.dto.EntidadeNewDTO;
 import com.solidarity.api.dto.VagaDTO;
+import com.solidarity.api.dto.VoluntarioDTO;
 import com.solidarity.api.model.*;
 import com.solidarity.api.model.enums.Causa;
 import com.solidarity.api.repositories.CidadeRepository;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EntidadeService {
@@ -50,6 +53,13 @@ public class EntidadeService {
         Optional<Vaga> obj = vagaRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Vaga.class.getName()));
+    }
+
+    public Set<VoluntarioDTO> findVagaVoluntarios(Long vagaId) {
+        Vaga vaga = findVagaById(vagaId);
+        return vaga.getVagas().stream()
+                .map(x -> new VoluntarioDTO(x.getVoluntario()))
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     @Transactional
@@ -155,5 +165,6 @@ public class EntidadeService {
         objEndereco.setComplemento(obj.getEnderecoVaga().getComplemento());
         objEndereco.setCidade(obj.getEnderecoVaga().getCidade());
     }
+
 
 }
