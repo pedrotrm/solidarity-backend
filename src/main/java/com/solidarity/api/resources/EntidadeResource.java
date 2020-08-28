@@ -86,6 +86,12 @@ public class EntidadeResource {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping(value = "{entidadeId}/vagas")
+    public ResponseEntity<Set<VagaDTO>> findAllVagas(@PathVariable Long entidadeId){
+        Set<VagaDTO> result = service.findAllVagas(entidadeId);
+        return ResponseEntity.ok().body(result);
+    }
+
     @GetMapping(value = "/vagas/{vagaId}")
     public ResponseEntity<Set<VoluntarioDTO>> listVagaVoluntario(@PathVariable Long vagaId){
         Set<VoluntarioDTO> voluntarios = service.findVagaVoluntarios(vagaId);
