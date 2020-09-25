@@ -38,12 +38,18 @@ public class Voluntario implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "voluntario")
     private MiniCurriculo miniCurriculo;
 
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fkqg01qg12_cod_usuario")
+    private Usuario usuario;
+
     @ElementCollection
     private Set<String> telefones = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "id.voluntario")
     private Set<VagaVoluntario> vagas = new HashSet<>();
+
 
 
     public Voluntario() {
@@ -123,6 +129,14 @@ public class Voluntario implements Serializable {
 
     public void setMiniCurriculo(MiniCurriculo miniCurriculo) {
         this.miniCurriculo = miniCurriculo;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Set<String> getTelefones() {
