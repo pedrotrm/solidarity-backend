@@ -1,6 +1,7 @@
 package com.solidarity.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.solidarity.api.model.enums.Causa;
 
 import javax.persistence.*;
@@ -35,13 +36,17 @@ public class Entidade implements Serializable {
     @Column(name = "tb02_causa2")
     private Integer causa2;
 
-
     @Column(name = "tb02_numero_beneficiarios")
     private Integer numeroBeneficiarios;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "fktb02tb07_endereco_id")
     private Endereco endereco;
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fktb02tb12_cod_usuario")
+    private Usuario usuario;
 
     @JsonBackReference
     @OneToMany(mappedBy = "entidade", targetEntity = Vaga.class, cascade = CascadeType.ALL)
@@ -111,6 +116,14 @@ public class Entidade implements Serializable {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Causa getCausa1() {
