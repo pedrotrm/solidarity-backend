@@ -8,11 +8,12 @@
 		<version>2.2.4.RELEASE</version>
 		<relativePath/>
 	</parent>
+
 	<groupId>com.solidarity</groupId>
-	<artifactId>solidarity_backend</artifactId>
+	<artifactId>solidarity-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>solidarity_backend</name>
-	<description>Demo project for Spring Boot</description>
+	<name>solidarity+backend</name>
+	<description>API plataforma para voluntarios</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -44,6 +45,17 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security.oauth.boot</groupId>
+			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
+			<version>2.1.2.RELEASE</version>
 		</dependency>
 
 		<dependency>
