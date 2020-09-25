@@ -1,4 +1,4 @@
-package com.solidarity.api.security;
+package com.solidarity.api.security.util;
 
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
