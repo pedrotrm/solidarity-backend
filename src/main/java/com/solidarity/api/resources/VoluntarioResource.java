@@ -8,6 +8,7 @@ import com.solidarity.api.model.Voluntario;
 import com.solidarity.api.services.VoluntarioService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,6 +28,7 @@ public class VoluntarioResource {
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_PESQUISAR_VOLUNTARIO')")
     public ResponseEntity<Voluntario> findById(@PathVariable Long id){
         Voluntario obj =  service.findById(id);
         return ResponseEntity.ok().body(obj);
