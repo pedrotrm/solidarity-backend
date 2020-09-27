@@ -36,6 +36,8 @@ public class EntidadeNewDTO implements Serializable {
     @NotNull(message = "Preenchimento obrigatório")
     private Integer causa2;
 
+    private String fotoPerfil;
+
     @NotEmpty(message = "Preenchimento obrigatório")
     private String logadouro;
 
@@ -104,6 +106,14 @@ public class EntidadeNewDTO implements Serializable {
 
     public void setCausa2(Integer causa2) {
         this.causa2 = causa2;
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     public String getCnpj() {
