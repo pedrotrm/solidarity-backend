@@ -29,6 +29,8 @@ public class VagaDTO implements Serializable {
     @NotNull(message = "Preenchimento obrigatório")
     private Integer causa2;
 
+    private String fotoPerfil;
+
     @NotNull(message = "Preenchimento obrigatório")
     private Integer habilidade;
 
@@ -208,6 +210,14 @@ public class VagaDTO implements Serializable {
     public void setCausa2 (Causa causa2) {
         if(causa2 != null)
             this.causa2 = causa2.getCode();
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     public Habilidade getHabilidade() {

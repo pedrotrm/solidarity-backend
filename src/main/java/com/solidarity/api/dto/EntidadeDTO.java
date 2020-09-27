@@ -15,7 +15,6 @@ public class EntidadeDTO implements Serializable {
 
     private Long id;
 
-
     @Length(min = 5 ,max = 120, message = "O tamanho deve ser entre 5 e 200 caracteres")
     private String nome;
 
@@ -28,6 +27,7 @@ public class EntidadeDTO implements Serializable {
 
     private Integer causa1;
     private Integer causa2;
+    private String fotoPeril;
     private String descricao;
     private String logadouro;
     private String numero;
@@ -99,16 +99,24 @@ public class EntidadeDTO implements Serializable {
         return causa2;
     }
 
+    public void setCausa2(Integer causa2) {
+        this.causa2 = causa2;
+    }
+
+    public String getFotoPeril() {
+        return fotoPeril;
+    }
+
+    public void setFotoPeril(String fotoPeril) {
+        this.fotoPeril = fotoPeril;
+    }
+
     public String getDescricao() {
         return descricao;
     }
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public void setCausa2(Integer causa2) {
-        this.causa2 = causa2;
     }
 
     public String getLogadouro() {

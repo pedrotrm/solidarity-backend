@@ -36,6 +36,9 @@ public class Entidade implements Serializable {
     @Column(name = "tb02_causa2")
     private Integer causa2;
 
+    @Column(name = "tb02_foto_perfil_url")
+    private String fotoPerfil;
+
     @Column(name = "tb02_numero_beneficiarios")
     private Integer numeroBeneficiarios;
 
@@ -142,6 +145,14 @@ public class Entidade implements Serializable {
     public void setCausa2 (Causa causa2) {
         if(causa2 != null)
             this.causa2 = causa2.getCode();
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     public Integer getNumeroBeneficiarios() {

@@ -37,6 +37,9 @@ public class Vaga implements Serializable {
     @Column(name = "tb03_causa2")
     private Integer causa2;
 
+    @Column(name = "tb03_foto_perfil_url")
+    private String fotoPerfil;
+
     @Column(name = "tb03_habilidade")
     private Integer habilidade;
 
@@ -125,6 +128,14 @@ public class Vaga implements Serializable {
     public void setCausa2 (Causa causa2) {
         if(causa2 != null)
             this.causa2 = causa2.getCode();
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     public Habilidade getHabilidade() {

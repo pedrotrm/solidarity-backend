@@ -30,6 +30,9 @@ public class Voluntario implements Serializable {
     @Column(name = "tb01_causa2")
     private Integer causa2;
 
+    @Column(name = "tb01_foto_perfil_url")
+    private String fotoPerfil;
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "fktb01tb07_endereco_id")
     private Endereco endereco;
@@ -53,6 +56,16 @@ public class Voluntario implements Serializable {
 
 
     public Voluntario() {
+    }
+
+    public Voluntario(Long id, String nome,String email, Causa causa1, Causa causa2, Endereco endereco, Usuario usuario) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.causa1 = causa1.getCode();
+        this.causa2 = causa2.getCode();
+        this.endereco = endereco;
+        this.usuario = usuario;
     }
 
     public Voluntario(Long id, String nome,String email, Causa causa1, Causa causa2, Endereco endereco) {
@@ -113,6 +126,14 @@ public class Voluntario implements Serializable {
     public void setCausa2 (Causa causa2) {
         if(causa2 != null)
             this.causa2 = causa2.getCode();
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     public Endereco getEndereco() {

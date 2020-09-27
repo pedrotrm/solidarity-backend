@@ -5,6 +5,7 @@ import com.solidarity.api.dto.VoluntarioNewDTO;
 import com.solidarity.api.model.*;
 import com.solidarity.api.model.enums.Causa;
 import com.solidarity.api.repositories.EnderecoRepository;
+import com.solidarity.api.repositories.UsuarioRepository;
 import com.solidarity.api.repositories.VagaRepository;
 import com.solidarity.api.repositories.VoluntarioRepository;
 import com.solidarity.api.services.exception.DataIntegrityException;
@@ -13,9 +14,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,11 +31,22 @@ public class VoluntarioService {
     private final VoluntarioRepository repository;
     private final EnderecoRepository enderecoRepository;
     private final VagaRepository vagaRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
+    private final S3Service s3Service;
 
-    public VoluntarioService(VoluntarioRepository repository, EnderecoRepository enderecoRepository, VagaRepository vagaRepository) {
+    public VoluntarioService(VoluntarioRepository repository,
+                             EnderecoRepository enderecoRepository,
+                             VagaRepository vagaRepository,
+                             PasswordEncoder passwordEncoder,
+                             EmailService emailService,
+                             S3Service s3Service) {
         this.repository = repository;
         this.enderecoRepository = enderecoRepository;
         this.vagaRepository = vagaRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
+        this.s3Service = s3Service;
     }
 
     public List<Voluntario> findAll() {
@@ -54,6 +70,7 @@ public class VoluntarioService {
         obj.setId(null);
         obj = repository.save(obj);
         enderecoRepository.save(obj.getEndereco());
+        emailService.enviarEmailConfirmacaoVoluntario(obj);
         return obj;
     }
 
@@ -102,19 +119,27 @@ public class VoluntarioService {
     }
 
     public Voluntario fromDTO(VoluntarioNewDTO objDto){
-        Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
-        Endereco end = new Endereco(null, objDto.getLogadouro(),objDto.getNumero(),objDto.getComplemento(),objDto.getBairro(),objDto.getCep(),cid);
-        Voluntario v = new Voluntario(null, objDto.getNome(), objDto.getEmail(), Causa.valorDe(objDto.getCausa1()),Causa.valorDe(objDto.getCausa2()),end);
-        MiniCurriculo m = new MiniCurriculo(null, objDto.getDescricao(),v);
-        v.setMiniCurriculo(m);
-        v.getTelefones().add(objDto.getTelefone1());
+        Cidade cidade = new Cidade(objDto.getCidadeId(), null, null);
+        Endereco endereco = new Endereco(null, objDto.getLogadouro(),objDto.getNumero(),
+                objDto.getComplemento(),objDto.getBairro(),objDto.getCep(),cidade);
+        Usuario usuario = new Usuario(null,objDto.getNome(),objDto.getEmail(), passwordEncoder.encode(objDto.getSenha()));
+        usuario.setPermissoes(getPermissoesVoluntario());
+        Voluntario voluntario = new Voluntario(null, objDto.getNome(), objDto.getEmail(),
+                Causa.valorDe(objDto.getCausa1()),Causa.valorDe(objDto.getCausa2()),endereco, usuario);
+        MiniCurriculo m = new MiniCurriculo(null, objDto.getDescricao(),voluntario);
+        voluntario.setMiniCurriculo(m);
+        voluntario.getTelefones().add(objDto.getTelefone1());
         if (objDto.getTelefone2()!=null) {
-            v.getTelefones().add(objDto.getTelefone2());
+            voluntario.getTelefones().add(objDto.getTelefone2());
         }
         if (objDto.getTelefone3()!=null) {
-            v.getTelefones().add(objDto.getTelefone3());
+            voluntario.getTelefones().add(objDto.getTelefone3());
         }
-        return v;
+        return voluntario;
+    }
+
+    public URI uploadFotoPerfil(MultipartFile multipartFile){
+        return s3Service.uploadFile(multipartFile);
     }
 
     private void updateData(Voluntario newObj, Voluntario obj){
@@ -129,6 +154,22 @@ public class VoluntarioService {
         Optional<VagaVoluntario> obj = vagaRepository.findVagaVoluntarioByVoluntarioId(voluntarioId, vagaId);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Volunatrio não esta participando da vaga! Id: " + voluntarioId + ", Tipo: " + VagaVoluntario.class.getName()));
+    }
+
+    private List<Permissao> getPermissoesVoluntario(){
+        List<Permissao> permissoes = new ArrayList<>();
+        permissoes.add(new Permissao(1L));
+        permissoes.add(new Permissao(2L));
+        permissoes.add(new Permissao(5L));
+        permissoes.add(new Permissao(6L));
+        permissoes.add(new Permissao(9L));
+        permissoes.add(new Permissao(12L));
+        permissoes.add(new Permissao(13L));
+        permissoes.add(new Permissao(14L));
+        permissoes.add(new Permissao(15L));
+        permissoes.add(new Permissao(16L));
+        permissoes.add(new Permissao(17L));
+        return permissoes;
     }
 
 }

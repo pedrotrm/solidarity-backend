@@ -23,6 +23,7 @@ public class VoluntarioDTO implements Serializable {
 
     private Causa causa1;
     private Causa causa2;
+    private String fotoPerfil;
     private String logadouro;
     private String numero;
     private String complemento;
@@ -86,6 +87,14 @@ public class VoluntarioDTO implements Serializable {
 
     public void setCausa2(Causa causa2) {
         this.causa2 = causa2;
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     public String getLogadouro() {

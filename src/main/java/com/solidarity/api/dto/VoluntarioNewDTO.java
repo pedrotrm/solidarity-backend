@@ -19,18 +19,23 @@ public class VoluntarioNewDTO implements Serializable {
     @Email(message = "Email invalido")
     private String email;
 
+    @NotEmpty(message = "Preenchimento obrigatório")
+    @Length(min=8, message = "A senha deve conter no minimo 8 caracteres")
+    private String senha;
+
     @NotNull(message = "Preenchimento obrigatório")
     private Integer causa1;
 
     @NotNull(message = "Preenchimento obrigatório")
     private Integer causa2;
 
+    private String fotoPerfil;
+
     @NotEmpty(message = "Preenchimento obrigatório")
     private String logadouro;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     private String numero;
-
 
     private String complemento;
 
@@ -67,6 +72,14 @@ public class VoluntarioNewDTO implements Serializable {
         return email;
     }
 
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -85,6 +98,14 @@ public class VoluntarioNewDTO implements Serializable {
 
     public void setCausa2(Integer causa2) {
         this.causa2 = causa2;
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     public String getLogadouro() {
