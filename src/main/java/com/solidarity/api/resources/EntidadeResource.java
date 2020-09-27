@@ -37,7 +37,7 @@ public class EntidadeResource {
     }
 
 
-    @PostMapping
+    @PostMapping(value = "/cadastrar")
     public ResponseEntity<Void> insert(@Valid @RequestBody EntidadeNewDTO objDto) {
         Entidade obj = service.fromDTO(objDto);
         obj = service.insert(obj);

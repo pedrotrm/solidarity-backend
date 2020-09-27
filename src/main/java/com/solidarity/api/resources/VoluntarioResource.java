@@ -34,7 +34,7 @@ public class VoluntarioResource {
         return ResponseEntity.ok().body(obj);
     }
 
-    @PostMapping
+    @PostMapping(value = "/cadastrar")
     public ResponseEntity<Void> insert(@Valid @RequestBody VoluntarioNewDTO objDto) {
         Voluntario obj = service.fromDTO(objDto);
         obj = service.insert(obj);
