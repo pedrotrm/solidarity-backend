@@ -22,6 +22,9 @@ public class EntidadeNewDTO implements Serializable {
     @Email(message = "Email invalido")
     private String email;
 
+    @NotEmpty(message = "Preenchimento obrigatório")
+    @Length(min=8, message = "A senha deve conter no minimo 8 caracteres")
+    private String senha;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @CNPJ(message = "CNPJ invalido")
@@ -73,6 +76,14 @@ public class EntidadeNewDTO implements Serializable {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public void setEmail(String email) {
