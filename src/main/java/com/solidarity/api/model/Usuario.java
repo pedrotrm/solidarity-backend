@@ -12,6 +12,9 @@ public class Usuario {
     @Column(name = "tb12_id")
     private Long id;
 
+    @Column(name = "tb12_nome")
+    private String nome;
+
     @Column(name = "tb12_email")
     private String email;
 
@@ -27,8 +30,9 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Long id, String email, String senha) {
+    public Usuario(Long id,String nome, String email, String senha) {
         this.id = id;
+        this.nome = nome;
         this.email = email;
         this.senha = senha;
     }
@@ -39,6 +43,14 @@ public class Usuario {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {

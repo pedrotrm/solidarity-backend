@@ -19,6 +19,10 @@ public class Permissao {
     public Permissao() {
     }
 
+    public Permissao(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
