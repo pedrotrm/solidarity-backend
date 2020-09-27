@@ -1,6 +1,10 @@
 package com.solidarity.api.resources.exception;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.solidarity.api.services.exception.DataIntegrityException;
+import com.solidarity.api.services.exception.FileException;
 import com.solidarity.api.services.exception.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +29,15 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(DataIntegrityException.class)
     public ResponseEntity<StandardError> dataIntegrity(DataIntegrityException e, HttpServletRequest request){
-        String error = "Recurso não encontrado";
+        String error = "Erro de Integridade";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError error1 = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error1);
+    }
+
+    @ExceptionHandler(FileException.class)
+    public ResponseEntity<StandardError> file(FileException e, HttpServletRequest request){
+        String error = "Erro ao carregar o arquivo";
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError error1 = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(error1);
@@ -40,5 +52,32 @@ public class ResourceExceptionHandler {
         }
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
     }
+
+    @ExceptionHandler(AmazonServiceException.class)
+    public ResponseEntity<StandardError> amazonService(AmazonServiceException e, HttpServletRequest request){
+        String error = "Erro ao fazer upload de arquivo para o Cloud";
+        HttpStatus status = HttpStatus.valueOf(e.getStatusCode());
+        StandardError error1 = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error1);
+    }
+
+    @ExceptionHandler(AmazonClientException.class)
+    public ResponseEntity<StandardError> amazonClient(AmazonClientException e, HttpServletRequest request){
+        String error = "Erro ao se conectar ao Cloud";
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        StandardError error1 = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error1);
+    }
+
+    @ExceptionHandler(AmazonS3Exception.class)
+    public ResponseEntity<StandardError> amazonS3(AmazonClientException e, HttpServletRequest request){
+        String error = "Erro ao se conectar ao Cloud";
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        StandardError error1 = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error1);
+    }
+
+
+
 
 }
