@@ -1,5 +1,7 @@
 package com.solidarity.api.token;
 
+import com.solidarity.api.config.SolidarityProperty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -18,6 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @ControllerAdvice
 public class RefreshTokenPostPrecessor implements ResponseBodyAdvice<OAuth2AccessToken> {
+
+    @Autowired
+    private SolidarityProperty solidarityProperty;
+
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
         return methodParameter.getMethod().getName().equals("postAccessToken");
@@ -45,7 +51,7 @@ public class RefreshTokenPostPrecessor implements ResponseBodyAdvice<OAuth2Acces
     private void adicionarRefreshTokenNoCookie(String refreshToken, HttpServletRequest req, HttpServletResponse resp) {
         Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(false); // TODO: Mudar para true em produção
+        refreshTokenCookie.setSecure(solidarityProperty.getSeguranca().isEnableHttps()); // TODO: Mudar para true em produção
         refreshTokenCookie.setPath(req.getContextPath()+"/oauth/token");
         refreshTokenCookie.setMaxAge(2592000);
         resp.addCookie(refreshTokenCookie);
