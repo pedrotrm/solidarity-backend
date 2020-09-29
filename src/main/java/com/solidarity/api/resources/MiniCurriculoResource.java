@@ -10,6 +10,7 @@ import com.solidarity.api.model.MiniCurriculo;
 import com.solidarity.api.model.Projeto;
 import com.solidarity.api.services.MiniCurriculoService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,12 +28,14 @@ public class MiniCurriculoResource {
      }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ROLE_PESQUISAR_VAGAVOLUNTARIO')")
     public ResponseEntity<MiniCurriculo> findById(@PathVariable("id") Long id){
         MiniCurriculo obj = miniCurriculoService.getById(id);
             return ResponseEntity.ok().body(obj);
     }
 
-    @RequestMapping(value = "/experiencias", method = RequestMethod.POST)
+    @PostMapping(value = "/experiencias")
+    @PreAuthorize("hasAnyAuthority('ROLE_ALTERAR_MINICURRICULO')")
     public ResponseEntity<Void> insertExperiencia(@PathVariable("id") Long id,
                                                   @Valid @RequestBody Experiencia obj){
         miniCurriculoService.createExperiencia(obj, id);
@@ -42,7 +45,8 @@ public class MiniCurriculoResource {
     }
 
 
-    @RequestMapping(value = "/experiencias/{experienciaId}",method = RequestMethod.PUT)
+    @PutMapping(value = "/experiencias/{experienciaId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ALTERAR_MINICURRICULO')")
     public ResponseEntity<Void> updateExperiencia(@PathVariable("experienciaId") Long experienciaId,
                                                   @Valid @RequestBody ExperienciaDTO objDto){
 
@@ -52,13 +56,15 @@ public class MiniCurriculoResource {
             return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/experiencias/{experienciaId}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/experiencias/{experienciaId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_DELETAR_MINICURRICULO')")
     public ResponseEntity<Void> deleteExperiencia(@PathVariable("experienciaId") Long experienciaId){
         miniCurriculoService.deleteExperiencia(experienciaId);
             return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/formacoes", method = RequestMethod.POST)
+    @PostMapping(value = "/formacoes")
+    @PreAuthorize("hasAnyAuthority('ROLE_ALTERAR_MINICURRICULO')")
     public ResponseEntity<Void> insertFormacao(@PathVariable("id") Long curriculoId,
                                                @Valid @RequestBody Formacao obj ){
         miniCurriculoService.createFormacao(obj, curriculoId);
@@ -67,7 +73,8 @@ public class MiniCurriculoResource {
         return ResponseEntity.created(uri).build();
     }
 
-    @RequestMapping(value = "/formacoes/{formacaoId}", method = RequestMethod.PUT)
+    @PutMapping(value = "/formacoes/{formacaoId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ALTERAR_MINICURRICULO')")
     public ResponseEntity<Void> updateFormacao(@PathVariable("formacaoId") Long formacaoId,
                                                @Valid @RequestBody FormacaoDTO objDto){
         Formacao obj = miniCurriculoService.fromFormacaoDTO(objDto);
@@ -76,13 +83,15 @@ public class MiniCurriculoResource {
             return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/formacoes/{formacaoId}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/formacoes/{formacaoId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_DELETAR_MINICURRICULO')")
     public ResponseEntity<Void> deleteFormacao(@PathVariable("formacaoId") Long formacaoId){
         miniCurriculoService.deleteFormacao(formacaoId);
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/projetos", method = RequestMethod.POST)
+    @PostMapping(value = "/projetos")
+    @PreAuthorize("hasAnyAuthority('ROLE_ALTERAR_MINICURRICULO')")
     public ResponseEntity<Void> insertProjeto(@PathVariable("id") Long curriculoId,
                                                @Valid @RequestBody Projeto obj ){
         miniCurriculoService.createProjeto(obj, curriculoId);
@@ -91,7 +100,8 @@ public class MiniCurriculoResource {
         return ResponseEntity.created(uri).build();
     }
 
-    @RequestMapping(value = "/projetos/{projetoId}", method = RequestMethod.PUT)
+    @PutMapping(value = "/projetos/{projetoId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ALTERAR_MINICURRICULO')")
     public ResponseEntity<Void> updateProjeto(@PathVariable("projetoId") Long projetoId,
                                                @Valid @RequestBody ProjetoDTO objDto){
         Projeto obj = miniCurriculoService.fromProjetoDTO(objDto);
@@ -100,7 +110,8 @@ public class MiniCurriculoResource {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/projetos/{projetoId}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/projetos/{projetoId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_DELETAR_MINICURRICULO')")
     public ResponseEntity<Void> deleteProjeto(@PathVariable("projetoId") Long formacaoId){
         miniCurriculoService.deleteProjeto(formacaoId);
         return ResponseEntity.noContent().build();
