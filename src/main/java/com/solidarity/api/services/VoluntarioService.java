@@ -5,7 +5,6 @@ import com.solidarity.api.dto.VoluntarioNewDTO;
 import com.solidarity.api.model.*;
 import com.solidarity.api.model.enums.Causa;
 import com.solidarity.api.repositories.EnderecoRepository;
-import com.solidarity.api.repositories.UsuarioRepository;
 import com.solidarity.api.repositories.VagaRepository;
 import com.solidarity.api.repositories.VoluntarioRepository;
 import com.solidarity.api.services.exception.DataIntegrityException;
@@ -14,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -138,8 +138,12 @@ public class VoluntarioService {
         return voluntario;
     }
 
-    public URI uploadFotoPerfil(MultipartFile multipartFile){
-        return s3Service.uploadFile(multipartFile);
+    public URI uploadFotoPerfil(MultipartFile multipartFile, Long voluntarioId){
+        URI uri = s3Service.uploadFile(multipartFile);
+        Voluntario voluntario = findById(voluntarioId);
+        voluntario.setFotoPerfil(uri.toString());
+        repository.save(voluntario);
+        return uri;
     }
 
     private void updateData(Voluntario newObj, Voluntario obj){
@@ -153,7 +157,7 @@ public class VoluntarioService {
     private VagaVoluntario findVagaVoluntarioById(Long voluntarioId, Long vagaId){
         Optional<VagaVoluntario> obj = vagaRepository.findVagaVoluntarioByVoluntarioId(voluntarioId, vagaId);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
-                "Volunatrio não esta participando da vaga! Id: " + voluntarioId + ", Tipo: " + VagaVoluntario.class.getName()));
+                "Voluntatrio não esta participando da vaga! Id: " + voluntarioId + ", Tipo: " + VagaVoluntario.class.getName()));
     }
 
     private List<Permissao> getPermissoesVoluntario(){
