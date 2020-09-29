@@ -3,6 +3,7 @@ package com.solidarity.api.services;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.solidarity.api.services.exception.FileException;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,15 @@ public class S3Service {
 
     public URI uploadFile(MultipartFile multipartFile){
         try {
-            String fileName = multipartFile.getOriginalFilename();
+            String nomeArquivo = multipartFile.getOriginalFilename();
             InputStream is = multipartFile.getInputStream();
             String contexType = multipartFile.getContentType();
-            return uploadFile(is, fileName, contexType);
+            String ext = FilenameUtils.getExtension(nomeArquivo);
+            if (!"png".equals(ext) && !"jpg".equals("jpg"))
+                throw new IOException("Somente imagens PNG e JPG são permitidas");
+            return uploadFile(is, nomeArquivo, contexType);
         } catch (IOException e){
-            throw new FileException("Erro de IO" + e.getMessage());
+            throw new FileException("Erro de IO: " + e.getMessage());
         }
     }
 
@@ -46,7 +50,7 @@ public class S3Service {
             LOG.info("Upload finalizado");
             return s3.getUrl(bucketName, nomeArquivo).toURI();
         } catch (URISyntaxException e){
-            throw new FileException("Erro ao converter URl para URI");
+            throw new FileException("Erro ao converter URl para URI.");
         }
     }
 
