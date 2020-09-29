@@ -61,7 +61,23 @@ public class Entidade implements Serializable {
     public Entidade() {
     }
 
-    public Entidade(Long id, String nome,String email,String cnpj, Causa causa1, Causa causa2,String descricao, Endereco endereco) {
+    public Entidade(Long id, String nome,String email,
+                    String cnpj, Causa causa1, Causa causa2,
+                    String descricao, Endereco endereco, Usuario usuario) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.cnpj = cnpj;
+        this.causa1 = causa1.getCode();
+        this.causa2 = causa2.getCode();
+        this.descricao = descricao;
+        this.endereco = endereco;
+        this.usuario = usuario;
+    }
+
+    public Entidade(Long id, String nome,String email,
+                    String cnpj, Causa causa1, Causa causa2,
+                    String descricao, Endereco endereco) {
         this.id = id;
         this.nome = nome;
         this.email = email;
