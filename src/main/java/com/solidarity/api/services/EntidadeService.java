@@ -6,19 +6,20 @@ import com.solidarity.api.dto.VagaDTO;
 import com.solidarity.api.dto.VoluntarioDTO;
 import com.solidarity.api.model.*;
 import com.solidarity.api.model.enums.Causa;
-import com.solidarity.api.repositories.CidadeRepository;
-import com.solidarity.api.repositories.EnderecoRepository;
-import com.solidarity.api.repositories.EntidadeRepository;
-import com.solidarity.api.repositories.VagaRepository;
+import com.solidarity.api.repositories.*;
 import com.solidarity.api.services.exception.DataIntegrityException;
 import com.solidarity.api.services.exception.ObjectNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -31,12 +32,24 @@ public class EntidadeService {
     private final EnderecoRepository enderecoRepository;
     private final VagaRepository vagaRepository;
     private final CidadeRepository cidadeRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
+    private final S3Service s3Service;
 
-    public EntidadeService(EntidadeRepository repository, EnderecoRepository enderecoRepository, VagaRepository vagaRepository, CidadeRepository cidadeRepository) {
+    public EntidadeService(EntidadeRepository repository,
+                           EnderecoRepository enderecoRepository,
+                           VagaRepository vagaRepository,
+                           CidadeRepository cidadeRepository,
+                           PasswordEncoder passwordEncoder,
+                           EmailService emailService,
+                           S3Service s3Service) {
         this.repository = repository;
         this.enderecoRepository = enderecoRepository;
         this.vagaRepository = vagaRepository;
         this.cidadeRepository = cidadeRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
+        this.s3Service = s3Service;
     }
 
     public List<Entidade> findAll() {
@@ -103,14 +116,23 @@ public class EntidadeService {
         enderecoRepository.save(endereco);
     }
 
+
     public void delete(Long id) {
         findById(id);
         try {
             repository.deleteById(id);
         }
-        catch (DataIntegrityViolationException e) {
+        catch (Exception e) {
             throw new DataIntegrityException("Não é possível excluir um cliente com vagas associoadas");
         }
+    }
+
+    public URI uploadFotoPerfil(MultipartFile multipartFile, Long entidadeId){
+        URI uri = s3Service.uploadFile(multipartFile);
+        Entidade entidade = findById(entidadeId);
+        entidade.setFotoPerfil(uri.toString());
+        repository.save(entidade);
+        return uri;
     }
 
     public Page<Entidade> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
@@ -126,9 +148,14 @@ public class EntidadeService {
     }
 
     public Entidade fromDTO(EntidadeNewDTO objDto){
-        Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
-        Endereco end = new Endereco(null, objDto.getLogadouro(),objDto.getNumero(),objDto.getComplemento(),objDto.getBairro(),objDto.getCep(),cid);
-        Entidade entidade = new Entidade(null ,objDto.getNome(), objDto.getEmail(),objDto.getCnpj(),Causa.valorDe(objDto.getCausa1()),Causa.valorDe(objDto.getCausa2()), objDto.getDescricao(), end);
+        Cidade cidade = new Cidade(objDto.getCidadeId(), null, null);
+        Endereco endereco = new Endereco(null, objDto.getLogadouro(),objDto.getNumero(),
+                objDto.getComplemento(),objDto.getBairro(),objDto.getCep(),cidade);
+        Usuario usuario = new Usuario(null ,objDto.getNome(), objDto.getEmail(), passwordEncoder.encode(objDto.getSenha()));
+        usuario.setPermissoes(getPermissoesEntidade());
+        Entidade entidade = new Entidade(null ,objDto.getNome(), objDto.getEmail(),
+                objDto.getCnpj(),Causa.valorDe(objDto.getCausa1()),Causa.valorDe(objDto.getCausa2()),
+                objDto.getDescricao(), endereco, usuario);
         entidade.getTelefones().add(objDto.getTelefone1());
         if (objDto.getTelefone2()!=null) {
             entidade.getTelefones().add(objDto.getTelefone2());
@@ -172,6 +199,20 @@ public class EntidadeService {
         objEndereco.setCep(obj.getEnderecoVaga().getCep());
         objEndereco.setComplemento(obj.getEnderecoVaga().getComplemento());
         objEndereco.setCidade(obj.getEnderecoVaga().getCidade());
+    }
+
+    private List<Permissao> getPermissoesEntidade(){
+        List<Permissao> permissoes = new ArrayList<>();
+        permissoes.add(new Permissao(3L));
+        permissoes.add(new Permissao(4L));
+        permissoes.add(new Permissao(7L));
+        permissoes.add(new Permissao(8L));
+        permissoes.add(new Permissao(9L));
+        permissoes.add(new Permissao(10L));
+        permissoes.add(new Permissao(15L));
+        permissoes.add(new Permissao(16L));
+        permissoes.add(new Permissao(17L));
+        return permissoes;
     }
 
 
