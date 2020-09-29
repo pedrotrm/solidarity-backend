@@ -77,6 +77,7 @@ public class VagaDTO implements Serializable {
         this.descricao = vaga.getDescricao();
         this.causa1 = vaga.getCausa1().getCode();
         this.causa2 = vaga.getCausa2().getCode();
+        if(vaga.getFotoPerfil() != null) fotoPerfil = vaga.getFotoPerfil();
         this.habilidade = vaga.getHabilidade().getCode();
         this.dataInicio = vaga.getDataInicio();
         this.dataFim = vaga.getDataFim();

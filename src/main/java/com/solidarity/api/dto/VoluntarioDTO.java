@@ -41,6 +41,7 @@ public class VoluntarioDTO implements Serializable {
         email = obj.getEmail();
         causa1 = obj.getCausa1();
         causa2 = obj.getCausa2();
+        if(obj.getFotoPerfil() != null) fotoPerfil = obj.getFotoPerfil();
         logadouro = obj.getEndereco().getLogadouro();
         numero = obj.getEndereco().getNumero();
         complemento = obj.getEndereco().getComplemento();

@@ -46,6 +46,7 @@ public class EntidadeDTO implements Serializable {
         cnpj = obj.getCnpj();
         causa1 = obj.getCausa1().getCode();
         causa2 = obj.getCausa2().getCode();
+        if(obj.getFotoPerfil() != null) fotoPeril = obj.getFotoPerfil();
         descricao = obj.getDescricao();
         logadouro = obj.getEndereco().getLogadouro();
         numero = obj.getEndereco().getNumero();
