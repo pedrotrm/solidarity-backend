@@ -2,7 +2,6 @@ package com.solidarity.api.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,13 +22,9 @@ import java.util.Arrays;
 @EnableResourceServer
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String[] PUBLIC_MATCHERS = { "/**" };
+    private static final String[] PUBLIC_MATCHERS = { "/vagas/**","/voluntarios/cadastrar","/h2-console","/entidades/cadastrar"};
 
-    private final Environment env;
 
-    public SecurityConfig(Environment env) {
-        this.env = env;
-    }
 
     @Bean
     @Override
@@ -39,15 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        // H2
-
-        if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
-            http.headers().frameOptions().disable();
-            http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll();
-        }
+        http.headers().frameOptions().disable();
+        http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll();
         http.cors().and().csrf().disable();
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Bean
