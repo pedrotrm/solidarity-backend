@@ -164,7 +164,10 @@ public class Vaga implements Serializable {
     }
 
     public TipoVaga getTipoVaga() {
-        return TipoVaga.valorDe(tipoVaga);
+        if(tipoVaga != null){
+            return TipoVaga.valorDe(tipoVaga);
+        }
+        return null;
     }
 
     public void setTipoVaga(TipoVaga tipoVaga) {
