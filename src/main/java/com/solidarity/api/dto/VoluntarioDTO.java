@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Optional;
 
 @VoluntarioUpdate
 public class VoluntarioDTO implements Serializable {
@@ -17,7 +18,6 @@ public class VoluntarioDTO implements Serializable {
     @Length(min = 5 ,max = 120, message = "O tamanho deve ser entre 5 e 200 caracteres")
     private String nome;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @Email(message = "Email invalido")
     private String email;
 
@@ -29,25 +29,44 @@ public class VoluntarioDTO implements Serializable {
     private String complemento;
     private String bairro;
     private String cep;
+    private String telefone1;
+    private String telefone2;
+    private String telefone3;
 
     private Long cidadeId;
 
     public VoluntarioDTO() {
     }
-
-    public VoluntarioDTO(Voluntario obj){
-        id = obj.getId();
-        nome = obj.getNome();
-        email = obj.getEmail();
-        causa1 = obj.getCausa1();
-        causa2 = obj.getCausa2();
-        if(obj.getFotoPerfil() != null) fotoPerfil = obj.getFotoPerfil();
-        logadouro = obj.getEndereco().getLogadouro();
-        numero = obj.getEndereco().getNumero();
-        complemento = obj.getEndereco().getComplemento();
-        bairro = obj.getEndereco().getBairro();
-        cep = obj.getEndereco().getCep();
-        cidadeId = obj.getEndereco().getCidade().getId();
+    /*
+        Contrutor para criar o DTO apartir de um Voluntario
+        tratando os valores nulos.
+     */
+    public VoluntarioDTO(Voluntario voluntario) {
+        this.id = voluntario.getId();
+        this.nome = voluntario.getNome();
+        this.email = voluntario.getEmail();
+        this.causa1 = voluntario.getCausa1();
+        if (voluntario.getCausa2() != null)
+            this.causa2 = voluntario.getCausa2();
+        if (voluntario.getFotoPerfil() != null)
+            this.fotoPerfil = voluntario.getFotoPerfil();
+        if (voluntario.getEndereco().getLogadouro() != null)
+            this.logadouro = voluntario.getEndereco().getLogadouro();
+        if (voluntario.getEndereco().getNumero() != null)
+            this.numero = voluntario.getEndereco().getNumero();
+        if (voluntario.getEndereco().getComplemento() != null)
+            this.complemento = voluntario.getEndereco().getComplemento();
+        if (voluntario.getEndereco().getBairro() != null)
+            this.bairro = voluntario.getEndereco().getBairro();
+        if (voluntario.getEndereco().getCep() != null)
+            this.cep = voluntario.getEndereco().getCep();
+        if (!voluntario.getTelefones().isEmpty() && voluntario.getTelefones() != null) {
+            voluntario.getTelefones().stream()
+                    .findFirst()
+                    .ifPresent(this::setTelefone1);
+        }
+        if (voluntario.getEndereco().getCidade() != null)
+            this.cidadeId = voluntario.getEndereco().getCidade().getId();
     }
 
     public Long getId() {
@@ -136,6 +155,30 @@ public class VoluntarioDTO implements Serializable {
 
     public void setCep(String cep) {
         this.cep = cep;
+    }
+
+    public String getTelefone1() {
+        return telefone1;
+    }
+
+    public void setTelefone1(String telefone1) {
+        this.telefone1 = telefone1;
+    }
+
+    public String getTelefone2() {
+        return telefone2;
+    }
+
+    public void setTelefone2(String telefone2) {
+        this.telefone2 = telefone2;
+    }
+
+    public String getTelefone3() {
+        return telefone3;
+    }
+
+    public void setTelefone3(String telefone3) {
+        this.telefone3 = telefone3;
     }
 
     public Long getCidadeId() {
