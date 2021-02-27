@@ -1,5 +1,6 @@
 package com.solidarity.api.services;
 
+import com.solidarity.api.model.Entidade;
 import com.solidarity.api.model.Voluntario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +34,7 @@ public abstract class AbstractEmailService implements EmailService {
     @Override
     public void enviarEmailConfirmacaoVoluntarioHtml(Voluntario voluntario){
         try {
-            MimeMessage mm = preparaMimeMessageParaCadastro(voluntario);
+            MimeMessage mm = preparaMimeMessageParaCadastroVoluntario(voluntario);
             enviarEmailHtml(mm);
         }
         catch (MessagingException e){
@@ -41,7 +42,24 @@ public abstract class AbstractEmailService implements EmailService {
         }
     }
 
-    protected  MimeMessage preparaMimeMessageParaCadastro(Voluntario voluntario) throws MessagingException {
+    @Override
+    public void enviarEmailConfirmacaoEntidade(Entidade entidade) {
+        SimpleMailMessage sm = prepararSimpleMailMessageParaEntidade(entidade);
+        enviarEmail(sm);
+    }
+
+    @Override
+    public void enviarEmailConfirmacaoEntidadeHtml(Entidade entidade){
+        try {
+            MimeMessage mm = preparaMimeMessageParaCadastroEntidade(entidade);
+            enviarEmailHtml(mm);
+        }
+        catch (MessagingException e){
+            enviarEmailConfirmacaoEntidade(entidade);
+        }
+    }
+
+    protected  MimeMessage preparaMimeMessageParaCadastroVoluntario(Voluntario voluntario) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
         mmh.setTo(voluntario.getEmail());
@@ -52,6 +70,16 @@ public abstract class AbstractEmailService implements EmailService {
         return mimeMessage;
     }
 
+    protected  MimeMessage preparaMimeMessageParaCadastroEntidade(Entidade entidade) throws MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
+        mmh.setTo(entidade.getEmail());
+        mmh.setFrom(sender);
+        mmh.setSubject("Cadastro efetuado com sucesso ! ");
+        mmh.setSentDate(new Date(System.currentTimeMillis()));
+        mmh.setText(htmlParaTemplateCadastroEntidade(entidade), true);
+        return mimeMessage;
+    }
 
     protected SimpleMailMessage prepararSimpleMailMessageParaVoluntario(Voluntario voluntario) {
         SimpleMailMessage sm = new SimpleMailMessage();
@@ -63,11 +91,23 @@ public abstract class AbstractEmailService implements EmailService {
         return sm;
     }
 
+    protected SimpleMailMessage prepararSimpleMailMessageParaEntidade(Entidade entidade) {
+        SimpleMailMessage sm = new SimpleMailMessage();
+        sm.setTo(entidade.getEmail());
+        sm.setFrom(sender);
+        sm.setSubject("Cadastro efetuado com sucesso !");
+        sm.setSentDate(new Date(System.currentTimeMillis()));
+        sm.setText("Bem vindo "+entidade.getNome());
+        return sm;
+    }
+
     protected String htmlParaTemplateCadastroVoluntario(Voluntario voluntario){
         Context context = new Context();
         return templateEngine.process("email/CadastroVoluntario", context);
     }
 
-
-
+    protected String htmlParaTemplateCadastroEntidade(Entidade entidade){
+        Context context = new Context();
+        return templateEngine.process("email/CadastroEntidade", context);
+    }
 }
