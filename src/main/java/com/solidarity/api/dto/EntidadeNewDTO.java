@@ -39,6 +39,8 @@ public class EntidadeNewDTO implements Serializable {
     private String numero;
     private String complemento;
     private String bairro;
+
+    @Length(min=8, max =8, message = "O CEP deve conter 8 digitos")
     private String cep;
 
     @NotEmpty(message = "Preenchimento obrigatório")
