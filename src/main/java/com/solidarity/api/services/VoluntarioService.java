@@ -4,6 +4,7 @@ import com.solidarity.api.dto.VoluntarioDTO;
 import com.solidarity.api.dto.VoluntarioNewDTO;
 import com.solidarity.api.model.*;
 import com.solidarity.api.model.enums.Causa;
+import com.solidarity.api.repositories.CidadeRepository;
 import com.solidarity.api.repositories.EnderecoRepository;
 import com.solidarity.api.repositories.VagaRepository;
 import com.solidarity.api.repositories.VoluntarioRepository;
@@ -30,6 +31,7 @@ public class VoluntarioService {
 
     private final VoluntarioRepository repository;
     private final EnderecoRepository enderecoRepository;
+    private final CidadeRepository cidadeRepository;
     private final VagaRepository vagaRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
@@ -37,12 +39,14 @@ public class VoluntarioService {
 
     public VoluntarioService(VoluntarioRepository repository,
                              EnderecoRepository enderecoRepository,
+                             CidadeRepository cidadeRepository,
                              VagaRepository vagaRepository,
                              PasswordEncoder passwordEncoder,
                              EmailService emailService,
                              S3Service s3Service) {
         this.repository = repository;
         this.enderecoRepository = enderecoRepository;
+        this.cidadeRepository = cidadeRepository;
         this.vagaRepository = vagaRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
@@ -69,7 +73,8 @@ public class VoluntarioService {
     public Voluntario insert(Voluntario obj) {
         obj.setId(null);
         obj = repository.save(obj);
-        enderecoRepository.save(obj.getEndereco());
+        if (obj.getEndereco() != null)
+            enderecoRepository.save(obj.getEndereco());
         emailService.enviarEmailConfirmacaoVoluntario(obj);
         return obj;
     }
@@ -115,17 +120,22 @@ public class VoluntarioService {
    public Voluntario fromDTO(VoluntarioDTO objDto) {
        Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
        Endereco end = new Endereco(null, objDto.getLogadouro(),objDto.getNumero(),objDto.getComplemento(),objDto.getBairro(),objDto.getCep(),cid);
-        return new Voluntario(objDto.getId(), objDto.getNome(), objDto.getEmail(), objDto.getCausa1(), objDto.getCausa2(),end);
+        return new Voluntario(objDto.getId(), objDto.getNome(), objDto.getEmail(), objDto.getCausa1(),end);
     }
 
     public Voluntario fromDTO(VoluntarioNewDTO objDto){
-        Cidade cidade = new Cidade(objDto.getCidadeId(), null, null);
-        Endereco endereco = new Endereco(null, objDto.getLogadouro(),objDto.getNumero(),
-                objDto.getComplemento(),objDto.getBairro(),objDto.getCep(),cidade);
         Usuario usuario = new Usuario(null,objDto.getNome(),objDto.getEmail(), passwordEncoder.encode(objDto.getSenha()));
         usuario.setPermissoes(getPermissoesVoluntario());
-        Voluntario voluntario = new Voluntario(null, objDto.getNome(), objDto.getEmail(),
-                Causa.valorDe(objDto.getCausa1()),Causa.valorDe(objDto.getCausa2()),endereco, usuario);
+        Voluntario voluntario = new Voluntario();
+        voluntario.setNome(objDto.getNome());
+        voluntario.setEmail(objDto.getEmail());
+        voluntario.setUsuario(usuario);
+        voluntario.setCausa1(Causa.valorDe(objDto.getCausa1()));
+        if (objDto.getLogadouro() != null ||
+                objDto.getCidadeId() != null){
+            Endereco endereco = createEnderecoFromDto(objDto);
+            voluntario.setEndereco(endereco);
+        }
         MiniCurriculo m = new MiniCurriculo(null, objDto.getDescricao(),voluntario);
         voluntario.setMiniCurriculo(m);
         voluntario.getTelefones().add(objDto.getTelefone1());
@@ -136,6 +146,23 @@ public class VoluntarioService {
             voluntario.getTelefones().add(objDto.getTelefone3());
         }
         return voluntario;
+    }
+
+    private Endereco createEnderecoFromDto(VoluntarioNewDTO objDto) {
+        Endereco endereco = new Endereco();
+        Cidade cidade = cidadeRepository.findById(objDto.getCidadeId()).orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Id: " + objDto.getCidadeId() + ", Tipo: " + Cidade.class.getName()));
+        endereco.setLogadouro(objDto.getLogadouro());
+        endereco.setCidade(cidade);
+        if (objDto.getBairro() != null)
+            endereco.setBairro(objDto.getBairro());
+        if (objDto.getCep() != null)
+            endereco.setCep(objDto.getCep());
+        if (objDto.getNumero() != null)
+            endereco.setNumero(objDto.getNumero());
+        if (objDto.getComplemento() != null)
+            endereco.setComplemento(objDto.getComplemento());
+        return endereco;
     }
 
     public URI uploadFotoPerfil(MultipartFile multipartFile, Long voluntarioId){
