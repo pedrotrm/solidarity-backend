@@ -25,18 +25,25 @@ public class VoluntarioNewDTO implements Serializable {
 
     @NotNull(message = "Preenchimento obrigatório")
     private Integer causa1;
+
     private Integer causa2;
     private String logadouro;
     private String numero;
     private String complemento;
     private String bairro;
+
+    @Length(min=8, max =8, message = "O CEP deve conter 8 digitos")
     private String cep;
+
     @NotEmpty(message = "Preenchimento obrigatório")
     private String telefone1;
+
     private String telefone2;
     private String telefone3;
+
     @NotEmpty(message = "Preenchimento obrigatório")
     private String descricao;
+
     private Long cidadeId;
 
     public VoluntarioNewDTO() {
