@@ -26,7 +26,6 @@ public class EntidadeNewDTO implements Serializable {
     @Length(min=8, message = "A senha deve conter no minimo 8 caracteres")
     private String senha;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @CNPJ(message = "CNPJ invalido")
     private String cnpj;
 
@@ -36,18 +35,10 @@ public class EntidadeNewDTO implements Serializable {
     @NotNull(message = "Preenchimento obrigatório")
     private Integer causa2;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     private String logadouro;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
     private String numero;
-
     private String complemento;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
     private String bairro;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
     private String cep;
 
     @NotEmpty(message = "Preenchimento obrigatório")
@@ -60,7 +51,6 @@ public class EntidadeNewDTO implements Serializable {
     @NotEmpty(message = "Preenchimento obrigatório")
     private String descricao;
 
-    @NotNull(message = "Preenchimento obrigatório")
     private Long cidadeId;
 
     public EntidadeNewDTO() {
