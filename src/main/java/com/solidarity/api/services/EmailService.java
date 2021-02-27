@@ -1,5 +1,6 @@
 package com.solidarity.api.services;
 
+import com.solidarity.api.model.Entidade;
 import com.solidarity.api.model.Voluntario;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -9,10 +10,15 @@ public interface EmailService {
 
     void enviarEmailConfirmacaoVoluntario(Voluntario voluntario);
 
-    void enviarEmail(SimpleMailMessage msg);
-
     void enviarEmailConfirmacaoVoluntarioHtml(Voluntario voluntario);
 
+    void enviarEmailConfirmacaoEntidade(Entidade entidade);
+
+    void enviarEmailConfirmacaoEntidadeHtml(Entidade entidade);
+
+    void enviarEmail(SimpleMailMessage msg);
+
     void enviarEmailHtml(MimeMessage msg);
+
 
 }
