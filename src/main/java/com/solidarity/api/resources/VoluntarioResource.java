@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -54,11 +55,13 @@ public class VoluntarioResource {
     @PutMapping(value="/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ALTERAR_VOLUNTARIO')")
     public ResponseEntity<Void> update(@Valid @RequestBody VoluntarioDTO objDto, @PathVariable Long id) {
-        Voluntario obj = service.fromDTO(objDto);
-        obj.setId(id);
+        objDto.setId(id);
+        Voluntario obj = service.updateFromDTO(objDto);
         service.update(obj);
         return ResponseEntity.noContent().build();
     }
+
+    // TODO: Testa resto desses endpoints endpoints
 
     @DeleteMapping(value="/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_DELETAR_VOLUNTARIO')")
@@ -85,9 +88,11 @@ public class VoluntarioResource {
 
    @GetMapping
    @PreAuthorize("hasAnyAuthority('ROLE_PESQUISAR_VOLUNTARIO')")
-    public ResponseEntity<List<VoluntarioDTO>> findAll() {
+    public ResponseEntity<Set<VoluntarioDTO>> findAll() {
         List<Voluntario> list = service.findAll();
-        List<VoluntarioDTO> listDto = list.stream().map(VoluntarioDTO::new).collect(Collectors.toList());
+        Set<VoluntarioDTO> listDto = list.stream()
+                .map(VoluntarioDTO::new)
+                .collect(Collectors.toSet());
         return ResponseEntity.ok().body(listDto);
     }
 
