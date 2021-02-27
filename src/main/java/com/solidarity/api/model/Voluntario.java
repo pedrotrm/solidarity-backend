@@ -99,7 +99,10 @@ public class Voluntario implements Serializable {
     }
 
     public Causa getCausa1() {
-        return Causa.valorDe(causa1);
+        if (causa1 != null)
+            return Causa.valorDe(causa1);
+        else
+            return null;
     }
 
     public void setCausa1 (Causa causa1) {
