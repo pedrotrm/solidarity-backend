@@ -59,8 +59,8 @@ public class EntidadeResource {
     @PutMapping(value="/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ALTERAR_ENTIDADE')")
     public ResponseEntity<Void> update(@Valid @RequestBody EntidadeDTO objDto, @PathVariable Long id) {
-        Entidade obj = service.fromDTO(objDto);
-        obj.setId(id);
+        objDto.setId(id);
+        Entidade obj = service.updateFromDTO(objDto);
         service.update(obj);
         return ResponseEntity.noContent().build();
     }
@@ -74,10 +74,10 @@ public class EntidadeResource {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ROLE_PESQUISAR_ENTIDADE')")
-    public ResponseEntity<List<EntidadeDTO>> findAll() {
+    public ResponseEntity<Set<EntidadeDTO>> findAll() {
         List<Entidade> list = service.findAll();
-        List<EntidadeDTO> listDto = list.stream()
-                .map(EntidadeDTO::new).collect(Collectors.toList());
+        Set<EntidadeDTO> listDto = list.stream()
+                .map(EntidadeDTO::new).collect(Collectors.toSet());
         return ResponseEntity.ok().body(listDto);
     }
 
@@ -90,7 +90,6 @@ public class EntidadeResource {
                 .path("/{id}").buildAndExpand(vaga.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
-
 
     @PutMapping(value = "/vagas/{vagaId}")
     @PreAuthorize("hasAnyAuthority('ROLE_ALTERAR_VAGA')")
