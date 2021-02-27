@@ -146,7 +146,10 @@ public class Entidade implements Serializable {
     }
 
     public Causa getCausa1() {
-        return Causa.valorDe(causa1);
+        if (causa1 != null)
+            return Causa.valorDe(causa1);
+        else
+            return null;
     }
 
     public void setCausa1 (Causa causa1) {
@@ -155,7 +158,10 @@ public class Entidade implements Serializable {
     }
 
     public Causa getCausa2() {
-        return Causa.valorDe(causa2);
+        if (causa2 != null)
+            return Causa.valorDe(causa2);
+        else
+            return null;
     }
 
     public void setCausa2 (Causa causa2) {
