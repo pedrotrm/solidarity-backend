@@ -157,6 +157,8 @@ public class VoluntarioService {
             Endereco endereco = createEnderecoFromDto(objDto);
             voluntario.setEndereco(endereco);
         }
+        if (objDto.getCausa2() != null)
+            voluntario.setCausa2(Causa.valorDe(objDto.getCausa2()));
         MiniCurriculo m = new MiniCurriculo(null, objDto.getDescricao(), voluntario);
         voluntario.setMiniCurriculo(m);
         voluntario.getTelefones().add(objDto.getTelefone1());
