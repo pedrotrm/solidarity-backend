@@ -6,10 +6,12 @@ import com.solidarity.api.dto.VagaDTO;
 import com.solidarity.api.dto.VoluntarioDTO;
 import com.solidarity.api.model.*;
 import com.solidarity.api.model.enums.Causa;
-import com.solidarity.api.repositories.*;
+import com.solidarity.api.repositories.CidadeRepository;
+import com.solidarity.api.repositories.EnderecoRepository;
+import com.solidarity.api.repositories.EntidadeRepository;
+import com.solidarity.api.repositories.VagaRepository;
 import com.solidarity.api.services.exception.DataIntegrityException;
 import com.solidarity.api.services.exception.ObjectNotFoundException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -87,17 +89,18 @@ public class EntidadeService {
     public Entidade insert(Entidade obj) {
         obj.setId(null);
         obj = repository.save(obj);
-        enderecoRepository.save(obj.getEndereco());
+        if (obj.getEndereco() != null)
+            enderecoRepository.save(obj.getEndereco());
+        emailService.enviarEmailConfirmacaoEntidade(obj);
         return obj;
     }
 
     @Transactional
     public Entidade update(Entidade obj) {
-        Entidade newObj = findById(obj.getId());
-        updateData(newObj, obj);
-        repository.save(newObj);
-        enderecoRepository.save(newObj.getEndereco());
-        return newObj;
+        repository.save(obj);
+        if (obj.getEndereco() != null)
+            enderecoRepository.save(obj.getEndereco());
+        return obj;
     }
 
     @Transactional
@@ -116,7 +119,7 @@ public class EntidadeService {
         enderecoRepository.save(endereco);
     }
 
-
+    @Transactional
     public void delete(Long id) {
         findById(id);
         try {
@@ -140,30 +143,104 @@ public class EntidadeService {
         return repository.findAll(pageRequest);
     }
 
-    public Entidade fromDTO(EntidadeDTO objDto) {
-        Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
-        Endereco end = new Endereco(null, objDto.getLogadouro(),objDto.getNumero(),objDto.getComplemento(),objDto.getBairro(),objDto.getCep(),cid);
-        return new Entidade(objDto.getId(),objDto.getNome(), objDto.getEmail(),objDto.getCnpj(),Causa.valorDe(objDto.getCausa1()),Causa.valorDe(objDto.getCausa2()), objDto.getDescricao(), end);
-
-    }
-
-    public Entidade fromDTO(EntidadeNewDTO objDto){
-        Cidade cidade = new Cidade(objDto.getCidadeId(), null, null);
-        Endereco endereco = new Endereco(null, objDto.getLogadouro(),objDto.getNumero(),
-                objDto.getComplemento(),objDto.getBairro(),objDto.getCep(),cidade);
-        Usuario usuario = new Usuario(null ,objDto.getNome(), objDto.getEmail(), passwordEncoder.encode(objDto.getSenha()));
+    public Entidade fromDTO(EntidadeNewDTO objDto) {
+        Usuario usuario = new Usuario(null, objDto.getNome(), objDto.getEmail(), passwordEncoder.encode(objDto.getSenha()));
         usuario.setPermissoes(getPermissoesEntidade());
-        Entidade entidade = new Entidade(null ,objDto.getNome(), objDto.getEmail(),
-                objDto.getCnpj(),Causa.valorDe(objDto.getCausa1()),Causa.valorDe(objDto.getCausa2()),
-                objDto.getDescricao(), endereco, usuario);
+        Entidade entidade = new Entidade();
+        entidade.setNome(objDto.getNome());
+        entidade.setEmail(objDto.getEmail());
+        entidade.setUsuario(usuario);
+        entidade.setCausa1(Causa.valorDe(objDto.getCausa1()));
+        entidade.setCausa2(Causa.valorDe(objDto.getCausa2()));
         entidade.getTelefones().add(objDto.getTelefone1());
-        if (objDto.getTelefone2()!=null) {
+        entidade.setDescricao(objDto.getDescricao());
+        if (objDto.getLogadouro() != null ||
+                objDto.getCidadeId() != null) {
+            Endereco endereco = createEnderecoFromDto(objDto);
+            entidade.setEndereco(endereco);
+        }
+        if (objDto.getCnpj() != null)
+            entidade.setCnpj(objDto.getCnpj());
+        if (objDto.getTelefone2() != null) {
             entidade.getTelefones().add(objDto.getTelefone2());
         }
-        if (objDto.getTelefone3()!=null) {
+        if (objDto.getTelefone3() != null) {
             entidade.getTelefones().add(objDto.getTelefone3());
         }
         return entidade;
+    }
+
+    public Entidade updateFromDTO(EntidadeDTO objDto) {
+        Entidade entidade = findById(objDto.getId());
+        if (objDto.getLogadouro() != null ||
+                objDto.getCidadeId() != null) {
+            uptadeEnderecoFromDto(objDto, entidade);
+        }
+        if (objDto.getNome() != null) {
+            entidade.setNome(objDto.getNome());
+            entidade.getUsuario().setNome(objDto.getNome());
+        }
+        if (objDto.getEmail() != null) {
+            entidade.setEmail(objDto.getEmail());
+            entidade.getUsuario().setEmail(objDto.getEmail());
+        }
+        if (objDto.getCnpj() != null){
+            entidade.setCnpj(objDto.getCnpj());
+        }
+        if (objDto.getCausa1() != null) {
+            entidade.setCausa1(objDto.getCausa1());
+        }
+        if (objDto.getCausa2() != null) {
+            entidade.setCausa2(objDto.getCausa2());
+        }
+        if (objDto.getCnpj() != null){
+            entidade.setCnpj(objDto.getCnpj());
+        }
+        if (objDto.getTelefone1() != null){
+            entidade.getTelefones().add(objDto.getTelefone1());
+        }
+        if (objDto.getTelefone2() != null){
+            entidade.getTelefones().add(objDto.getTelefone2());
+        }
+        if (objDto.getTelefone3() != null){
+            entidade.getTelefones().add(objDto.getTelefone3());
+        }
+        if (objDto.getDescricao() != null){
+            entidade.setDescricao(objDto.getDescricao());
+        }
+        return entidade;
+    }
+
+    private Endereco uptadeEnderecoFromDto(EntidadeDTO objDto, Entidade entidade) {
+        Cidade cidade = cidadeRepository.findById(objDto.getCidadeId()).orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Id: " + objDto.getCidadeId() + ", Tipo: " + Cidade.class.getName()));
+        if (entidade.getEndereco() != null){
+            entidade.getEndereco().setLogadouro(objDto.getLogadouro());
+            entidade.getEndereco().setCidade(cidade);
+            if (objDto.getBairro() != null)
+                entidade.getEndereco().setBairro(objDto.getBairro());
+            if (objDto.getCep() != null)
+                entidade.getEndereco().setCep(objDto.getCep());
+            if (objDto.getNumero() != null)
+                entidade.getEndereco().setNumero(objDto.getNumero());
+            if (objDto.getComplemento() != null)
+                entidade.getEndereco().setComplemento(objDto.getComplemento());
+            return entidade.getEndereco();
+        } else {
+            Endereco endereco = new Endereco();
+            endereco.setLogadouro(objDto.getLogadouro());
+            endereco.setCidade(cidade);
+            if (objDto.getBairro() != null)
+                endereco.setBairro(objDto.getBairro());
+            if (objDto.getCep() != null)
+                endereco.setCep(objDto.getCep());
+            if (objDto.getNumero() != null)
+                endereco.setNumero(objDto.getNumero());
+            if (objDto.getComplemento() != null)
+                endereco.setComplemento(objDto.getComplemento());
+            entidade.setEndereco(endereco);
+            return endereco;
+        }
     }
 
     public Vaga fromVagaDTO(VagaDTO objDto){
@@ -174,13 +251,21 @@ public class EntidadeService {
         return new Vaga(null, objDto.getNome(), objDto.getDescricao(), objDto.getCausa1().getCode(), objDto.getCausa2().getCode(), objDto.getHabilidade().getCode(), objDto.getDataInicio(), objDto.getDataFim(),objDto.getTipoVaga().getCode(), objDto.getQuantidade(), endereco, entidade);
     }
 
-    private void updateData(Entidade newObj, Entidade obj){
-        newObj.setNome(obj.getNome());
-        newObj.setEmail(obj.getEmail());
-        newObj.setCnpj(obj.getCnpj());
-        newObj.setCausa1(obj.getCausa1());
-        newObj.setCausa2(obj.getCausa2());
-        newObj.setEndereco(obj.getEndereco());
+    private Endereco createEnderecoFromDto(EntidadeNewDTO objDto) {
+        Endereco endereco = new Endereco();
+        Cidade cidade = cidadeRepository.findById(objDto.getCidadeId()).orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Id: " + objDto.getCidadeId() + ", Tipo: " + Cidade.class.getName()));
+        endereco.setLogadouro(objDto.getLogadouro());
+        endereco.setCidade(cidade);
+        if (objDto.getBairro() != null)
+            endereco.setBairro(objDto.getBairro());
+        if (objDto.getCep() != null)
+            endereco.setCep(objDto.getCep());
+        if (objDto.getNumero() != null)
+            endereco.setNumero(objDto.getNumero());
+        if (objDto.getComplemento() != null)
+            endereco.setComplemento(objDto.getComplemento());
+        return endereco;
     }
 
     private void updateVaga(Vaga newObj, Vaga obj, Endereco objEndereco) {
@@ -214,6 +299,4 @@ public class EntidadeService {
         permissoes.add(new Permissao(17L));
         return permissoes;
     }
-
-
 }
