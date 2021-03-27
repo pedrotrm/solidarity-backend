@@ -71,7 +71,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -81,8 +81,8 @@
 
 		<dependency>
 			<groupId>com.amazonaws</groupId>
-			<artifactId>aws-java-sdk</artifactId>
-			<version>LATEST</version>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.11.816</version>
 		</dependency>
 
 		<dependency>
