@@ -30,6 +30,9 @@ import java.util.stream.Collectors;
 @Service
 public class EntidadeService {
 
+    private static final String MENSSAGE_NOT_FOUND = "Objeto não encontrado! Id: ";
+    private static final String MENSSAGE_TIPO = ", Tipo: ";
+
     private final EntidadeRepository repository;
     private final EnderecoRepository enderecoRepository;
     private final VagaRepository vagaRepository;
@@ -61,13 +64,13 @@ public class EntidadeService {
     public Entidade findById(Long id) {
         Optional<Entidade> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado! Id: " + id + ", Tipo: " + Entidade.class.getName()));
+                MENSSAGE_NOT_FOUND + id + MENSSAGE_TIPO + Entidade.class.getName()));
     }
 
     public Vaga findVagaById(Long id){
         Optional<Vaga> obj = vagaRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado! Id: " + id + ", Tipo: " + Vaga.class.getName()));
+                MENSSAGE_NOT_FOUND + id + MENSSAGE_TIPO + Vaga.class.getName()));
     }
 
     public Set<VoluntarioDTO> findVagaVoluntarios(Long vagaId) {
@@ -211,50 +214,78 @@ public class EntidadeService {
         return entidade;
     }
 
+    private Cidade findCidadeById(Long id){
+        return cidadeRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(
+                MENSSAGE_NOT_FOUND + id + MENSSAGE_TIPO + Cidade.class.getName()));
+    }
+
+    private Endereco updateEndereco(EntidadeDTO objDto,Endereco endereco,Cidade cidade){
+        endereco.setLogadouro(objDto.getLogadouro());
+        endereco.setCidade(cidade);
+        if (objDto.getBairro() != null)
+            endereco.setBairro(objDto.getBairro());
+        if (objDto.getCep() != null)
+            endereco.setCep(objDto.getCep());
+        if (objDto.getNumero() != null)
+            endereco.setNumero(objDto.getNumero());
+        if (objDto.getComplemento() != null)
+            endereco.setComplemento(objDto.getComplemento());
+        return endereco;
+    }
+
     private Endereco uptadeEnderecoFromDto(EntidadeDTO objDto, Entidade entidade) {
-        Cidade cidade = cidadeRepository.findById(objDto.getCidadeId()).orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado! Id: " + objDto.getCidadeId() + ", Tipo: " + Cidade.class.getName()));
+        Cidade cidade = findCidadeById(objDto.getCidadeId());
         if (entidade.getEndereco() != null){
-            entidade.getEndereco().setLogadouro(objDto.getLogadouro());
-            entidade.getEndereco().setCidade(cidade);
-            if (objDto.getBairro() != null)
-                entidade.getEndereco().setBairro(objDto.getBairro());
-            if (objDto.getCep() != null)
-                entidade.getEndereco().setCep(objDto.getCep());
-            if (objDto.getNumero() != null)
-                entidade.getEndereco().setNumero(objDto.getNumero());
-            if (objDto.getComplemento() != null)
-                entidade.getEndereco().setComplemento(objDto.getComplemento());
-            return entidade.getEndereco();
+           return updateEndereco(objDto,entidade.getEndereco(),cidade);
         } else {
             Endereco endereco = new Endereco();
-            endereco.setLogadouro(objDto.getLogadouro());
-            endereco.setCidade(cidade);
-            if (objDto.getBairro() != null)
-                endereco.setBairro(objDto.getBairro());
-            if (objDto.getCep() != null)
-                endereco.setCep(objDto.getCep());
-            if (objDto.getNumero() != null)
-                endereco.setNumero(objDto.getNumero());
-            if (objDto.getComplemento() != null)
-                endereco.setComplemento(objDto.getComplemento());
-            entidade.setEndereco(endereco);
-            return endereco;
+            return updateEndereco(objDto, endereco,cidade);
         }
     }
 
     public Vaga fromVagaDTO(VagaDTO objDto){
         Cidade cidade = cidadeRepository.findById((objDto.getCidadeId())).orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado! Id: " + objDto.getCidadeId() + ", Tipo: " + Cidade.class.getName()));
+                 MENSSAGE_NOT_FOUND + objDto.getCidadeId() + MENSSAGE_TIPO + Cidade.class.getName()));
         Endereco endereco = new Endereco(null, objDto.getLogadouro(), objDto.getNumero(), objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cidade);
         Entidade entidade = findById(objDto.getEntidadeId());
         return new Vaga(null, objDto.getNome(), objDto.getDescricao(), objDto.getCausa1().getCode(), objDto.getCausa2().getCode(), objDto.getHabilidade().getCode(), objDto.getDataInicio(), objDto.getDataFim(),objDto.getTipoVaga().getCode(), objDto.getQuantidade(), endereco, entidade);
     }
 
+    public static EntidadeDTO fromEntidade(Entidade entidade){
+        EntidadeDTO entidadeDTO = new EntidadeDTO();
+            entidadeDTO.setId(entidade.getId());
+            entidadeDTO.setNome(entidade.getNome());
+            entidadeDTO.setEmail(entidade.getEmail());
+            entidadeDTO.setCausa1(entidade.getCausa1());
+            entidadeDTO.setDescricao(entidade.getDescricao());
+            entidadeDTO.setCnpj(
+                    Optional.of(entidade.getCnpj()).orElse(null));
+            entidadeDTO.setCausa2(
+                    Optional.of(entidade.getCausa2()).orElse(null));
+            entidadeDTO.setFotoPerfil(
+                    Optional.of(entidade.getFotoPerfil()).orElse(null));
+            entidadeDTO.setLogadouro(
+                    Optional.of(entidade.getEndereco().getLogadouro()).orElse(null));
+            entidadeDTO.setNumero(
+                    Optional.of(entidade.getEndereco().getNumero()).orElse(null));
+            entidadeDTO.setComplemento(Optional.of(
+                    entidade.getEndereco().getComplemento()).orElse(null));
+            entidadeDTO.setBairro(
+                    Optional.of(entidade.getEndereco().getBairro()).orElse(null));
+            entidadeDTO.setCep(
+                    Optional.of(entidade.getEndereco().getCep()).orElse(null));
+            entidade.getTelefones().stream()
+                    .findFirst()
+                    .ifPresent(entidadeDTO::setTelefone1);
+            entidadeDTO.setCidadeId(
+                    Optional.of(entidade.getEndereco().getCidade().getId()).orElse(null));
+            return entidadeDTO;
+    }
+
     private Endereco createEnderecoFromDto(EntidadeNewDTO objDto) {
         Endereco endereco = new Endereco();
         Cidade cidade = cidadeRepository.findById(objDto.getCidadeId()).orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado! Id: " + objDto.getCidadeId() + ", Tipo: " + Cidade.class.getName()));
+                MENSSAGE_NOT_FOUND + objDto.getCidadeId() + MENSSAGE_TIPO + Cidade.class.getName()));
         endereco.setLogadouro(objDto.getLogadouro());
         endereco.setCidade(cidade);
         if (objDto.getBairro() != null)
