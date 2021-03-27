@@ -22,7 +22,7 @@ import java.util.Arrays;
 @EnableResourceServer
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String[] PUBLIC_MATCHERS = { "/vagas/**","/voluntarios/cadastrar","/h2-console","/entidades/cadastrar"};
+    private static final String[] PUBLIC_MATCHERS = { "/vagas/**","/voluntarios/cadastrar","/h2-console/**","/entidades/cadastrar"};
 
 
 
