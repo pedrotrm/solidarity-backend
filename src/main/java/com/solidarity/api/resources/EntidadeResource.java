@@ -7,7 +7,6 @@ import com.solidarity.api.dto.VagaDTO;
 import com.solidarity.api.dto.VoluntarioDTO;
 import com.solidarity.api.model.Entidade;
 import com.solidarity.api.model.Vaga;
-import com.solidarity.api.model.VagaVoluntario;
 import com.solidarity.api.services.EntidadeService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -77,7 +76,7 @@ public class EntidadeResource {
     public ResponseEntity<Set<EntidadeDTO>> findAll() {
         List<Entidade> list = service.findAll();
         Set<EntidadeDTO> listDto = list.stream()
-                .map(EntidadeDTO::new).collect(Collectors.toSet());
+                .map(EntidadeService::fromEntidade).collect(Collectors.toSet());
         return ResponseEntity.ok().body(listDto);
     }
 
@@ -123,7 +122,7 @@ public class EntidadeResource {
             @RequestParam(value="orderBy", defaultValue="nome") String orderBy,
             @RequestParam(value="direction", defaultValue="ASC") String direction) {
         Page<Entidade> list = service.findPage(page, linesPerPage, orderBy, direction);
-        Page<EntidadeDTO> listDto = list.map(EntidadeDTO::new);
+        Page<EntidadeDTO> listDto = list.map(EntidadeService::fromEntidade);
         return ResponseEntity.ok().body(listDto);
     }
 
