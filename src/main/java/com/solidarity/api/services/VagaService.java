@@ -4,13 +4,10 @@ import com.solidarity.api.model.Vaga;
 import com.solidarity.api.model.enums.Causa;
 import com.solidarity.api.model.enums.Habilidade;
 import com.solidarity.api.model.enums.TipoVaga;
-import com.solidarity.api.repositories.EnderecoRepository;
 import com.solidarity.api.repositories.VagaRepository;
 import com.solidarity.api.services.exception.ObjectNotFoundException;
-
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +16,9 @@ import java.util.Optional;
 public class VagaService {
 
     private VagaRepository repository;
-    private EnderecoRepository enderecoRepository;
 
-    public VagaService(VagaRepository repository, EnderecoRepository enderecoRepository) {
+    public VagaService(VagaRepository repository) {
         this.repository = repository;
-        this.enderecoRepository = enderecoRepository;
     }
 
     public List<Vaga> findAll() {
