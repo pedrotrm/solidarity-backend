@@ -1,6 +1,5 @@
 package com.solidarity.api.dto;
 
-import com.solidarity.api.model.Entidade;
 import com.solidarity.api.model.enums.Causa;
 import com.solidarity.api.services.validation.EntidadeUpdate;
 import org.hibernate.validator.constraints.Length;
@@ -39,41 +38,7 @@ public class EntidadeDTO implements Serializable {
     private String telefone3;
 
     public EntidadeDTO() {
-    }
-
-    /*
-       Contrutor para criar o DTO apartir de um Voluntario
-       tratando os valores nulos.
-    */
-    public EntidadeDTO(Entidade entidade) {
-        this.id = entidade.getId();
-        this.nome = entidade.getNome();
-        this.email = entidade.getEmail();
-        this.causa1 = entidade.getCausa1();
-        this.descricao = entidade.getDescricao();
-        if (entidade.getCnpj() != null)
-            this.cnpj = entidade.getCnpj();
-        if (entidade.getCausa2() != null)
-            this.causa2 = entidade.getCausa2();
-        if (entidade.getFotoPerfil() != null)
-            this.fotoPerfil = entidade.getFotoPerfil();
-        if (entidade.getEndereco().getLogadouro() != null)
-            this.logadouro = entidade.getEndereco().getLogadouro();
-        if (entidade.getEndereco().getNumero() != null)
-            this.numero = entidade.getEndereco().getNumero();
-        if (entidade.getEndereco().getComplemento() != null)
-            this.complemento = entidade.getEndereco().getComplemento();
-        if (entidade.getEndereco().getBairro() != null)
-            this.bairro = entidade.getEndereco().getBairro();
-        if (entidade.getEndereco().getCep() != null)
-            this.cep = entidade.getEndereco().getCep();
-        if (!entidade.getTelefones().isEmpty() && entidade.getTelefones() != null) {
-            entidade.getTelefones().stream()
-                    .findFirst()
-                    .ifPresent(this::setTelefone1);
-        }
-        if (entidade.getEndereco().getCidade() != null)
-            this.cidadeId = entidade.getEndereco().getCidade().getId();
+        // Construtor padrão para instaciar a classe
     }
 
     public Long getId() {
